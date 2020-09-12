@@ -2,12 +2,17 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
-
-app.set('view engine', 'ejs');
-
-
 app.get('/', function(req, res) {
-  res.render("index");
+  res.json({"msg" : "This is how we roll", "err": "There ain't any yet"});
+});
+
+app.get("/secrets", function(req, res){
+  let obj = {
+    name : "bot",
+    uid : "69XX69",
+    job : "dilwado"
+  }
+  res.json({"user" : obj})
 });
 
 

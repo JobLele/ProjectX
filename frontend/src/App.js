@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-import Nav from './Components/Navbar/Navbar';
+import NavBar from './Components/Navbar/Navbar';
 import Login from './Components/Login/Login';
 // import Footer from './Components/Footer/Footer';
 
@@ -9,7 +9,7 @@ import Login from './Components/Login/Login';
 const App = () => {
   return (<div>
     <Router>
-      <Nav/>
+      <NavBar/>
       <Switch>
         <Route path="/login" component={Login}></Route>
       </Switch>

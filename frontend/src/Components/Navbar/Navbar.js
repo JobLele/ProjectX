@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import FormControl from 'react-bootstrap/FormControl';
 
-const Nav = () => {
+const NavBar = () => {
     return (
         <div>
         <Container>
@@ -37,4 +37,4 @@ const Nav = () => {
         </div>
     );
 }
-export default Nav;
+export default NavBar;

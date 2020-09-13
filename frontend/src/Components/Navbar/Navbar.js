@@ -8,8 +8,8 @@ import FormControl from 'react-bootstrap/FormControl';
 const Nav = () => {
     return (
         <div>
-        {/* <Container> */}
-            {/* <Navbar bg="dark" variant="dark">
+        <Container>
+            <Navbar bg="dark" variant="dark">
                 <Navbar.Brand href="#home">
                     <img
                         alt=""
@@ -31,9 +31,9 @@ const Nav = () => {
                         <Button variant="outline-success">Search</Button>
                     </Form>
                 </Navbar.Collapse>
-            </Navbar> */}
+            </Navbar>
             sainya
-        {/* </Container> */}
+        </Container>
         </div>
     );
 }

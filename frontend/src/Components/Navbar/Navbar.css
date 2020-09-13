@@ -1,0 +1,41 @@
+.login-box{
+    justify-content: flex-end;
+    margin-right: 2rem;
+}
+.login{
+    margin-right: 2rem;
+    margin-left: 1rem;
+}
+.image-navbar{
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+.postjob{
+    max-width: 80px;
+    margin-left: 1rem;
+}
+.form-inline{
+    margin-left: 1rem;
+    margin-right: 8rem;
+}
+.nav-box{
+    margin-bottom: 2rem;
+}
+@media only screen and (max-width: 500px) {
+    .form-inline{
+        margin-left: 0rem!important;
+        max-width: 250px!important;
+  }
+  
+ .postjob{
+    margin-left: 0rem;
+}
+.login{
+   
+    margin-left: 0rem;
+}
+.image-navbar{
+   
+    margin-left: 0rem!important;
+}
+}

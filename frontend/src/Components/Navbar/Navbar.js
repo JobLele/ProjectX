@@ -2,39 +2,47 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import FormControl from 'react-bootstrap/FormControl';
 
-const NavBar = () => {
+import FormControl from 'react-bootstrap/FormControl';
+import Nav from 'react-bootstrap/Nav'
+import './Navbar.css';
+import { Link } from 'react-router-dom'
+
+const NavbarFunction = () => {
     return (
-        <div>
-        <Container>
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">
-                    <img
-                        alt=""
-                        src="/logo.svg"
-                        width="30"
-                        height="30"
-                        className="d-inline-block align-top"
-                    />{' '}
-                    React Bootstrap
-                </Navbar.Brand>
+        <div className="nav-box">
+
+            <Navbar bg="dark" expand="lg" variant="dark" >
+                <Link to='/Jobware'>
+                    <Navbar.Brand href="#home">
+                        <img
+                            src="/logo.svg"
+                            width="30"
+                            height="30"
+                            className="d-inline-block align-top image-navbar"
+
+                        />
+                        Jobware
+                    </Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="justify-content-end" >
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#link">Link</Nav.Link>
-                    </Nav>
+                <Navbar.Collapse id="basic-navbar-nav" className="login-box">
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-success">Search</Button>
+                        <Button variant="outline-secondary">Search</Button>
                     </Form>
+                    <Nav >
+                        <Nav.Link className="login" href="/login">Login/Register</Nav.Link>
+                        <Link to='/postjob'>
+                            <Button variant="outline-secondary" className="postjob">Post Job</Button>
+                        </Link>
+
+                    </Nav>
+
                 </Navbar.Collapse>
             </Navbar>
-            sainya
-        </Container>
+
         </div>
     );
 }
-export default NavBar;
+export default NavbarFunction;

@@ -9,6 +9,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
+const MongoURI = process.env.MongoURI || "mongodb://localhost:27017/userDB";
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/userDB", {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(MongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log("Connected to mDB"))
 .catch((e) => console.log("Error :", e));
 mongoose.set("useCreateIndex", true);
@@ -118,20 +119,62 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-
 app.get('/', function(req, res) {
+  res.json("Shouldn't be here mfer");
+});
+
+app.post("/register", function(req, res){
+
+  User.register({username: req.body.username}, req.body.password, function(err, user){
+    if (err) {
+      console.log(err);
+      res.json({err : err, msg: null, obj: null});
+    } else {
+      passport.authenticate("local")(req, res, function(){
+        // create employee/employer detail into db and send in res.json
+        res.json({err : null, msg: "Registration Successfull", obj: null});
+      });
+    }
+  });
 
 });
 
+app.post("/login", function(req, res){
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+
+  req.login(user, function(err){
+    if (err) {
+      console.log(err);
+      res.json({err : err, msg: null, obj: null});
+    } else {
+      passport.authenticate("local")(req, res, function(){
+        // get employee/employer detail from db and send in res.json
+        res.json({err : null, msg: "Login Successfull", obj: null});
+      });
+    }
+  });
+});
+
+app.get("/auth/google",
+  passport.authenticate('google', { scope: ["profile"] })
+);
+
+app.get("/loginfail", function(req, res) {
+  res.json({err: "Failed to login through google", msg: "", obj: null});
+});
+
 app.get("/auth/google/secrets",
-  passport.authenticate('google', { failureRedirect: "/login" }),
+  passport.authenticate('google', { failureRedirect: "/loginfail" }),
   function(req, res) {
     // Successful authentication, redirect to secrets.
     // get employee/employer detail from db and send in res.json
-    res.json({"user": null});
-  });
+    res.json({err: null, msg: "successfully loggedin", obj: null});
+});
 
 
 app.listen(PORT, function() {
-  console.log("Server started on port 3000.");
+  console.log("Server started on port " + PORT.toString());
 });

@@ -63,6 +63,8 @@ const jobSchema = new mongoose.Schema ({
   title: String,
   type: String,
   description: String,
+  salary : Number,
+  location : String,
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employer'

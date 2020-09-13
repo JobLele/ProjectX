@@ -16,3 +16,11 @@
     display: flex;
     justify-content: space-between;
 }
+.card-main-box{
+    display: flex;
+    flex-wrap: wrap;
+}
+.individual-card{
+    margin-bottom: 2rem;
+    margin-right: 1.5rem;
+}

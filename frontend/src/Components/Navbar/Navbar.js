@@ -20,6 +20,7 @@ const NavbarFunction = () => {
                             width="30"
                             height="30"
                             className="d-inline-block align-top image-navbar"
+                            alt=""
 
                         />
                         Jobware

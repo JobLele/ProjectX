@@ -1,11 +1,11 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-//import './Login.css';
+import './Login.css';
 const Login =()=>{
     return(<div><center>
         <form>
-        <Card className="text-center" style={{ width: '50%' }}>
+        <Card className="text-center login-box-card">
         <Card.Header>
                 <h3>Login</h3>
         </Card.Header>

@@ -19,8 +19,10 @@
 .card-main-box{
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
+
 }
 .individual-card{
     margin-bottom: 2rem;
-    margin-right: 1.5rem;
+    
 }

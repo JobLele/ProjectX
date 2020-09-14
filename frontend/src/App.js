@@ -20,29 +20,28 @@ const App=()=> {
 =======
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-import Avv from './Components/Navbar/Navbar';
+import NavBar from './Components/Navbar/Navbar';
 import Login from './Components/Login/Login';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import JobList from './Components/Jobs/JobList/Joblist';
+import PostJob from './Components/Jobs/PostJob/PostJob';
+import Register from './Components/Register/Register';
+
+
 // import Footer from './Components/Footer/Footer';
 
 
 const App = () => {
   return (<div>
     <Router>
-      <Avv />
+      <NavBar/>
       <Switch>
+      <Route path="/" exact component={JobList}></Route>
+        <Route path="/jobware" component={JobList}></Route>
         <Route path="/login" component={Login}></Route>
+        <Route path="/Register" component={Register}></Route>
+        <Route path="/postjob" component={PostJob}></Route>
       </Switch>
-    </Router>
-     
-      
-      
-         
-
-          <h1>Just to chk whether running or not.Here homepage will come later.</h1>
-
-       
-    
+    </Router>  
     </div>
 >>>>>>> bc8ed00d2dcf9ba1393d17bac538bd6b673bcabb
   );

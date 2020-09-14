@@ -126,15 +126,20 @@ app.get('/', function(req, res) {
 });
 
 app.post("/register", function(req, res){
-
-  User.register({username: req.body.username}, req.body.password, function(err, user){
+  console.log(req.body);
+  User.register({username: req.body.email}, req.body.password, function(err, user){
     if (err) {
       console.log(err);
       res.json({err : err, msg: null, obj: null});
     } else {
       passport.authenticate("local")(req, res, function(){
         // create employee/employer detail into db and send in res.json
-        res.json({err : null, msg: "Registration Successfull", obj: null});
+        let fakeObj = {
+          name : req.body.name,
+          email : req.body.email,
+          password : req.body.password
+        }
+        res.json({err : null, msg: "Registration Successfull", obj: fakeObj});
       });
     }
   });

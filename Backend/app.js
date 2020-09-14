@@ -10,7 +10,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const MongoURI = process.env.MongoURI || "mongodb://localhost:27017/userDB";
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 2000;
 const app = express();
 
 app.use(cors());

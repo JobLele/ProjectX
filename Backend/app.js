@@ -14,9 +14,8 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(session({
   secret: "projectXJobLele.",
@@ -124,13 +123,11 @@ app.get('/', function(req, res) {
 });
 
 app.post("/register", function(req, res){
-  console.log(req.body);
   User.register({username: req.body.email}, req.body.password, function(err, user){
     if (err) {
       console.log(err);
       res.json({err : err, msg: null, obj: null});
     } else {
-      passport.authenticate("local")(req, res, function(){
         // create employee/employer detail into db and send in res.json
         let fakeObj = {
           name : req.body.name,
@@ -138,7 +135,6 @@ app.post("/register", function(req, res){
           password : req.body.password
         }
         res.json({err : null, msg: "Registration Successfull", obj: fakeObj});
-      });
     }
   });
 

@@ -33,7 +33,7 @@ class Register extends React.Component {
         e.preventDefault();
         fetch("http://localhost:2000/register", {
             method: 'POST',
-            body: this.state.values,
+            body: JSON.stringify(this.state.values),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -43,7 +43,6 @@ class Register extends React.Component {
             return res.json();
         })
         .then(data => {
-            console.log(data);
             this.setState({obj : data.obj});
             console.log(this.state.obj);
         })

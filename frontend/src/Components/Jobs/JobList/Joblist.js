@@ -9,11 +9,7 @@ class JobList extends Component {
     render() {
         return (<div>
             <Container>
-<<<<<<< HEAD
-                <div className="card-main-box">
-=======
                 <div className="card-main-box text-center">
->>>>>>> 0f59bd2d5613447ac745dc26de2b6d192a70d96b
                     <div className="individual-card">
                         <Card style={{ width: '20rem' }}>
                             <div className="date-box">9 oct</div>

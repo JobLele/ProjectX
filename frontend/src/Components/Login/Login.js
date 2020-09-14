@@ -2,7 +2,33 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import './Login.css';
-const Login =()=>{
+class Login extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state={
+            values:{
+                email : "",
+                password : ""
+            },
+            err:null,
+            msg:null,
+            obj:null
+        };
+        this.submit = this.submit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleInputChange(e){
+        this.setState({
+            values:{
+                ...this.state.values,
+                [e.target.name] : e.target.value
+            }
+        });
+    }
+    //submit(e){}
+    render(){
     return(<div><center>
         <form>
         <Card className="text-center login-box-card">
@@ -12,12 +38,12 @@ const Login =()=>{
         <Card.Body>
                 <div className="form-group">
                     <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" />
+                    <input type="email" onChange={this.handleInpuChange} name="email" className="form-control" placeholder="Enter email" />
                 </div>
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter password" />
+                    <input type="password" onChange={this.handleInputChange} name = "password" className="form-control" placeholder="Enter password" />
                 </div>
 
                 <div className="form-group text-left">
@@ -26,7 +52,7 @@ const Login =()=>{
                         <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                     </div>
                 </div>
-                <Button type="submit" variant="dark" className="btn btn-block">Login</Button>
+                <Button type="submit" onClick={this.submit} variant="dark" className="btn btn-block">Login</Button>
                  
                 
                 <p className="forgot-password text-right">
@@ -38,6 +64,7 @@ const Login =()=>{
             </center>
     </div>
     );
+    }
 }
 
 export default Login

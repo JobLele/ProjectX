@@ -7,7 +7,6 @@ import JobList from './Components/Jobs/JobList/Joblist';
 import PostJob from './Components/Jobs/PostJob/PostJob';
 import Register from './Components/Register/Register';
 
-
 // import Footer from './Components/Footer/Footer';
 
 

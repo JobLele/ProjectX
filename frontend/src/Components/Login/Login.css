@@ -1,0 +1,8 @@
+.login-box-card{
+    width: 50%;
+}
+@media only screen and (max-width: 600px) {
+    .login-box-card{
+        width: 80%;
+    }
+}

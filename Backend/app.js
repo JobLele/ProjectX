@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -12,10 +11,14 @@ const findOrCreate = require('mongoose-findorcreate');
 const MongoURI = process.env.MongoURI || "mongodb://localhost:27017/userDB";
 const PORT = process.env.PORT || 2000;
 const app = express();
+// const router = express.Router();
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+// app.use("/", router);
 
 app.use(session({
   secret: "projectXJobLele.",
@@ -26,9 +29,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(MongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
-.then(() => console.log("Connected to mDB"))
-.catch((e) => console.log("Error :", e));
+mongoose.connect(MongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log("Connected to mDB"))
+  .catch((e) => console.log("Error :", e));
 mongoose.set("useCreateIndex", true);
 
 const employeeSchema = new mongoose.Schema({
@@ -36,12 +42,10 @@ const employeeSchema = new mongoose.Schema({
   name: String,
   number: Number,
   qualification: String,
-  appliedFor: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Job'
-    }
-  ]
+  appliedFor: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Job'
+  }]
 });
 const Employee = mongoose.model("Employee", employeeSchema);
 
@@ -49,39 +53,35 @@ const employerSchema = new mongoose.Schema({
   email: String,
   name: String,
   number: Number,
-  jobsPosted: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Job'
-    }
-  ]
+  jobsPosted: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Job'
+  }]
 });
 const Employer = mongoose.model("Employer", employerSchema);
 
-const jobSchema = new mongoose.Schema ({
+const jobSchema = new mongoose.Schema({
   title: String,
   type: String,
   description: String,
+  location : [Number],
   salary : Number,
-  location : String,
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employer'
   },
   postedOn: Date,
-  applicants: [
-    {
-      explanation: String,
-      applicant : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
-      }
+  applicants: [{
+    explanation: String,
+    applicant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Employee'
     }
-  ]
+  }]
 });
 const Job = mongoose.model("Job", jobSchema);
 
-const userSchema = new mongoose.Schema ({
+const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   googleId: String,
@@ -114,7 +114,9 @@ passport.use(new GoogleStrategy({
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile);
 
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+    User.findOrCreate({
+      googleId: profile.id
+    }, function(err, user) {
       return cb(err, user);
     });
   }
@@ -124,59 +126,129 @@ app.get('/', function(req, res) {
   res.json("Shouldn't be here mfer");
 });
 
-app.post("/register", function(req, res){
-  User.register({username: req.body.email}, req.body.password, function(err, user){
+app.post("/register", function(req, res) {
+  User.register({
+    username: req.body.email
+  }, req.body.password, function(err, user) {
     if (err) {
       console.log(err);
-      res.json({err : err, msg: null, obj: null});
+      res.json({
+        err: err,
+        msg: null,
+        obj: null
+      });
     } else {
-        // create employee/employer detail into db and send in res.json
-        let fakeObj = {
-          name : req.body.name,
-          email : req.body.email,
-          password : req.body.password
-        }
-        res.json({err : null, msg: "Registration Successfull", obj: fakeObj});
+      // create employee/employer detail into db and send in res.json
+      let fakeObj = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
+      }
+      res.json({
+        err: null,
+        msg: "Registration Successfull",
+        obj: fakeObj
+      });
     }
   });
 
 });
 
-app.post("/login", function(req, res){
+app.post("/login", function(req, res) {
   const user = new User({
-    username: req.body.username,
+    email: req.body.email,
     password: req.body.password
   });
 
-  req.login(user, function(err){
+  req.login(user, function(err) {
     if (err) {
       console.log(err);
-      res.json({err : err, msg: null, obj: null});
+      res.json({
+        err: err,
+        msg: null,
+        obj: null
+      });
     } else {
-      passport.authenticate("local")(req, res, function(){
+      passport.authenticate("local")(req, res, function() {
         // get employee/employer detail from db and send in res.json
-        res.json({err : null, msg: "Login Successfull", obj: null});
+        res.json({
+          err: null,
+          msg: "Login Successfull",
+          obj: null
+        });
       });
     }
   });
 });
 
+app.post("/job", function(req, res) {
+const job = new Job({
+  title: req.body.title,
+  type: req.body.type,
+  description: req.body.description,
+  postedBy: req.body.postedBy,
+  postedOn: req.body.postedOn,
+  applicants: req.body.applicants,
+  salary : req.body.salary,
+  location : req.body.location
+});
+
+req.job(user, function(err) {
+    if (err) {
+      console.log(err);
+      res.json({
+        err: err,
+        msg: null,
+        obj: null
+      });
+    } else {
+
+      res.json({
+        err: null,
+        msg: "job details acquired",
+        obj: fakeObj
+      });
+
+}
+});
+});
+
 app.get("/auth/google",
-  passport.authenticate('google', { scope: ["profile"] })
+  passport.authenticate('google', {
+    scope: ["profile"]
+  })
 );
 
 app.get("/loginfail", function(req, res) {
-  res.json({err: "Failed to login through google", msg: "", obj: null});
+  res.json({
+    err: "Failed to login through google",
+    msg: "",
+    obj: null
+  });
 });
 
 app.get("/auth/google/secrets",
-  passport.authenticate('google', { failureRedirect: "/loginfail" }),
+  passport.authenticate('google', {
+    failureRedirect: "/loginfail"
+  }),
   function(req, res) {
     // Successful authentication, redirect to secrets.
     // get employee/employer detail from db and send in res.json
-    res.json({err: null, msg: "successfully loggedin", obj: null});
-});
-
+    res.json({
+      err: null,
+      msg: "successfully loggedin",
+      obj: null
+    });
+  });
+// router.route("/homepage").get(function(req, res) {
+//   User.find({}, function(err, User) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log(User);
+//     }
+//   });
+// });
 
 app.listen(PORT, function() {
   console.log("Server started on port " + PORT.toString());

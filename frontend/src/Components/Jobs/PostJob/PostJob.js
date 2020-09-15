@@ -14,11 +14,12 @@ class PostJob extends React.Component {
         this.state = {
             values:{
             salary: 0,
-            jobTitle:"",
-            desc:"",
-            place:null,
-            startDate:moment(),
-            endDate:new Date()
+            title:"",
+            description:"",
+            from:moment(),
+            to:new Date(),
+            x:0,
+            y:0
         },
             err : null, 
             msg : null,
@@ -62,7 +63,7 @@ class PostJob extends React.Component {
 
                                 <div className="form-group">
                                     <label>Job Title</label>
-                                    <input type="text" name="jobTitle" className="form-control" placeholder="Job Title"  onChange={this.handleInputChange} />
+                                    <input type="text" name="title" className="form-control" placeholder="Job Title"  onChange={this.handleInputChange} />
                                 </div>
                                 <div className="form-group">
                                     <label>Salary</label>
@@ -95,7 +96,7 @@ class PostJob extends React.Component {
                                 </div>
                                 <div className="form-group" >
                                     <label>Description</label>
-                                    <textarea onChange={this.handleInputChange}name="desc" className="form-control" rows={5} placeholder="Description" />
+                                    <textarea onChange={this.handleInputChange}name="description" className="form-control" rows={5} placeholder="Description" />
                                 </div>
                                 <Button type="submit" variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>

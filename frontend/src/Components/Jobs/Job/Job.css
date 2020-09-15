@@ -1,0 +1,36 @@
+.date-box{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: .5rem;
+}
+.salary{
+    color: black;
+    font-size: 1.3rem!important;
+    margin-bottom: 1rem!important;
+}
+.img-box{
+    width:50%;
+    height:15rem
+}
+.bottom-box{
+    display: flex;
+    justify-content: space-between;
+}
+.card-main-box{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+.vertical-center{
+    margin-top: 4rem;
+    
+}
+
+.edit-delte-box{
+    display: flex;
+    justify-content: space-evenly;
+}
+.edit-btn{
+    margin-right: 1rem;
+}

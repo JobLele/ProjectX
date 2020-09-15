@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import moment from 'moment';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./Postjob.css";
+import "./postjob.css";
 import { GoogleComponent } from 'react-google-location'
 const API_KEY = "AIzaSyAVjo-bKTuYIr6i5qtybWmaaWOBM3UWgJQ";
 
@@ -25,8 +25,10 @@ class PostJob extends React.Component {
             msg: null,
             obj: null
         };
-        this.submit = this.submit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputChangeDateFrom = this.handleInputChangeDateFrom.bind(this);
+        this.handleInputChangeDateTo = this.handleInputChangeDateTo.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     handleInputChange = (e) => {
@@ -51,7 +53,7 @@ class PostJob extends React.Component {
     }
 
     handleInputChangeDateTo = (e) => {
-        if (this.state.values.to < this.state.values.from) {
+        if (this.state.values.from > e) {
             console.log("end date can;t be lesser than start date");
         }
         else {
@@ -65,9 +67,8 @@ class PostJob extends React.Component {
 
     }
 
-    submit(e){
-        e.preventdefault();
-
+    submit(e) {
+        // e.preventdefault();
         console.log(this.state.values);
         fetch("http://localhost:2000/newjob", {
             method: 'POST',
@@ -81,6 +82,9 @@ class PostJob extends React.Component {
             return res.json();
         })
         .then(data => {
+            if (data.err) {
+                this.setState({err: true, msg: data.err});
+            }
             this.setState({obj : data.obj});
             console.log(this.state.obj);
         })
@@ -135,7 +139,7 @@ class PostJob extends React.Component {
                                     <label>Description</label>
                                     <textarea onChange={this.handleInputChange} name="description" className="form-control" rows={5} placeholder="Description" />
                                 </div>
-                                <Button type="submit" onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
+                                <Button onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>
                         </Card>
                     </form>

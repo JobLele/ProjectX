@@ -31,11 +31,17 @@ mongoose.connect(MongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
 .catch((e) => console.log("Error :", e));
 mongoose.set("useCreateIndex", true);
 
-const employeeSchema = new mongoose.Schema({
+const employSchema = new mongoose.Schema({
   email: String,
   name: String,
   number: Number,
-  qualification: String,
+  qualification: String,  
+  jobsPosted: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Job'
+    }
+  ],
   appliedFor: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -43,36 +49,25 @@ const employeeSchema = new mongoose.Schema({
     }
   ]
 });
-const Employee = mongoose.model("Employee", employeeSchema);
-
-const employerSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-  number: Number,
-  jobsPosted: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Job'
-    }
-  ]
-});
-const Employer = mongoose.model("Employer", employerSchema);
+const Employ = mongoose.model("Employ", employSchema);
 
 const jobSchema = new mongoose.Schema ({
   title: String,
-  type: String,
+  salary: Number,
   description: String,
+  postedOn: Date,
+  location: [Number],
+  duration: [Date],
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Employer'
+    ref: 'Employ'
   },
-  postedOn: Date,
   applicants: [
     {
       explanation: String,
       applicant : {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
+        ref: 'Employ'
       }
     }
   ]
@@ -110,10 +105,27 @@ passport.use(new GoogleStrategy({
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
   function(accessToken, refreshToken, profile, cb) {
-    console.log(profile);
-
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
+      if (err) {
+        res.json({err: err.message, msg: null, obj: null});
+      }
+      var employ = new Employ({
+        name: profile.name,
+        email: profile.emails[0],
+        number: null,
+        qualification: "",
+        jobsPosted: [],
+        appliedFor: []
+      });
+      employ.save( (err, doc) => {
+        if (err) {
+          res.json({err : err.message, msg: "null", obj: null});
+        }
+        else {
+          res.json({err : null, msg: "Registration Successfull", obj: doc});
+          return cb(err, user);
+        }
+      });
     });
   }
 ));
@@ -123,18 +135,28 @@ app.get('/', function(req, res) {
 });
 
 app.post("/register", function(req, res){
-  User.register({username: req.body.email}, req.body.password, function(err, user){
+  User.register({email: req.body.email}, req.body.password, function(err, user){
     if (err) {
       console.log(err);
-      res.json({err : err, msg: null, obj: null});
-    } else {
-        // create employee/employer detail into db and send in res.json
-        let fakeObj = {
-          name : req.body.name,
-          email : req.body.email,
-          password : req.body.password
+      res.json({err : err.message, msg: null, obj: null});
+    } 
+    else {
+      var employ = new Employ({
+        email: req.body.email,
+        name: req.body.name,
+        number: req.body.number,
+        qualification: "",
+        jobsPosted: [],
+        appliedFor: []
+      });
+      employ.save( (err, doc) => {
+        if (err) {
+          res.json({err : err.message, msg: "null", obj: null});
         }
-        res.json({err : null, msg: "Registration Successfull", obj: fakeObj});
+        else {
+          res.json({err : null, msg: "Registration Successfull", obj: doc});
+        }
+      });
     }
   });
 
@@ -142,18 +164,29 @@ app.post("/register", function(req, res){
 
 app.post("/login", function(req, res){
   const user = new User({
-    username: req.body.username,
+    email: req.body.email,
     password: req.body.password
   });
 
   req.login(user, function(err){
     if (err) {
       console.log(err);
-      res.json({err : err, msg: null, obj: null});
+      res.json({err : err.message, msg: null, obj: null});
     } else {
       passport.authenticate("local")(req, res, function(){
-        // get employee/employer detail from db and send in res.json
-        res.json({err : null, msg: "Login Successfull", obj: null});
+        Employ.findOne({email : req.body.email}, function(err, employ) {
+          if (err) {
+            res.json({err: err.message, msg: null, obj: null});
+          }
+          else {
+            if (employ) {
+              res.json({err: null, msg: "Login Successfull", obj: employ});
+            }
+            else {
+              res.json({err: "No details were saved in DB, contact Administrator", msg: null, obj: null});
+            }
+          }
+        });
       });
     }
   });
@@ -164,16 +197,83 @@ app.get("/auth/google",
 );
 
 app.get("/loginfail", function(req, res) {
-  res.json({err: "Failed to login through google", msg: "", obj: null});
+  res.json({err: "Failed to login through google", msg: null, obj: null});
 });
 
 app.get("/auth/google/secrets",
-  passport.authenticate('google', { failureRedirect: "/loginfail" }),
+  passport.authenticate('google', { failureRedirect: "/auth/google" }),
   function(req, res) {
-    // Successful authentication, redirect to secrets.
-    // get employee/employer detail from db and send in res.json
-    res.json({err: null, msg: "successfully loggedin", obj: null});
+    res.end();
 });
+
+// Job Routes
+app.get("/job/:offset", function(req, res) {
+  var offset = req.params.offset;
+  if (offset == null) {
+    offset = 0;
+  }
+  Job.find({}, function (err, jobs) {
+    if (err) {
+      res.json({err: err.message, msg: null, obj: null});
+    }
+    else {
+      if (jobs.length == 0) {
+        res.json({err: "No jobs exists", msg: "", obj: null})
+      }
+      else {
+        res.json({err: null, msg: "All Jobs Procured", obj: jobs});
+      }
+    }
+  }).skip(offset * 10).limit(10);
+});
+
+app.get("/job/:filter/:value/:offset", function(req, res) {
+  var filter = req.params.filter;
+  var value = req.params.value;
+  var offset = req.params.offset;
+  if (offset == null) {
+    offset = 0;
+  }
+  if (filter == "" || filter == null || value == "" || value == null) {
+    res.redirect("/job/" + offset);
+  }
+  else {
+    Job.find({[filter]: value}, function(err, jobs) {
+      if (err) {
+        res.json({err: err.message, msg: null, obj: null});
+      }
+      else {
+        if (jobs.length == 0) {
+          res.json({err: "No jobs with that filter exists", msg: "", obj: null})
+        }
+        else {
+          res.json({err: null, msg: "All Jobs with that filter are Procured", obj: jobs});
+        }
+      }
+    }).skip(offset * 10).limit(10);
+  }
+});
+
+app.post("/newjob", function(req, res) {
+  var job = new Job({
+    title: req.body.title,
+    salary: req.body.salary,
+    description: req.body.description,
+    postedOn: new Date,
+    location: [req.body.x, req.body.y],
+    duration: [req.body.from, req.body.to],
+    postedBy: req.body.by,
+    applicants: []
+  })
+  job.save( (err, doc) => {
+    if (err) {
+      res.json({err: err.message, msg: null, obj: null});
+    }
+    else {
+      res.json({err: null, msg: "Created Job Sucessfully", obj: doc});
+    }
+  })
+})
 
 
 app.listen(PORT, function() {

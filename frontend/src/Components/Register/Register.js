@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import './Register.css'
 class Register extends React.Component {
 
     constructor(props) {
@@ -51,7 +52,7 @@ class Register extends React.Component {
     render () {
         return(<div><center>
             <form>
-            <Card className="text-center" style={{ width: '50%' }}>
+            <Card className="text-center register-box-card">
             <Card.Header>
                     <h3>Register</h3>
             </Card.Header>

@@ -1,3 +1,4 @@
+import { json } from 'body-parser';
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -27,7 +28,24 @@ class Login extends React.Component{
             }
         });
     }
-    //submit(e){}
+    submit(e){
+        e.preventdefault();
+        fetch("http://localhost:2000/login", {
+            method: 'POST',
+            body: JSON.stringify(this.state.values),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(res => {
+            this.setState({ err: false, msg: res.msg });
+            return res.json();
+        })
+        .then(data => {
+            this.setState({obj : data.obj});
+            console.log(this.state.obj);
+        })
+    }
     render(){
     return(<div><center>
         <form>
@@ -38,7 +56,7 @@ class Login extends React.Component{
         <Card.Body>
                 <div className="form-group">
                     <label>Email address</label>
-                    <input type="email" onChange={this.handleInpuChange} name="email" className="form-control" placeholder="Enter email" />
+                    <input type="email" onChange={this.handleInputChange} name="email" className="form-control" placeholder="Enter email" />
                 </div>
 
                 <div className="form-group">

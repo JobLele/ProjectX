@@ -12,44 +12,80 @@ class PostJob extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            values:{
-            salary: 0,
-            title:"",
-            description:"",
-            from:moment(),
-            to:new Date(),
-            x:0,
-            y:0
-        },
-            err : null, 
-            msg : null,
-             obj : null
-    };
-    // this.submit = this.submit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-}
-    
-        handleInputChange=(e)=>{
-            this.setState({
-                values :{
+            values: {
+                salary: 0,
+                title: "",
+                description: "",
+                from: new Date(),
+                to: new Date(),
+                x: 0,
+                y: 0
+            },
+            err: null,
+            msg: null,
+            obj: null
+        };
+        this.submit = this.submit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleInputChange = (e) => {
+        this.setState({
+            values: {
                 ...this.state.values,
-                [e.target.name] : e.target.value
-                }
-            });
-            console.log(this.state)
+                [e.target.name]: e.target.value
+            }
+        });
+    }
+    handleInputChangeDateFrom = (e) => {
+
+
+        this.setState({
+            values: {
+                ...this.state.values,
+                from: e
+            }
+        })
+
+
+    }
+
+    handleInputChangeDateTo = (e) => {
+        if (this.state.values.to < this.state.values.from) {
+            console.log("end date can;t be lesser than start date");
         }
-        handleInputChangeDate=(e)=>{
+        else {
             this.setState({
-                values:{
+                values: {
                     ...this.state.values,
-                    startDate:e
+                    to: e
                 }
-            });
-            console.log(this.state)
+            })
         }
-    
-        //submit(e){}
-      
+
+    }
+
+    submit(e){
+        e.preventdefault();
+
+        console.log(this.state.values);
+        fetch("http://localhost:2000/newjob", {
+            method: 'POST',
+            body: JSON.stringify(this.state.values),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(res => {
+            this.setState({ err: false, msg: res.msg });
+            return res.json();
+        })
+        .then(data => {
+            this.setState({obj : data.obj});
+            console.log(this.state.obj);
+        })
+    }
+
     render() {
         return (
             <div>
@@ -63,28 +99,29 @@ class PostJob extends React.Component {
 
                                 <div className="form-group">
                                     <label>Job Title</label>
-                                    <input type="text" name="title" className="form-control" placeholder="Job Title"  onChange={this.handleInputChange} />
+                                    <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange} />
                                 </div>
                                 <div className="form-group">
                                     <label>Salary</label>
-                                    <input type="number" id="salary" name="salary" className="form-control"  onChange={this.handleInputChange}></input>
+                                    <input type="number" id="salary" name="salary" className="form-control" onChange={this.handleInputChange}></input>
                                 </div>
                                 <div className="date-box-postjob form-group">
                                     <div className="p-2 col-example text-left">
                                         <label>Start Date</label><br />
-                                        <DatePicker  
-                                            id='startDate'
-                                            dateFormat="dd/MM/yyyy"
-                                            defaultValue = {this.startDate}
-                                            selected={this.state.startDate}
-                                            onChange={this.handleInputChangeDate}/>
+                                        <DatePicker
+                                            selected={this.state.values.from}
+                                            onChange={this.handleInputChangeDateFrom}
+                                            name="from"
+                                            dateFormat="dd/MM/yyyy" />
                                     </div>
                                     <div className="p-2 col-example text-left">
                                         <label>End Date</label><br />
-                                        <DatePicker 
-                                        
-                                         onChange={(event) => this.handleInputChangeDate(event)}
-                                         selected={this.state.startDate} 
+                                        <DatePicker
+                                            selected={this.state.values.to}
+                                            onChange={this.handleInputChangeDateTo}
+                                            name="to"
+                                            dateFormat="dd/MM/yyyy"
+
                                         />
                                     </div>
                                 </div>
@@ -96,9 +133,9 @@ class PostJob extends React.Component {
                                 </div>
                                 <div className="form-group" >
                                     <label>Description</label>
-                                    <textarea onChange={this.handleInputChange}name="description" className="form-control" rows={5} placeholder="Description" />
+                                    <textarea onChange={this.handleInputChange} name="description" className="form-control" rows={5} placeholder="Description" />
                                 </div>
-                                <Button type="submit" variant="dark" className="btn btn-block">Post Job</Button>
+                                <Button type="submit" onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>
                         </Card>
                     </form>

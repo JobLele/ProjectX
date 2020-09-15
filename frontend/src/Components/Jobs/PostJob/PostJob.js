@@ -1,12 +1,19 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Calendar from '@lls/react-light-calendar'
-import '@lls/react-light-calendar/dist/index.css' // Default Style
-//import Calendar from 'react-calendar';
-//import 'react-calendar/dist/Calendar.css'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "./postjob.css";
+import { GoogleComponent } from 'react-google-location' 
+const API_KEY = "AIzaSyAVjo-bKTuYIr6i5qtybWmaaWOBM3UWgJQ";
 class PostJob extends React.Component{
-
+    constructor(props){
+        super(props);
+        this.state={
+            salary:0
+        }
+    }
+/*
     constructor(props){
         super(props);
         this.state={
@@ -36,6 +43,7 @@ class PostJob extends React.Component{
     }
 
     //submit(e){}
+  */
     render () {
     return(
         <div><center>
@@ -48,33 +56,34 @@ class PostJob extends React.Component{
 
                 <div className="form-group">
                     <label>Job Title</label>
-                    <input type="text" onChange={this.handleInputChange} name="jobTitle" className="form-control" placeholder="Job Title" />
+                    <input type="text" name="jobTitle" className="form-control" placeholder="Job Title" />
                 </div>
-
-                <div className="form-group" >
-                    <label>Start Date</label>
-                    <Calendar onChange={this.handleInputChange} name="from" className="form-control" />
+                <div className="form-group">
+                     <label>Salary</label>
+                     
+                     <input type = "number" id="salary" className="form-control"></input>
+                 </div>
+                <div className="d-flex justify-content-between">
+                <div className="p-2 col-example text-left">
+                    <label>Start Date</label><br/>
+                <DatePicker />
                 </div>
-                <div className="form-group" >
-                    <label>End Date</label>
-                    <Calendar onChange={this.handleInputChange} name="to" className="form-control" />
+                <div className="p-2 col-example text-left">
+                <label>End Date</label><br/>
+                <DatePicker />
                 </div>
+                </div>
+                <div className="form-group">
+                    <label>Location</label>
+                    <br/>
+                <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} locationBoxStyle={'custom-style'}
+          locationListStyle={'custom-style-list'} className="form-control"/>
+          </div>
                 <div className="form-group" >
                     <label>Description</label>
-                <textarea onChange={this.handleInputChange} name="desc" className="form-control" rows={5} placeholder="Description" />
-                </div>
-                <div className="form-group text-left">
-                    <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-                    </div>
+                <textarea name="desc" className="form-control" rows={5} placeholder="Description" />
                 </div>
                 <Button type="submit" variant="dark" className="btn btn-block">Post Job</Button>
-                 
-                
-                <p className="forgot-password text-right">
-                    Forgot <a href="/">password?</a>
-                </p>
                 </Card.Body>
                 </Card>
             </form>

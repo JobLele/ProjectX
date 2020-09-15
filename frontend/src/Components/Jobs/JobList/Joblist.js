@@ -13,7 +13,7 @@ class JobList extends Component {
                     <div className="individual-card">
                         <Card style={{ width: '20rem' }}>
                             <div className="date-box">9 oct</div>
-                            <Card.Img variant="top" className="img-box" src="https://lh3.googleusercontent.com/proxy/5JyNbppZ3y4G00tEVWvUShBPbKcYooOSns4PUl2NAhQlzbWhEtb10I50EJYADONVqDTd7zHyrYy2TCBYEanZoJ1qwAYR1GeAFl4GTA" />
+                            <Card.Img variant="top" className="img-box" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
                             <Card.Body>
                                 <Card.Title>Cook</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">Permanent</Card.Subtitle>
@@ -25,7 +25,10 @@ class JobList extends Component {
                                 <Card.Text>
                                     <div className="bottom-box">
                                         <div>7A 1gokuldam society ,mumbai</div>
-                                        <div><Button variant="dark" >view</Button></div>
+                                        <div>
+                                            
+                                            <Button variant="dark" >view</Button>
+                                            </div>
 
                                     </div>
                                 </Card.Text>

@@ -34,7 +34,7 @@ const NavbarFunction = () => {
                     </Form>
                     <Nav >
                         <Nav.Link className="login" href="/login">Login/Register</Nav.Link>
-                        <Link to='/postjob'>
+                        <Link to='/jobware/postjob'>
                             <Button variant="outline-secondary" className="postjob">Post Job</Button>
                         </Link>
 

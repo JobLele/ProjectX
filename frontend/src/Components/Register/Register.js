@@ -44,6 +44,9 @@ class Register extends React.Component {
             return res.json();
         })
         .then(data => {
+            if (data.err) {
+                this.setState({err: true, msg: data.err});
+            }
             this.setState({obj : data.obj});
             console.log(this.state.obj);
         })

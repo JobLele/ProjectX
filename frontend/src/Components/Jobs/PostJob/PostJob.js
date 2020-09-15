@@ -24,8 +24,10 @@ class PostJob extends React.Component {
             msg: null,
             obj: null
         };
-        this.submit = this.submit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputChangeDateFrom = this.handleInputChangeDateFrom.bind(this);
+        this.handleInputChangeDateTo = this.handleInputChangeDateTo.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     handleInputChange = (e) => {
@@ -48,7 +50,7 @@ class PostJob extends React.Component {
     }
 
     handleInputChangeDateTo = (e) => {
-        if (e < this.state.values.from) {
+        if (this.state.values.from > e) {
             console.log("end date can;t be lesser than start date");
         }
         else {
@@ -62,9 +64,8 @@ class PostJob extends React.Component {
 
     }
 
-    submit=(e)=>{
-        e.preventdefault();
-
+    submit(e) {
+        // e.preventdefault();
         console.log(this.state.values);
         fetch("http://localhost:2000/newjob", {
             method: 'POST',
@@ -78,6 +79,9 @@ class PostJob extends React.Component {
             return res.json();
         })
         .then(data => {
+            if (data.err) {
+                this.setState({err: true, msg: data.err});
+            }
             this.setState({obj : data.obj});
             console.log(this.state.obj);
         })
@@ -133,7 +137,7 @@ class PostJob extends React.Component {
                                     <label className="font-increase-label">Description</label>
                                     <textarea onChange={this.handleInputChange} name="description" className="form-control" rows={5} placeholder="Description" />
                                 </div>
-                                <Button onClick={(e)=>this.submit(e)} variant="dark" className="btn btn-block">Post Job</Button>
+                                <Button onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>
                         </Card>
                     </form>

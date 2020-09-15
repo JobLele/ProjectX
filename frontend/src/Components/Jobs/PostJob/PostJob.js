@@ -69,7 +69,7 @@ class PostJob extends React.Component{
                         <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                     </div>
                 </div>
-                <Button type="submit" variant="dark" className="btn btn-block">Login</Button>
+                <Button type="submit" variant="dark" className="btn btn-block">Post Job</Button>
                  
                 
                 <p className="forgot-password text-right">

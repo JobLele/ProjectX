@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import moment from 'moment';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Postjob.css";
@@ -38,8 +37,6 @@ class PostJob extends React.Component {
         });
     }
     handleInputChangeDateFrom = (e) => {
-
-
         this.setState({
             values: {
                 ...this.state.values,
@@ -51,7 +48,7 @@ class PostJob extends React.Component {
     }
 
     handleInputChangeDateTo = (e) => {
-        if (this.state.values.to < this.state.values.from) {
+        if (e < this.state.values.from) {
             console.log("end date can;t be lesser than start date");
         }
         else {
@@ -65,7 +62,7 @@ class PostJob extends React.Component {
 
     }
 
-    submit(e){
+    submit=(e)=>{
         e.preventdefault();
 
         console.log(this.state.values);
@@ -98,12 +95,19 @@ class PostJob extends React.Component {
                             <Card.Body>
 
                                 <div className="form-group">
-                                    <label>Job Title</label>
+                                    <label className="font-increase-label">Job Title</label>
                                     <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Salary</label>
+                                    <label className="font-increase-label">Salary</label>
                                     <input type="number" id="salary" name="salary" className="form-control" onChange={this.handleInputChange}></input>
+                                </div>
+                               
+                                <div className="form-group">
+                                    <label className="font-increase-label">Location</label>
+                                    <br />
+                                    <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} locationBoxStyle={'custom-style'}
+                                        locationListStyle={'custom-style-list'} className="form-control" />
                                 </div>
                                 <div className="date-box-postjob form-group">
                                     <div className="p-2 col-example text-left">
@@ -125,17 +129,11 @@ class PostJob extends React.Component {
                                         />
                                     </div>
                                 </div>
-                                <div className="form-group">
-                                    <label>Location</label>
-                                    <br />
-                                    <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} locationBoxStyle={'custom-style'}
-                                        locationListStyle={'custom-style-list'} className="form-control" />
-                                </div>
                                 <div className="form-group" >
-                                    <label>Description</label>
+                                    <label className="font-increase-label">Description</label>
                                     <textarea onChange={this.handleInputChange} name="description" className="form-control" rows={5} placeholder="Description" />
                                 </div>
-                                <Button type="submit" onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
+                                <Button onClick={(e)=>this.submit(e)} variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>
                         </Card>
                     </form>

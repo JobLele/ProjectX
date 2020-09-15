@@ -4,3 +4,16 @@
     background-size: 24px 24px;
     background-position: 2px 6px;
   }
+.date-box-postjob{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.post-job-form{
+  width: 50%;
+}
+@media only screen and (max-width: 600px) {
+  .post-job-form{
+      width: 80%;
+  }
+}

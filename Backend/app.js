@@ -206,7 +206,24 @@ app.get("/auth/google/secrets",
 });
 
 // Job Routes
-app.get("/job/:offset", function(req, res) {
+
+app.get("/job/:id", function(req, res) {
+  var id = req.params.id;
+  Job.findById(id, function(err, job) {
+    if (err) {
+      res.json({err: err.message, msg: null, obj: null});
+    }
+    else {
+      if (!job) {
+        res.json({err: "No job with that id exists", msg: "", obj: null})
+      }
+      else {
+        res.json({err: null, msg: "ID Job Procured", obj: job});
+      }
+    }
+  })
+})
+app.get("/jobs/:offset", function(req, res) {
   var offset = req.params.offset;
   if (offset == null) {
     offset = 0;
@@ -226,7 +243,7 @@ app.get("/job/:offset", function(req, res) {
   }).skip(offset * 10).limit(10);
 });
 
-app.get("/job/:filter/:value/:offset", function(req, res) {
+app.get("/jobs/:filter/:value/:offset", function(req, res) {
   var filter = req.params.filter;
   var value = req.params.value;
   var offset = req.params.offset;

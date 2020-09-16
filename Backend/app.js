@@ -11,8 +11,11 @@ const findOrCreate = require('mongoose-findorcreate');
 const MongoURI = process.env.MongoURI || "mongodb://localhost:27017/userDB";
 const PORT = process.env.PORT || 2000;
 const app = express();
+<<<<<<< HEAD
 // const router = express.Router();
 
+=======
+>>>>>>> 7d61c2651b39e85a0b36fecb783d8995d3da581b
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

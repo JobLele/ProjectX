@@ -3,9 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./Postjob.css";
+import "./postjob.css";
 import { GoogleComponent } from 'react-google-location'
-const API_KEY = "AIzaSyAVjo-bKTuYIr6i5qtybWmaaWOBM3UWgJQ";
+const API_KEY = "AIzaSyBG0T-DKPFzsOMPmPVa0zzOZ1bYof9858A";
 
 class PostJob extends React.Component {
     constructor(props) {
@@ -51,7 +51,7 @@ class PostJob extends React.Component {
 
     handleInputChangeDateTo = (e) => {
         if (this.state.values.from > e) {
-            console.log("end date can;t be lesser than start date");
+            console.log("end date cant be lesser than start date");
         }
         else {
             this.setState({
@@ -114,8 +114,7 @@ class PostJob extends React.Component {
                                 <div className="form-group">
                                     <label className="font-increase-label">Location</label>
                                     <br />
-                                    <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} locationBoxStyle={'custom-style'}
-                                        locationListStyle={'custom-style-list'} className="form-control" />
+                                    <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} className="form-control" />
                                 </div>
                                 <div className="date-box-postjob form-group">
                                     <div className="p-2 col-example text-left">
@@ -124,7 +123,9 @@ class PostJob extends React.Component {
                                             selected={this.state.values.from}
                                             onChange={this.handleInputChangeDateFrom}
                                             name="from"
-                                            dateFormat="dd/MM/yyyy" />
+                                            dateFormat="dd/MM/yyyy" 
+                                            className="form-control"/>
+                                            
                                     </div>
                                     <div className="p-2 col-example text-left">
                                         <label>End Date</label><br />
@@ -133,7 +134,7 @@ class PostJob extends React.Component {
                                             onChange={this.handleInputChangeDateTo}
                                             name="to"
                                             dateFormat="dd/MM/yyyy"
-
+                                            className="form-control"
                                         />
                                     </div>
                                 </div>

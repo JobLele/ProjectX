@@ -82,6 +82,9 @@ class PostJob extends React.Component {
             if (data.err) {
                 this.setState({err: true, msg: data.err});
             }
+            // else{
+            //     window.location.href="/"
+            // }
             this.setState({obj : data.obj});
             console.log(this.state.obj);
         })
@@ -137,6 +140,7 @@ class PostJob extends React.Component {
                                 <div className="form-group" >
                                     <label className="font-increase-label">Description</label>
                                     <textarea onChange={this.handleInputChange} name="description" className="form-control" rows={5} placeholder="Description" />
+                                    
                                 </div>
                                 <Button onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>

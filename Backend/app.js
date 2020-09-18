@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({
 app.use(session({
   secret: "projectXJobLele.",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
 }));
 
 app.use(passport.initialize());
@@ -32,7 +32,7 @@ app.use(passport.session());
 mongoose.connect(MongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: true
+    useFindAndModify: false
   })
   .then(() => console.log("Connected to mDB"))
   .catch((e) => console.log("Error :", e));
@@ -260,6 +260,98 @@ app.get("/auth/google/secrets",
   function(req, res) {
     res.end();
   });
+
+
+app.get('/user/:id', function(req, res) {
+  var id = req.params.id;
+  Employ.findById(id, function(err, employ) {
+    if (err) {
+      res.json({
+        err : err.message,
+        msg : null,
+        obj : null
+      });
+    }
+    else {
+      if (employ) {
+        res.json({
+          err : null,
+          msg : "Found user by id",
+          obj : employ
+        });
+      }
+      else {
+        res.json({
+          err : err.message,
+          msg : null,
+          obj : null
+        });
+      }
+    }
+  });
+});
+
+app.put('/user/:id', function(req, res) {
+  var id = req.params.id;
+  Employ.findByIdAndUpdate(id, {
+    name: req.body.name,
+    number: req.body.number,
+    qualification: req.body.qualification,
+  }, function (err, employ) {
+    if (err) {
+      res.json({
+        err : err.message,
+        msg : null,
+        obj : null
+      });
+    }
+    else {
+      if (employ) {
+        res.json({
+          err : null,
+          msg : "edited user",
+          obj : employ
+        });
+      }
+      else {
+        res.json({
+          err : err.message,
+          msg : null,
+          obj : null
+        });
+      }
+    }
+  });
+});
+
+app.delete('/user/:id', function(req, res) {
+  var id = req.params.id;
+  Employ.findByIdAndDelete(id, function(err, employ) {
+    if (err) {
+      res.json({
+        err : err.message,
+        msg : null,
+        obj : null
+      });
+    }
+    else {
+      if (employ) {
+        res.json({
+          err : null,
+          msg : "deleted user",
+          obj : employ
+        });
+      }
+      else {
+        res.json({
+          err : err.message,
+          msg : null,
+          obj : null
+        });
+      }
+    }
+  })
+})
 
 // Job Routes
 

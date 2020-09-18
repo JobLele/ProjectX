@@ -81,10 +81,11 @@ class PostJob extends React.Component {
         .then(data => {
             if (data.err) {
                 this.setState({err: true, msg: data.err});
+                console.log(this.msg);
             }
-            // else{
-            //     window.location.href="/"
-            // }
+            else{
+                window.location.href="/"
+            }
             this.setState({obj : data.obj});
             console.log(this.state.obj);
         })

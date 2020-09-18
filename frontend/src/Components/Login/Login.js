@@ -42,8 +42,16 @@ class Login extends React.Component{
             return res.json();
         })
         .then(data => {
-            this.setState({obj : data.obj});
-            console.log(this.state.obj);
+            if (data.err) {
+                this.setState({err: true, msg: data.err});
+
+            }
+            else{
+                this.setState({obj : data.obj});
+                console.log(this.state.obj);
+                window.location.href="/jobware"
+            }
+           
         })
     }
     render(){

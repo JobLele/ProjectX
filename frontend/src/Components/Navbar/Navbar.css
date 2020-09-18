@@ -3,8 +3,8 @@
     margin-right: 2rem;
 }
 .login{
-    margin-right: 2rem;
-    margin-left: 1rem;
+    padding-right: 0rem!important;
+    padding-left: 0rem!important;
 }
 .image-navbar{
     margin-right: 1rem;

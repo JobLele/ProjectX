@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 app.use(session({
   secret: "projectXJobLele.",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
 }));
 
 app.use(passport.initialize());
@@ -31,7 +31,7 @@ app.use(passport.session());
 mongoose.connect(MongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: true
+    useFindAndModify: false
   })
   .then(() => console.log("Connected to mDB"))
   .catch((e) => console.log("Error :", e));
@@ -261,7 +261,7 @@ app.get("/auth/google/secrets",
   });
 
 
-app.get('user/:id', function(req, res) {
+app.get('/user/:id', function(req, res) {
   var id = req.params.id;
   Employ.findById(id, function(err, employ) {
     if (err) {
@@ -290,7 +290,7 @@ app.get('user/:id', function(req, res) {
   });
 });
 
-app.put('user/:id', function(req, res) {
+app.put('/user/:id', function(req, res) {
   var id = req.params.id;
   Employ.findByIdAndUpdate(id, {
     name: req.body.name,
@@ -323,7 +323,7 @@ app.put('user/:id', function(req, res) {
   });
 });
 
-app.delete('user/:id', function(req, res) {
+app.delete('/user/:id', function(req, res) {
   var id = req.params.id;
   Employ.findByIdAndDelete(id, function(err, employ) {
     if (err) {

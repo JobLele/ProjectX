@@ -5,9 +5,55 @@ import Card from 'react-bootstrap/Card';
 import './Joblist.css';
 
 class JobList extends Component {
+     constructor(props){
+        super(props);
+        this.state={
+            values:{
+                jobs:[]
+            },
+            err: null,
+            msg: null,
+            
+        }
+        this.getData = this.getData.bind(this);
+     }
+
+     getData=(data)=>{
+         console.log("sainya");
+         console.log(data.msg);
+         this.setState({
+             values:{
+                 jobs:data.obj
+             },
+             err:data.err,
+             msg:data.msg
+         })
+         console.log(this.msg);
+     }
+
+    componentDidMount(){
+        fetch("http://localhost:2000/jobs/0")
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data.msg);
+            this.setState({
+                values:{
+                    jobs:data.obj
+                },
+                err:data.err,
+                msg:data.msg
+            });
+            console.log(this.msg);
+        }
+        
+        )
+        
+    }
 
     render() {
-        return (<div>
+        if(this.msg=="ID Job Procured" && this.err ==null){
+        return (        
+        <div>
             <Container>
                 <div className="card-main-box text-center">
                     <div className="individual-card">
@@ -155,7 +201,19 @@ class JobList extends Component {
 
             </Container>
 
-        </div>)
+        </div>)}
+        else if(this.err!=null){
+            return(
+                <div>
+                    <h1>err</h1>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div>NoJobExist</div>
+            )
+        }
     }
 }
 

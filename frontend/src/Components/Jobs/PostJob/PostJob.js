@@ -67,7 +67,7 @@ class PostJob extends React.Component {
     submit(e) {
         // e.preventdefault();
         console.log(this.state.values);
-        fetch("http://localhost:2000/newjob", {
+        fetch("http://localhost:2000/job", {
             method: 'POST',
             body: JSON.stringify(this.state.values),
             headers: {
@@ -82,6 +82,9 @@ class PostJob extends React.Component {
             if (data.err) {
                 this.setState({err: true, msg: data.err});
             }
+            // else{
+            //     window.location.href="/"
+            // }
             this.setState({obj : data.obj});
             console.log(this.state.obj);
         })
@@ -136,6 +139,7 @@ class PostJob extends React.Component {
                                 <div className="form-group" >
                                     <label className="font-increase-label">Description</label>
                                     <textarea onChange={this.handleInputChange} name="description" className="form-control" rows={5} placeholder="Description" />
+                                    
                                 </div>
                                 <Button onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>

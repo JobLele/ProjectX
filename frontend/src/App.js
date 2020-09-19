@@ -7,6 +7,7 @@ import JobList from './Components/Jobs/JobList/Joblist';
 import PostJob from './Components/Jobs/PostJob/PostJob';
 import Register from './Components/Register/Register';
 import Job from './Components/Jobs/Job/Job'
+import EditJob from './Components/Jobs/EditJob/EditJob'
 
 // import Footer from './Components/Footer/Footer';
 
@@ -22,7 +23,8 @@ const App = () => {
         <Route path="/register" component={Register}></Route>
         <Route path="/Register" component={Register}></Route>
         <Route path="/jobware/postjob" component={PostJob}></Route>
-        <Route path="/jobware/:id" component={Job}></Route>
+        <Route path="/jobware/:id" exact component={Job}></Route>
+        <Route path="/jobware/:id/edit" component={EditJob}></Route>
       </Switch>
     </Router>  
     </div>

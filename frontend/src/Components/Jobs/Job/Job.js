@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -9,7 +10,7 @@ class Job extends Component {
         super(props);
         this.state = {
             values: {
-                job: null
+                view_job: null
             },
             err: null,
             msg: null
@@ -23,6 +24,9 @@ class Job extends Component {
         fetch(`http://localhost:2000/job/${id}`)
             .then(res => res.json())
             .then(data => { this.getData(data) })
+       
+        
+        console.log(this.state.values.view_job);
 
     }
     getData = (data) => {
@@ -55,7 +59,9 @@ class Job extends Component {
                                     <div className="bottom-box">
                                         <div>7A 1gokuldam society ,mumbai</div>
                                         <div className="edit-delte-box">
-                                            <div className="edit-btn"><Button variant="info" >EDIT</Button></div>
+                                            <div className="edit-btn">
+                                                <Link to={`/jobware/${view_job._id}/edit`}><Button variant="info" >EDIT</Button></Link>
+                                            </div>
                                             <div><Button variant="danger">DELETE</Button></div>
                                         </div>
                                     </div>
@@ -67,13 +73,12 @@ class Job extends Component {
                 </Container>
             )
         }
-        else {
-            return (
-                <div>
-                    err
-                </div>
-            )
+        else{
+            return(<div>
+                {this.state.err}
+            </div>)
         }
+        
     }
 }
 export default Job;

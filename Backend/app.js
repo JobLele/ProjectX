@@ -437,7 +437,7 @@ app.get("/jobs/:offset", function(req, res) {
   if (offset == null) {
     offset = 0;
   }
-  Job.find({}, function(err, jobs) {
+  Job.find({}).sort('-postedOn').exec(function(err, jobs) {
     if (err) {
       res.json({
         err: err.message,

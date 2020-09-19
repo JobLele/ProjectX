@@ -504,7 +504,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
         }
       }
     }
-    Job.find(search, function(err, jobs) {
+    Job.find(search).sort('-postedOn').exec(function(err, jobs) {
       if (err) {
         res.json({
           err: err.message,

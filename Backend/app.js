@@ -504,7 +504,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
         }
       }
     }
-    Job.find(search).sort('-postedOn').exec(function(err, jobs) {
+    Job.find(search).sort('-postedOn').skip(offeset*10).limit(10).exec(function(err, jobs) {
       if (err) {
         res.json({
           err: err.message,
@@ -526,7 +526,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
           });
         }
       }
-    }).populate().skip(offset * 10).limit(10);
+    });
   }
 });
 

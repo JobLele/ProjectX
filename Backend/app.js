@@ -234,7 +234,7 @@ app.post("/login", function(req, res) {
             });
           }
         }
-      }).populate('jobsPosted appliedFor');
+      });
     }
   });
 });
@@ -367,6 +367,7 @@ app.post("/job", function(req, res) {
     applicants: []
   })
   job.save((err, doc) => {
+    console.log(doc);
     if (err) {
       res.json({
         err: err.message,
@@ -387,22 +388,11 @@ app.post("/job", function(req, res) {
           );
         }
         else {
-          doc.populate('postedBy', function(err, result) {
-            if (err) {
-              res.json({
-                err: null,
-                msg: "Couldn't populate admin",
-                obj: doc
-              })
-            }
-            else {
               res.json({
                 err: null,
                 msg: "Created Job Sucessfully",
-                obj: result
+                obj: doc
               });
-            }
-          });
         }
       })
     }
@@ -420,14 +410,7 @@ app.get("/job/:id", function(req, res) {
         res.json({err: "No job with that id exists", msg: "", obj: null})
       }
       else {
-        job.populate('postedBy', function(err, popJob) {
-          if (err) {
-            res.json({err: null, msg: "Couldn't get author detail", obj: job});
-          }
-          else {
-            res.json({err: null, msg: "ID Job Procured", obj: popJob});
-          }
-        })
+            res.json({err: null, msg: "ID Job Procured", obj: job});
       }
     }
   })
@@ -438,7 +421,7 @@ app.get("/jobs/:offset", function(req, res) {
   if (offset == null) {
     offset = 0;
   }
-  Job.find({}).sort('-postedOn').exec(function(err, jobs) {
+  Job.find({}).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
     if (err) {
      // console.log("A");
       res.json({
@@ -467,7 +450,7 @@ app.get("/jobs/:offset", function(req, res) {
         });
       }
     }
-  }).skip(offset * 10).limit(10);
+  })
 });
 
 app.get("/jobs/:filter/:value/:offset", function(req, res) {
@@ -504,7 +487,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
         }
       }
     }
-    Job.find(search).sort('-postedOn').exec(function(err, jobs) {
+    Job.find(search).sort('-postedOn').skip(offeset*10).limit(10).exec(function(err, jobs) {
       if (err) {
         res.json({
           err: err.message,
@@ -526,7 +509,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
           });
         }
       }
-    }).populate().skip(offset * 10).limit(10);
+    });
   }
 });
 

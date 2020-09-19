@@ -438,6 +438,7 @@ app.get("/jobs/:offset", function(req, res) {
   if (offset == null) {
     offset = 0;
   }
+  
   Job.find({}).sort('-postedOn').exec(function(err, jobs) {
     if (err) {
      // console.log("A");

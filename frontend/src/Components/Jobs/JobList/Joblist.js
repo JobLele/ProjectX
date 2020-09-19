@@ -58,7 +58,7 @@ class JobList extends Component {
 
     render() {
         const MAX_LENGTH = 250
-        if (this.state.msg == "ID Job Procured" && this.state.err == null) {
+        if (this.state.msg === "ID Job Procured" && this.state.err === null) {
             return (
                 <div>
                     <Container>

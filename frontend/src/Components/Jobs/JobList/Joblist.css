@@ -26,3 +26,8 @@
     margin-bottom: 2rem;
     
 }
+.next-previous-box{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+}

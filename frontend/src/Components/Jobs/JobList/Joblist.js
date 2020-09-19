@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card';
 import './Joblist.css';
 
 class JobList extends Component {
+   
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +16,10 @@ class JobList extends Component {
             err: null,
             msg: null,
         }
+        this.count=0;
         this.getData = this.getData.bind(this);
+        this.previousGetData=this.previousGetData.bind(this);
+        this.nextGetData=this.nextGetData.bind(this);
     }
 
     getData = (data) => {
@@ -30,10 +34,26 @@ class JobList extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:2000/jobs/0")
+        fetch("http://localhost:2000/jobs/count")
             .then(res => res.json())
             .then(data => { this.getData(data) })
 
+    }
+    previousGetData(event){
+        event.preventDefault();
+        this.count=this.count-1;
+        console.log(this.count);
+        fetch("http://localhost:2000/jobs/count")
+        .then(res => res.json())
+        .then(data => { console.log(data) })
+    }
+    nextGetData(e){
+        e.preventDefault();
+        this.count=this.count+1;
+        console.log(this.count);
+        fetch("http://localhost:2000/jobs/count")
+        .then(res => res.json())
+        .then(data => { console.log(data) })
     }
 
     render() {
@@ -46,7 +66,6 @@ class JobList extends Component {
                             {this.state.values.jobs.map(job => (
                                 <div key={job.id} className="individual-card">
                                     <Card style={{ width: '20rem' }}>
-                                        {/* {var date=job.postedOn} */}
                                         <div className="date-box">{new Date(job.postedOn).toLocaleDateString()}</div>
                                         <Card.Img variant="top" className="img-box" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
                                         <Card.Body>
@@ -80,10 +99,13 @@ class JobList extends Component {
                                     </Card>
                                 </div>
 
-
                             ))}
-                        </div>
 
+                        </div>
+                        <div className="next-previous-box">
+                            <Button onClick={this.previousGetData} variant="outline-dark" >{`<`}</Button>
+                            <Button  onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>
+                        </div>
 
                     </Container>
 

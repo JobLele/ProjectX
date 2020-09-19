@@ -5,6 +5,12 @@ import Card from 'react-bootstrap/Card';
 import './Job.css';
 
 class Job extends Component{
+
+    
+    componentDidMount(){
+        const id=window.location.href;
+        console.log(id);
+    }
     render(){
         return(
             // <div>

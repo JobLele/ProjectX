@@ -46,9 +46,14 @@ class Register extends React.Component {
         .then(data => {
             if (data.err) {
                 this.setState({err: true, msg: data.err});
+
             }
-            this.setState({obj : data.obj});
-            console.log(this.state.obj);
+            else{
+                this.setState({obj : data.obj});
+                console.log(this.state.obj);
+                window.location.href="/jobware"
+            }
+            
         })
     }
 

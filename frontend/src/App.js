@@ -19,9 +19,10 @@ const App = () => {
         <Route path="/" exact component={JobList}></Route>
         <Route path="/jobware" exact component={JobList}></Route>
         <Route path="/login" component={Login}></Route>
+        <Route path="/register" component={Register}></Route>
         <Route path="/Register" component={Register}></Route>
         <Route path="/jobware/postjob" component={PostJob}></Route>
-        <Route path="/jobware/sainya" component={Job}></Route>
+        <Route path="/jobware/:id" component={Job}></Route>
       </Switch>
     </Router>  
     </div>

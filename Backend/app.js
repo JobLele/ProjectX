@@ -9,6 +9,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const MongoURI = process.env.MongoURI || "mongodb://localhost:27017/userDB";
+//const MongoURI = "mongodb://localhost:27017/userDB";
 const PORT = process.env.PORT || 2000;
 const app = express();
 // const router = express.Router();
@@ -439,13 +440,17 @@ app.get("/jobs/:offset", function(req, res) {
   }
   Job.find({}).sort('-postedOn').exec(function(err, jobs) {
     if (err) {
+     // console.log("A");
       res.json({
         err: err.message,
         msg: null,
         obj: null
       });
     } else {
+      
+     // console.log("B");
       if (jobs.length == 0) {
+ //       console.log("D");
         res.json({
           err: "No jobs exists",
           msg: "",
@@ -453,6 +458,8 @@ app.get("/jobs/:offset", function(req, res) {
         })
       } 
       else {
+        
+//        console.log("C");
         res.json({
           err: null, 
           msg: "ID Job Procured", 

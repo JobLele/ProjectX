@@ -34,7 +34,7 @@ class JobList extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:2000/jobs/count")
+        fetch(`http://localhost:2000/jobs/${this.count}`)
             .then(res => res.json())
             .then(data => { this.getData(data) })
 
@@ -43,7 +43,7 @@ class JobList extends Component {
         event.preventDefault();
         this.count=this.count-1;
         console.log(this.count);
-        fetch("http://localhost:2000/jobs/count")
+        fetch(`http://localhost:2000/jobs/${this.count}`)
         .then(res => res.json())
         .then(data => { console.log(data) })
     }
@@ -51,7 +51,7 @@ class JobList extends Component {
         e.preventDefault();
         this.count=this.count+1;
         console.log(this.count);
-        fetch("http://localhost:2000/jobs/count")
+        fetch(`http://localhost:2000/jobs/${this.count}`)
         .then(res => res.json())
         .then(data => { console.log(data) })
     }

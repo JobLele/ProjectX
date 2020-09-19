@@ -5,11 +5,35 @@ import Card from 'react-bootstrap/Card';
 import './Job.css';
 
 class Job extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            values:{
+                job:null
+            },
+            err:null,
+            msg:null
+        }
+        this.getData = this.getData.bind(this);
+    }
 
-    
     componentDidMount(){
-        const id=window.location.href;
-        console.log(id);
+        const array=window.location.pathname.split('/');
+        const id=array[2];
+        fetch(`http://localhost:2000/job/${id}`)
+        .then(res=>res.json())
+        .then(data=>{this.getData(data)})
+        
+    }
+    getData = (data) => {
+        this.setState({
+            values: {
+                job: data.obj
+            },
+            err: data.err,
+            msg: data.msg
+        })
+        console.log(this.state.values.jobs);
     }
     render(){
         return(

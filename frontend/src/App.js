@@ -6,15 +6,15 @@ import Login from './Components/Login/Login';
 import JobList from './Components/Jobs/JobList/Joblist';
 import PostJob from './Components/Jobs/PostJob/PostJob';
 import Register from './Components/Register/Register';
-import Job from './Components/Jobs/Job/Job'
-import EditJob from './Components/Jobs/EditJob/EditJob'
-import DeleteJob from './Components/Jobs/DeleteJob/DeleteJob'
-
-// import Footer from './Components/Footer/Footer';
+import Job from './Components/Jobs/Job/Job';
+import EditJob from './Components/Jobs/EditJob/EditJob';
+import DeleteJob from './Components/Jobs/DeleteJob/DeleteJob';
+import Footer from './Components/Footer/Footer';
 
 
 const App = () => {
-  return (<div>
+  return (<div style={{minheight: '100vh'}}>
+    <div>
     <Router>
       <NavBar/>
       <Switch>
@@ -28,7 +28,13 @@ const App = () => {
         <Route path="/jobware/:id/edit" component={EditJob}></Route>
         <Route path="/jobware/:id/delete" component={DeleteJob}></Route>
       </Switch>
-    </Router>  
+    </Router> 
+    </div>
+    <div>
+    <footer>
+    <Footer />
+    </footer>
+    </div>
     </div>
   );
 }

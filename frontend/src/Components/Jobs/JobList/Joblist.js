@@ -34,6 +34,7 @@ class JobList extends Component {
     }
 
     componentDidMount() {
+        //<h1>hello</h1>
         fetch(`http://localhost:2000/jobs/${this.count}`)
             .then(res => res.json())
             .then(data => { this.getData(data) })

@@ -28,8 +28,27 @@ class Login extends React.Component{
             }
         });
     }
+
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
+
+        if(!fields["email"]){
+            formIsValid = false;
+            errors["email"] = "Cannot be empty";
+         }
+         if(!fields["password"]){
+            formIsValid = false;
+            errors["password"] = "Cannot be empty";
+         }
+         
+        }
+
     submit(e){
         e.preventdefault();
+        if(this.handleValidation()){
+            alert("Form submitted");
         fetch("http://localhost:2000/login", {
             method: 'POST',
             body: JSON.stringify(this.state.values),
@@ -53,6 +72,9 @@ class Login extends React.Component{
             }
            
         })
+    }else{
+        alert("Form has errors.")
+     }
     }
     render(){
     return(<div><center>
@@ -65,11 +87,15 @@ class Login extends React.Component{
                 <div className="form-group">
                     <label>Email address</label>
                     <input type="email" onChange={this.handleInputChange} name="email" className="form-control" placeholder="Enter email" />
+                    <span style={{color: "red"}}>{this.state.errors["email"]}</span><br />
+
                 </div>
 
                 <div className="form-group">
                     <label>Password</label>
                     <input type="password" onChange={this.handleInputChange} name = "password" className="form-control" placeholder="Enter password" />
+                    <span style={{color: "red"}}>{this.state.errors["password"]}</span><br />
+                   
                 </div>
 
                 <div className="form-group text-left">

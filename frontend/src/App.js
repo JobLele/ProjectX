@@ -8,6 +8,7 @@ import PostJob from './Components/Jobs/PostJob/PostJob';
 import Register from './Components/Register/Register';
 import Job from './Components/Jobs/Job/Job'
 import EditJob from './Components/Jobs/EditJob/EditJob'
+import DeleteJob from './Components/Jobs/DeleteJob/DeleteJob'
 
 // import Footer from './Components/Footer/Footer';
 
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/jobware/postjob" component={PostJob}></Route>
         <Route path="/jobware/:id" exact component={Job}></Route>
         <Route path="/jobware/:id/edit" component={EditJob}></Route>
+        <Route path="/jobware/:id/delete" component={DeleteJob}></Route>
       </Switch>
     </Router>  
     </div>

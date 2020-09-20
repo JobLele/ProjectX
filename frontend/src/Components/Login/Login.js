@@ -49,6 +49,8 @@ class Login extends React.Component{
             else{
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
+                sessionStorage.setItem("logged", "true");
+                sessionStorage.setItem("id", data.obj._id.toString());
                 window.location.href="/jobware"
             }
            

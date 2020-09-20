@@ -54,7 +54,7 @@ class Job extends Component {
         })
     }
     render() {
-        if (this.state.msg == "ID Job Procured" && this.state.err == null) {
+        if (this.state.msg === "ID Job Procured" && this.state.err === null) {
             var view_job = this.state.values.job;
             return (
                 <Container>

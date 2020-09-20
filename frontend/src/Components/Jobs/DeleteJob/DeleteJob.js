@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Job from '../Job/Job'
 import './DeleteJob.css'
 
 class DeleteJob extends Component{

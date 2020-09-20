@@ -7,6 +7,7 @@ import "./postjob.css";
 import { GoogleComponent } from 'react-google-location'
 const API_KEY = "AIzaSyBG0T-DKPFzsOMPmPVa0zzOZ1bYof9858A";
 
+
 class PostJob extends React.Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,8 @@ class PostJob extends React.Component {
                 from: new Date(),
                 to: new Date(),
                 x: 0,
-                y: 0
+                y: 0,
+                place:null
             },
             err: null,
             msg: null,
@@ -74,21 +76,21 @@ class PostJob extends React.Component {
                 "Content-Type": "application/json"
             }
         })
-        .then(res => {
-            this.setState({ err: false, msg: res.msg });
-            return res.json();
-        })
-        .then(data => {
-            if (data.err) {
-                this.setState({err: true, msg: data.err});
-                console.log(this.msg);
-            }
-            else{
-                window.location.href="/"
-            }
-            this.setState({obj : data.obj});
-            console.log(this.state.obj);
-        })
+            .then(res => {
+                this.setState({ err: false, msg: res.msg });
+                return res.json();
+            })
+            .then(data => {
+                if (data.err) {
+                    this.setState({ err: true, msg: data.err });
+                    console.log(this.msg);
+                }
+                else {
+                    window.location.href = "/"
+                }
+                this.setState({ obj: data.obj });
+                console.log(this.state.obj);
+            })
     }
 
     render() {
@@ -104,17 +106,19 @@ class PostJob extends React.Component {
 
                                 <div className="form-group">
                                     <label className="font-increase-label">Job Title</label>
-                                    <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange} required={true}/>
+                                    <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange} required={true} />
                                 </div>
                                 <div className="form-group">
                                     <label className="font-increase-label">Salary</label>
                                     <input type="number" id="salary" name="salary" className="form-control" onChange={this.handleInputChange}></input>
                                 </div>
-                               
+
                                 <div className="form-group">
                                     <label className="font-increase-label">Location</label>
                                     <br />
                                     <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} className="form-control" />
+                                    
+
                                 </div>
                                 <div className="date-box-postjob form-group">
                                     <div className="p-2 col-example text-left">
@@ -123,9 +127,9 @@ class PostJob extends React.Component {
                                             selected={this.state.values.from}
                                             onChange={this.handleInputChangeDateFrom}
                                             name="from"
-                                            dateFormat="MM/dd/yyyy" 
-                                            className="form-control"/>
-                                            
+                                            dateFormat="MM/dd/yyyy"
+                                            className="form-control" />
+
                                     </div>
                                     <div className="p-2 col-example text-left">
                                         <label>End Date</label><br />
@@ -141,7 +145,7 @@ class PostJob extends React.Component {
                                 <div className="form-group" >
                                     <label className="font-increase-label">Description</label>
                                     <textarea onChange={this.handleInputChange} name="description" className="form-control" rows={5} placeholder="Description" />
-                                    
+
                                 </div>
                                 <Button onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>

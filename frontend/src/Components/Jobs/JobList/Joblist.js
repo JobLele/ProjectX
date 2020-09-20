@@ -16,9 +16,6 @@ class JobList extends Component {
             err: null,
             msg: null,
         }
-        if (sessionStorage.getItem("logged") != null && sessionStorage.getItem("logged") == "true") {
-            console.log(sessionStorage.getItem("id"));
-        }
         this.count = 0;
         this.getData = this.getData.bind(this);
         this.previousGetData = this.previousGetData.bind(this);
@@ -34,6 +31,9 @@ class JobList extends Component {
             msg: data.msg
         })
         console.log(this.state.values);
+        setTimeout(function() {
+            console.log(localStorage.getItem('id'));
+        }, 50);
     }
 
     componentDidMount() {
@@ -65,7 +65,7 @@ class JobList extends Component {
 
     render() {
         const MAX_LENGTH = 250
-        if (this.state.msg == "ID Job Procured" && this.state.err == null) {
+        if (this.state.msg === "ID Job Procured" && this.state.err === null) {
             return (
                 <div>
                     <Container>

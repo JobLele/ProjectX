@@ -27,10 +27,10 @@ class Login extends React.Component{
                 [e.target.name] : e.target.value
             }
         });
+        console.log(this.state.values);
     }
     submit(e){
-        e.preventdefault();
-        
+        console.log(this.state.values);
         fetch("http://localhost:2000/login", {
             method: 'POST',
             body: JSON.stringify(this.state.values),
@@ -50,12 +50,19 @@ class Login extends React.Component{
             else{
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
-                sessionStorage.setItem("logged", "true");
-                sessionStorage.setItem("id", data.obj._id.toString());
+                localStorage.setItem("logged", "true");
+                localStorage.setItem("id", data.obj._id.toString());
+                console.log(localStorage.getItem('id'));
                 window.location.href="/jobware"
             }
            
         })
+        .catch(err => {
+            console.log("mkbmc");
+            console.log(err);
+        })
+        
+        // e.preventdefault();
     }
     render(){
     return(<div><center>

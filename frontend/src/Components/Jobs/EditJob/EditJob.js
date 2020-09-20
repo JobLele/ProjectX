@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { GoogleComponent } from 'react-google-location'
-import { useParams } from 'react-router-dom';
 const API_KEY = "AIzaSyBG0T-DKPFzsOMPmPVa0zzOZ1bYof9858A";
 
 class EditJob extends React.Component {
@@ -125,7 +124,7 @@ class EditJob extends React.Component {
         })
     }
     render() {
-        if (this.state.msg == "ID Job Procured" && this.state.err == null) {
+        if (this.state.msg === "ID Job Procured" && this.state.err === null) {
             var edit_job=this.state.values; 
             console.log("sainya2",edit_job)
         return (

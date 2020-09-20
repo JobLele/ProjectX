@@ -46,9 +46,15 @@ class JobList extends Component {
     previousGetData(event) {
         event.preventDefault();
         this.count = this.count - 1;
-        fetch(`http://localhost:2000/jobs/${this.count}`)
+        if(this.count>=0){
+            fetch(`http://localhost:2000/jobs/${this.count}`)
             .then(res => res.json())
             .then(data => { this.getData(data) })
+        }
+        else{
+            this.count=this.count+1;
+        }
+       
     }
     nextGetData(e) {
         e.preventDefault();

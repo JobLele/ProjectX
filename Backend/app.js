@@ -438,8 +438,7 @@ app.get("/jobs/:offset", function(req, res) {
   if (offset == null) {
     offset = 0;
   }
-  
-  Job.find({}).sort('-postedOn').exec(function(err, jobs) {
+  Job.find({}).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
     if (err) {
      // console.log("A");
       res.json({
@@ -468,7 +467,7 @@ app.get("/jobs/:offset", function(req, res) {
         });
       }
     }
-  }).skip(offset * 10).limit(10);
+  })
 });
 
 app.get("/jobs/:filter/:value/:offset", function(req, res) {

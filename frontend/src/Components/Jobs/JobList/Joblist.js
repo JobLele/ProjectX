@@ -30,7 +30,7 @@ class JobList extends Component {
             err: data.err,
             msg: data.msg
         })
-        console.log(this.state.values.jobs);
+        console.log(this.state.values);
     }
 
     componentDidMount() {

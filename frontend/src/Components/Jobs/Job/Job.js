@@ -114,9 +114,9 @@ class Job extends Component {
             )
         }
         else {
-            return (<div>
+            return (<Container>
                 {this.state.err}
-            </div>)
+                </Container>)
         }
 
 

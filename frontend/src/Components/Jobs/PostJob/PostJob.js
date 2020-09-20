@@ -104,7 +104,7 @@ class PostJob extends React.Component {
 
                                 <div className="form-group">
                                     <label className="font-increase-label">Job Title</label>
-                                    <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange} />
+                                    <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange} required={true}/>
                                 </div>
                                 <div className="form-group">
                                     <label className="font-increase-label">Salary</label>

@@ -27,6 +27,7 @@ class Login extends React.Component{
                 [e.target.name] : e.target.value
             }
         });
+        console.log(this.state.values);
     }
 
     handleValidation(){
@@ -49,6 +50,7 @@ class Login extends React.Component{
         e.preventdefault();
         if(this.handleValidation()){
             alert("Form submitted");
+        console.log(this.state.values);
         fetch("http://localhost:2000/login", {
             method: 'POST',
             body: JSON.stringify(this.state.values),
@@ -68,13 +70,23 @@ class Login extends React.Component{
             else{
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
+                localStorage.setItem("logged", "true");
+                localStorage.setItem("id", data.obj._id.toString());
+                console.log(localStorage.getItem('id'));
                 window.location.href="/jobware"
             }
            
         })
+        .catch(err => {
+            console.log("mkbmc");
+            console.log(err);
+        })
     }else{
         alert("Form has errors.")
      }
+        
+        
+        // e.preventdefault();
     }
     render(){
     return(<div><center>

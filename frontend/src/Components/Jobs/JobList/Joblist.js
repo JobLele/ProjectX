@@ -16,6 +16,9 @@ class JobList extends Component {
             err: null,
             msg: null,
         }
+        if (sessionStorage.getItem("logged") != null && sessionStorage.getItem("logged") == "true") {
+            console.log(sessionStorage.getItem("id"));
+        }
         this.count=0;
         this.getData = this.getData.bind(this);
         this.previousGetData=this.previousGetData.bind(this);

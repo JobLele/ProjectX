@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Modal from 'react-bootstrap/Modal'
 import './Job.css';
 
 class Job extends Component {
@@ -9,12 +11,15 @@ class Job extends Component {
         super(props);
         this.state = {
             values: {
-                job: null
+                view_job: null
             },
             err: null,
-            msg: null
+            msg: null,
+            show: false
         }
         this.getData = this.getData.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleShow = this.handleShow.bind(this);
     }
 
     componentDidMount() {
@@ -23,6 +28,9 @@ class Job extends Component {
         fetch(`http://localhost:2000/job/${id}`)
             .then(res => res.json())
             .then(data => { this.getData(data) })
+
+
+        console.log(this.state.values.view_job);
 
     }
     getData = (data) => {
@@ -35,6 +43,16 @@ class Job extends Component {
         })
         console.log(this.state.values.job);
     }
+    handleClose = () => {
+        this.setState({
+            show: false
+        })
+    }
+    handleShow = () => {
+        this.setState({
+            show: true
+        })
+    }
     render() {
         if (this.state.msg == "ID Job Procured" && this.state.err == null) {
             var view_job = this.state.values.job;
@@ -45,7 +63,7 @@ class Job extends Component {
                             <div className="date-box">{new Date(view_job.postedOn).toLocaleDateString()}</div>
                             <Card.Img variant="top" className="img-box" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
                             <Card.Body>
-                                <Card.Title>Cook</Card.Title>
+                                <Card.Title>{view_job.title}</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">{new Date(view_job.duration[0]).toLocaleDateString()} - {new Date(view_job.duration[1]).toLocaleDateString()}</Card.Subtitle>
                                 <Card.Subtitle className="lg-2 salary">₹{view_job.salary}/day</Card.Subtitle>
                                 <Card.Text>
@@ -55,8 +73,31 @@ class Job extends Component {
                                     <div className="bottom-box">
                                         <div>7A 1gokuldam society ,mumbai</div>
                                         <div className="edit-delte-box">
-                                            <div className="edit-btn"><Button variant="info" >EDIT</Button></div>
-                                            <div><Button variant="danger">DELETE</Button></div>
+                                            <div className="edit-btn">
+                                                <Link to={`/jobware/${view_job._id}/edit`}><Button variant="info" >EDIT</Button></Link>
+                                            </div>
+                                            <div>
+                                                <Button variant="danger" onClick={this.handleShow}>DELETE</Button>
+
+                                                <Modal show={this.state.show} onHide={this.handleClose} size="lg"
+                                                    aria-labelledby="contained-modal-title-vcenter"
+                                                    centered>
+                                                    <Modal.Header closeButton>
+                                                        <Modal.Title>{`Delete job : ${view_job.title}`}</Modal.Title>
+                                                    </Modal.Header>
+                                                    <Modal.Body>Are you sure you want to delete this job?</Modal.Body>
+                                                    <Modal.Footer>
+                                                        <Button variant="light" onClick={this.handleClose}>
+                                                            No
+                                                        </Button>
+                                                        <Link to={`/jobware/${view_job._id}/delete`}>
+                                                            <Button variant="danger" onClick={this.handleClose}>
+                                                                Yes
+                                                        </Button>
+                                                        </Link>
+                                                    </Modal.Footer>
+                                                </Modal>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -65,15 +106,21 @@ class Job extends Component {
                         </Card>
                     </div>
                 </Container>
+
+
+
+
+
             )
         }
         else {
-            return (
-                <div>
-                    err
-                </div>
-            )
+            return (<div>
+                {this.state.err}
+            </div>)
         }
+
+
+
     }
 }
 export default Job;

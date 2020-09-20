@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import './Joblist.css';
 
 class JobList extends Component {
-   
+
     constructor(props) {
         super(props);
         this.state = {
@@ -16,10 +16,10 @@ class JobList extends Component {
             err: null,
             msg: null,
         }
-        this.count=0;
+        this.count = 0;
         this.getData = this.getData.bind(this);
-        this.previousGetData=this.previousGetData.bind(this);
-        this.nextGetData=this.nextGetData.bind(this);
+        this.previousGetData = this.previousGetData.bind(this);
+        this.nextGetData = this.nextGetData.bind(this);
     }
 
     getData = (data) => {
@@ -42,19 +42,19 @@ class JobList extends Component {
             .then(data => { this.getData(data) })
 
     }
-    previousGetData(event){
+    previousGetData(event) {
         event.preventDefault();
-        this.count=this.count-1;
+        this.count = this.count - 1;
         fetch(`http://localhost:2000/jobs/${this.count}`)
-        .then(res => res.json())
-        .then(data => {  this.getData(data) })
+            .then(res => res.json())
+            .then(data => { this.getData(data) })
     }
-    nextGetData(e){
+    nextGetData(e) {
         e.preventDefault();
-        this.count=this.count+1;
+        this.count = this.count + 1;
         fetch(`http://localhost:2000/jobs/${this.count}`)
-        .then(res => res.json())
-        .then(data => {  this.getData(data) })
+            .then(res => res.json())
+            .then(data => { this.getData(data) })
     }
 
     render() {
@@ -105,7 +105,7 @@ class JobList extends Component {
                         </div>
                         <div className="next-previous-box">
                             <Button onClick={this.previousGetData} variant="outline-dark" >{`<`}</Button>
-                            <Button  onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>
+                            <Button onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>
                         </div>
 
                     </Container>
@@ -114,18 +114,18 @@ class JobList extends Component {
 
             )
         }
-        else if (this.state.err != null) {
+        else  {
             return (
-                <div>
-                    <h1>err</h1>
-                </div>
+                <Container>
+                    <h1>{this.state.err}</h1>
+                    <div className="next-previous-box">
+                        <Button onClick={this.previousGetData} variant="outline-dark" >{`<`}</Button>
+                        <Button onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>
+                    </div>
+                </Container>
             )
         }
-        else {
-            return (
-                <div>NoJobExist</div>
-            )
-        }
+        
     }
 }
 

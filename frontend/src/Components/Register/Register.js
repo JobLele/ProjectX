@@ -15,23 +15,56 @@ class Register extends React.Component {
             },
             err: null,
             msg: null,
-            obj: null
+            obj: null,
+            fields: {},
+            errors: {}
         };
         this.submit = this.submit.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
+        //this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleValidation = this.handleValidation.bind(this);
     }
 
-    handleInputChange(e) {
+    handleInputChange(field,e) {
+        let fields = this.state.fields;
+            fields[field] = e.target.value;        
+            this.setState({fields});
         this.setState({
+            fields,
             values : {
                 ...this.state.values,
                 [e.target.name] : e.target.value
             }
         });
     }
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
 
+        //Name
+        if(!fields["name"]){
+           formIsValid = false;
+           errors["name"] = "Cannot be empty";
+        }if(!fields["email"]){
+            formIsValid = false;
+            errors["email"] = "Cannot be empty";
+         }
+         if(!fields["password"]){
+            formIsValid = false;
+            errors["password"] = "Cannot be empty";
+         }
+         if(!fields["number"]){
+            formIsValid = false;
+            errors["number"] = "Cannot be empty";
+         }
+         this.setState({errors: errors});
+         console.log(this.state.errors);
+           return formIsValid;
+        }
     submit(e) {
         e.preventDefault();
+        if(this.handleValidation()){
+        alert("Form submitted");
         fetch("http://localhost:2000/register", {
             method: 'POST',
             body: JSON.stringify(this.state.values),
@@ -55,6 +88,9 @@ class Register extends React.Component {
             }
             
         })
+    }else{
+        alert("Form has errors.")
+     }
     }
 
     render () {
@@ -67,21 +103,29 @@ class Register extends React.Component {
             <Card.Body>
                     <div className="form-group">
                         <label>Name</label>
-                        <input type="text" onChange={this.handleInputChange} name="name" className="form-control" placeholder="Enter name" />
+                        <input type="text" onChange={this.handleInputChange.bind(this,"name")} name="name" className="form-control" placeholder="Enter name" required />
+                        <span style={{color: "red"}}>{this.state.errors["name"]}</span>
+                    <br/>
                     </div>
                     <div className="form-group">
                         <label>Email address</label>
-                        <input type="email" onChange={this.handleInputChange} name="email" className="form-control" placeholder="Enter email" />
+                        <input type="email" onChange={this.handleInputChange.bind(this,"email")} name="email" className="form-control" placeholder="Enter email" />
+                        <span style={{color: "red"}}>{this.state.errors["email"]}</span>
+                        <br/>
                     </div>
     
                     <div className="form-group">
                         <label>Password</label>
-                        <input type="password" onChange={this.handleInputChange} name="password" className="form-control" placeholder="Enter password" />
+                        <input type="password" onChange={this.handleInputChange.bind(this,"password")} name="password" className="form-control" placeholder="Enter password" />
+                        <span style={{color: "red"}}>{this.state.errors["password"]}</span>
+                              <br/>
                     </div>
                     
                     <div className="form-group">
                         <label>Number</label>
-                        <input type="number" onChange={this.handleInputChange} name="number" className="form-control" placeholder="Enter number" />
+                        <input type="number" onChange={this.handleInputChange.bind(this,"number")} name="number" className="form-control" placeholder="Enter number" />
+                        <span style={{color: "red"}}>{this.state.errors["number"]}</span>
+                              <br/>
                     </div>
                     {/* <div className="form-group">
                         <label>Qualification</label>

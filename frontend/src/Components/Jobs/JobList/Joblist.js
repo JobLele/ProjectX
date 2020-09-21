@@ -37,6 +37,7 @@ class JobList extends Component {
     }
 
     componentDidMount() {
+        //<h1>hello</h1>
         fetch(`http://localhost:2000/jobs/${this.count}`)
             .then(res => res.json())
             .then(data => { this.getData(data) })
@@ -45,9 +46,15 @@ class JobList extends Component {
     previousGetData(event) {
         event.preventDefault();
         this.count = this.count - 1;
-        fetch(`http://localhost:2000/jobs/${this.count}`)
+        if(this.count>=0){
+            fetch(`http://localhost:2000/jobs/${this.count}`)
             .then(res => res.json())
             .then(data => { this.getData(data) })
+        }
+        else{
+            this.count=this.count+1;
+        }
+       
     }
     nextGetData(e) {
         e.preventDefault();
@@ -59,7 +66,7 @@ class JobList extends Component {
 
     render() {
         const MAX_LENGTH = 250
-        if (this.state.msg == "ID Job Procured" && this.state.err == null) {
+        if (this.state.msg === "ID Job Procured" && this.state.err === null) {
             return (
                 <div>
                     <Container>
@@ -128,5 +135,5 @@ class JobList extends Component {
         
     }
 }
-
+//abc
 export default JobList

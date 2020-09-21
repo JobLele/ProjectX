@@ -20,6 +20,7 @@ class PostJob extends React.Component {
                 to: new Date(),
                 x: 0,
                 y: 0,
+                by : "",
                 place:null
             },
             err: null,
@@ -35,10 +36,28 @@ class PostJob extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
+    componentDidMount () {
+        this.setState({
+            values: {
+                ...this.state.values,
+                by : localStorage.getItem('id')
+            }
+        });
+    }
+
     handleInputChange = (field, e) => {
         let fields = this.state.fields;
             fields[field] = e.target.value;        
             this.setState({fields});
+        this.setState({
+            values: {
+                ...this.state.values,
+                [e.target.name]: e.target.value
+            }
+        });
+    }
+
+    handleInputChange = (e) => {
         this.setState({
             values: {
                 ...this.state.values,
@@ -53,8 +72,6 @@ class PostJob extends React.Component {
                 from: e
             }
         })
-
-
     }
 
     handleInputChangeDateTo = (e) => {

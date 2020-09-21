@@ -103,7 +103,7 @@ class Register extends React.Component {
             <Card.Body>
                     <div className="form-group">
                         <label>Name</label>
-                        <input type="text" onChange={this.handleInputChange.bind(this,"name")} name="name" className="form-control" placeholder="Enter name" required />
+                        <input type="text" onChange={this.handleInputChange.bind(this,"name")} name="name" className="form-control" placeholder="Enter name" />
                         <span style={{color: "red"}}>{this.state.errors["name"]}</span>
                     <br/>
                     </div>

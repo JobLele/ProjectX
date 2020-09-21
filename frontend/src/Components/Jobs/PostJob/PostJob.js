@@ -24,15 +24,21 @@ class PostJob extends React.Component {
             },
             err: null,
             msg: null,
-            obj: null
+            obj: null,
+            fields: {},
+            errors: {}
         };
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleValidation = this.handleValidation.bind(this);
+        //this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputChangeDateFrom = this.handleInputChangeDateFrom.bind(this);
         this.handleInputChangeDateTo = this.handleInputChangeDateTo.bind(this);
         this.submit = this.submit.bind(this);
     }
 
-    handleInputChange = (e) => {
+    handleInputChange = (field, e) => {
+        let fields = this.state.fields;
+            fields[field] = e.target.value;        
+            this.setState({fields});
         this.setState({
             values: {
                 ...this.state.values,
@@ -65,9 +71,31 @@ class PostJob extends React.Component {
         }
 
     }
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
 
+        //Name
+        if(!fields["title"]){
+           formIsValid = false;
+           errors["title"] = "Cannot be empty";
+        }if(!fields["salary"]){
+            formIsValid = false;
+            errors["salary"] = "Cannot be empty";
+         }
+         if(!fields["description"]){
+            formIsValid = false;
+            errors["description"] = "Cannot be empty";
+         }
+         this.setState({errors: errors});
+         console.log(this.state.errors);
+           return formIsValid;
+        }
     submit(e) {
         // e.preventdefault();
+        if(this.handleValidation()){
+            alert("Form submitted");
         console.log(this.state.values);
         fetch("http://localhost:2000/job", {
             method: 'POST',
@@ -91,6 +119,9 @@ class PostJob extends React.Component {
                 this.setState({ obj: data.obj });
                 console.log(this.state.obj);
             })
+        }else{
+            alert("Form has errors.")
+         }
     }
 
     render() {
@@ -106,11 +137,15 @@ class PostJob extends React.Component {
 
                                 <div className="form-group">
                                     <label className="font-increase-label">Job Title</label>
-                                    <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange} required={true} />
+                                    <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange.bind(this,"title")} required={true} />
+                                    <span style={{color: "red"}}>{this.state.errors["title"]}</span>
+                                    <br/>                          
                                 </div>
                                 <div className="form-group">
                                     <label className="font-increase-label">Salary</label>
-                                    <input type="number" id="salary" name="salary" className="form-control" onChange={this.handleInputChange}></input>
+                                    <input type="number" id="salary" name="salary" className="form-control" onChange={this.handleInputChange.bind(this,"salary")}></input>
+                                    <span style={{color: "red"}}>{this.state.errors["salary"]}</span>
+                                    <br/>          
                                 </div>
 
                                 <div className="form-group">
@@ -144,8 +179,9 @@ class PostJob extends React.Component {
                                 </div>
                                 <div className="form-group" >
                                     <label className="font-increase-label">Description</label>
-                                    <textarea onChange={this.handleInputChange} name="description" className="form-control" rows={5} placeholder="Description" />
-
+                                    <textarea onChange={this.handleInputChange.bind(this,"description")} name="description" className="form-control" rows={5} placeholder="Description" />
+                                    <span style={{color: "red"}}>{this.state.errors["description"]}</span>
+                                    <br/>
                                 </div>
                                 <Button onClick={this.submit} variant="dark" className="btn btn-block">Post Job</Button>
                             </Card.Body>

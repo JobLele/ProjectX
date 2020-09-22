@@ -34,6 +34,10 @@ class PostJob extends React.Component {
     }
 
     componentDidMount () {
+        if (localStorage.getItem('id') == null || localStorage.getItem('logged') != 'true') {
+            alert("You are not allowd to post a job. Register with us to avail this feature.");
+            window.location.href = "/";
+        }
         this.setState({
             values: {
                 ...this.state.values,

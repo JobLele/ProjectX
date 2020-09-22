@@ -21,14 +21,16 @@ class EditJob extends React.Component {
                 y:0
             },
             err: null,
-            msg: null
+            msg: null,
+            fields: {},
+            errors: {}
         }
         this.getData = this.getData.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
+        //this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputChangeDateFrom = this.handleInputChangeDateFrom.bind(this);
         this.handleInputChangeDateTo = this.handleInputChangeDateTo.bind(this);
         this.submit = this.submit.bind(this);
-
+        this.handleValidation = this.handleValidation.bind(this);
     }
 
     componentDidMount(){
@@ -56,7 +58,10 @@ class EditJob extends React.Component {
         })
         console.log(this.state.values);
     }
-    handleInputChange = (e) => {
+    handleInputChange = (field, e) => {
+        let fields = this.state.fields;
+            fields[field] = e.target.value;        
+            this.setState({fields});
         this.setState({
             values: {
                 ...this.state.values,
@@ -72,7 +77,27 @@ class EditJob extends React.Component {
             }
         })
     }
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
 
+        //Name
+        if(!fields["title"]){
+           formIsValid = false;
+           errors["title"] = "Cannot be empty";
+        }if(!fields["salary"]){
+            formIsValid = false;
+            errors["salary"] = "Cannot be empty";
+         }
+         if(!fields["description"]){
+            formIsValid = false;
+            errors["description"] = "Cannot be empty";
+         }
+         this.setState({errors: errors});
+         console.log(this.state.errors);
+           return formIsValid;
+        }
     handleInputChangeDateTo = (e) => {
         if (this.state.values.from > e) {
             console.log("end date cant be lesser than start date");
@@ -89,6 +114,8 @@ class EditJob extends React.Component {
     }
 
     submit=()=>{
+        if(this.handleValidation()){
+            alert("Form submitted");
         var updated_job={
             title:this.state.values.title,
             salary:this.state.values.salary,
@@ -122,6 +149,9 @@ class EditJob extends React.Component {
             this.setState({obj : data.obj});
             console.log(this.state.obj);
         })
+    }else{
+        alert("Form has errors.")
+     }
     }
     render() {
         if (this.state.msg === "ID Job Procured" && this.state.err === null) {
@@ -139,11 +169,15 @@ class EditJob extends React.Component {
 
                                 <div className="form-group">
                                     <label className="font-increase-label">Job Title</label>
-                                    <input type="text" name="title" className="form-control" value={edit_job.title} onChange={this.handleInputChange}  placeholder="Job Title"  />
+                                    <input type="text" name="title" className="form-control" value={edit_job.title} onChange={this.handleInputChange.bind(this,"title")}  placeholder="Job Title"  />
+                                    <span style={{color: "red"}}>{this.state.errors["title"]}</span>
+                                    <br/>
                                 </div>
                                 <div className="form-group">
                                     <label className="font-increase-label">Salary</label>
-                                    <input type="number" id="salary" name="salary"value={edit_job.salary} onChange={this.handleInputChange}  className="form-control"></input>
+                                    <input type="number" id="salary" name="salary"value={edit_job.salary} onChange={this.handleInputChange.bind(this,"salary")}  className="form-control"></input>
+                                    <span style={{color: "red"}}>{this.state.errors["salary"]}</span>
+                                    <br/>
                                 </div>
 
                                 <div className="form-group">
@@ -180,8 +214,9 @@ class EditJob extends React.Component {
                                 </div>
                                 <div className="form-group" >
                                     <label className="font-increase-label">Description</label>
-                                    <textarea  name="description" value={edit_job.description} onChange={this.handleInputChange} className="form-control" rows={5} placeholder="Description" />
-
+                                    <textarea  name="description" value={edit_job.description} onChange={this.handleInputChange.bind(this,"description")} className="form-control" rows={5} placeholder="Description" />
+                                    <span style={{color: "red"}}>{this.state.errors["description"]}</span>
+                                    <br/>
                                 </div>
                                 <Button  variant="dark"onClick={this.submit} className="btn btn-block">Edit Job</Button>
                             </Card.Body>

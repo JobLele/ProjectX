@@ -14,20 +14,26 @@ class Login extends React.Component{
             },
             err:null,
             msg:null,
-            obj:null
+            obj:null,
+            fields: {},
+            errors: {}
         };
         this.submit = this.submit.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
+        //this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleValidation = this.handleValidation.bind(this);
     }
 
-    handleInputChange(e){
+    handleInputChange(field,e) {
+        let fields = this.state.fields;
+            fields[field] = e.target.value;        
+            this.setState({fields});
         this.setState({
-            values:{
+            fields,
+            values : {
                 ...this.state.values,
                 [e.target.name] : e.target.value
             }
         });
-        console.log(this.state.values);
     }
 
     handleValidation(){
@@ -43,7 +49,9 @@ class Login extends React.Component{
             formIsValid = false;
             errors["password"] = "Cannot be empty";
          }
-         
+         this.setState({errors: errors});
+         console.log(this.state.errors);
+           return formIsValid;
         }
 
     submit(e){
@@ -98,14 +106,14 @@ class Login extends React.Component{
         <Card.Body>
                 <div className="form-group">
                     <label>Email address</label>
-                    <input type="email" onChange={this.handleInputChange} name="email" className="form-control" placeholder="Enter email" />
+                    <input type="email" onChange={this.handleInputChange.bind(this,"email")} name="email" className="form-control" placeholder="Enter email" />
                     <span style={{color: "red"}}>{this.state.errors["email"]}</span><br />
 
                 </div>
 
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" onChange={this.handleInputChange} name = "password" className="form-control" placeholder="Enter password" />
+                    <input type="password" onChange={this.handleInputChange.bind(this,"password")} name = "password" className="form-control" placeholder="Enter password" />
                     <span style={{color: "red"}}>{this.state.errors["password"]}</span><br />
                    
                 </div>

@@ -13,8 +13,8 @@ import Footer from './Components/Footer/Footer';
 
 
 const App = () => {
-  return (<div style={{minheight: '100vh'}}>
-    <div>
+  return (<div className = 'page-container'>
+    <div className="content-wrap">
     <Router>
       <NavBar/>
       <Switch>
@@ -30,11 +30,8 @@ const App = () => {
       </Switch>
     </Router> 
     </div>
-    <div>
-    <footer>
+   
     <Footer />
-    </footer>
-    </div>
     </div>
   );
 }

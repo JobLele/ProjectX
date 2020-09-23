@@ -172,10 +172,15 @@ class Job extends Component {
                                                         <Modal.Title>{`Applicants`}</Modal.Title>
                                                     </Modal.Header>
                                                     <Modal.Body>
-                                                        <div>
-                                                            <a>link to applicant1</a>
-                                                            <div>have experience of 4 years in this job in bikaner at endurance gum worked as personal trainer too.Flexible with timing .Have experience of 4 uears working in cult fit at Bangaluru.</div>
+                                                        <div className="app-box-each">
+                                                            <a className="link-to-applicant">link to applicant1</a>
+                                                            <div className="desc-to-applicant">have experience of 4 years in this job in bikaner at endurance gum worked as personal trainer too.Flexible with timing .Have experience of 4 uears working in cult fit at Bangaluru.</div>
                                                         </div>
+                                                        <div className="app-box-each">
+                                                            <a className="link-to-applicant">link to applicant1</a>
+                                                            <div className="desc-to-applicant">have experience of 4 years in this job in bikaner at endurance gum worked as personal trainer too.Flexible with timing .Have experience of 4 uears working in cult fit at Bangaluru.</div>
+                                                        </div>
+                                                        
                                                     </Modal.Body>
                                                     <Modal.Footer>
                                                         <Button variant="light" onClick={this.handleCloseApplicants}>

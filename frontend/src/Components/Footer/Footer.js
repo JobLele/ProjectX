@@ -9,16 +9,16 @@ function Footer() {
         <div className="row">
           {/* Column1 */}
           <div className="col">
-            <h1>JOBLELE</h1>
-            <h4 className="list-unstyled">
+            <div className="head-footer">JOBWARE</div>
+            <div className="list-unstyled">
               <li>+91 172123314</li>
               <li>Shaitan Gali, Khatra Mahal,</li>
               <li>Andher Nagar (Shamshaan ke saamne)</li>
-            </h4>
+            </div>
           </div>
           {/* Column2 */}
           <div className="col">
-            <h1>Stuff</h1>
+          <div className="head-footer">STUFF</div>
             <ui className="list-unstyled">
               <li>DANK MEMES</li>
               <li>OTHER STUFF</li>
@@ -27,7 +27,7 @@ function Footer() {
           </div>
           {/* Column3 */}
           <div className="col">
-            <h1>WELL ANOTHER COLUMN</h1>
+          <div className="head-footer">WELL ANOTHER COLUMN</div>
             <ui className="list-unstyled">
               <li>TBD</li>
               <li>TBD</li>

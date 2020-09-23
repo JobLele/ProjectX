@@ -17,7 +17,7 @@ class NavbarFunction extends Component {
         };
     }
     componentDidMount(){
-        if ( localStorage.getItem('logged') == 'true') {
+        if ( localStorage.getItem('logged') === 'true') {
            this.setState({
                showLogin:false,
                showLogout:true
@@ -38,7 +38,6 @@ class NavbarFunction extends Component {
                             height="30"
                             className="d-inline-block align-top image-navbar"
                             alt=""
-
                         />
                         Jobware
                     </Navbar.Brand>

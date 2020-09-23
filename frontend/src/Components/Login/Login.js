@@ -1,4 +1,3 @@
-
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -55,7 +54,7 @@ class Login extends React.Component{
         }
 
     submit(e){
-        e.preventdefault();
+        e.preventDefault();
         if(this.handleValidation()){
             alert("Form submitted");
         console.log(this.state.values);
@@ -78,9 +77,11 @@ class Login extends React.Component{
             else{
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
-                localStorage.setItem("logged", "true");
-                localStorage.setItem("id", data.obj._id.toString());
-                console.log(localStorage.getItem('id'));
+                window.localStorage.setItem("logged", "true");
+                window.localStorage.setItem("id", data.obj._id.toString());
+                console.log(window.localStorage.getItem("id"));
+                console.log(window.localStorage.getItem("logged"));
+                alert("shit");
                 window.location.href="/jobware"
             }
            
@@ -124,7 +125,7 @@ class Login extends React.Component{
                         <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                     </div>
                 </div>
-                <Button type="submit" onClick={this.submit} variant="dark" className="btn btn-block">Login</Button>
+                <Button onClick={this.submit} variant="dark" className="btn btn-block">Login</Button>
                  
                 
                 <p className="forgot-password text-right">
@@ -138,5 +139,4 @@ class Login extends React.Component{
     );
     }
 }
-
 export default Login

@@ -55,7 +55,7 @@ class Login extends React.Component{
         }
 
     submit(e){
-        e.preventdefault();
+        e.preventDefault();
         if(this.handleValidation()){
             alert("Form submitted");
         console.log(this.state.values);
@@ -81,6 +81,8 @@ class Login extends React.Component{
                 localStorage.setItem("logged", "true");
                 localStorage.setItem("id", data.obj._id.toString());
                 console.log(localStorage.getItem('id'));
+                console.log(localStorage.getItem('logged'));
+                alert("Redirecting to Jobs");
                 window.location.href="/jobware"
             }
            
@@ -124,7 +126,7 @@ class Login extends React.Component{
                         <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                     </div>
                 </div>
-                <Button type="submit" onClick={this.submit} variant="dark" className="btn btn-block">Login</Button>
+                <Button onClick={this.submit} variant="dark" className="btn btn-block">Login</Button>
                  
                 
                 <p className="forgot-password text-right">

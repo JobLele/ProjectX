@@ -355,6 +355,24 @@ app.delete('/user/:id', function(req, res) {
   })
 })
 
+app.get("/logout", function(req, res) {
+  req.logOut();
+  if (!req.user) {
+    res.json({
+      err : null,
+      msg : "Logged out successfully",
+      obj : null
+    });
+  }
+  else {
+    res.json({
+      err : "Error logging out. Try again",
+      msg : null,
+      obj : null
+    });
+  }
+})
+
 // Job Routes
 
 app.post("/job", function(req, res) {

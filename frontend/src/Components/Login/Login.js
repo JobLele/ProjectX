@@ -77,11 +77,11 @@ class Login extends React.Component{
             else{
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
-                window.localStorage.setItem("logged", "true");
-                window.localStorage.setItem("id", data.obj._id.toString());
-                console.log(window.localStorage.getItem("id"));
-                console.log(window.localStorage.getItem("logged"));
-                alert("shit");
+                localStorage.setItem("logged", "true");
+                localStorage.setItem("id", data.obj._id.toString());
+                console.log(localStorage.getItem('id'));
+                console.log(localStorage.getItem('logged'));
+                alert("Redirecting to Jobs");
                 window.location.href="/jobware"
             }
            

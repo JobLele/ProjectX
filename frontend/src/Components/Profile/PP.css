@@ -13,6 +13,17 @@ body {
     margin: 20px 0;
   }
   
+  .abc{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: "black";
+  }
+
+  .flex-container {
+    display: flex;
+    justify-content: space-around;
+  }
+
   /* Profile sidebar */
   .profile-sidebar {
     padding: 20px 0 10px 0;

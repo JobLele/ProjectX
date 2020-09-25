@@ -33,7 +33,7 @@ mongoose.connect(MongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
-  })
+  }) 
   .then(() => console.log("Connected to mDB"))
   .catch((e) => console.log("Error :", e));
 mongoose.set("useCreateIndex", true);

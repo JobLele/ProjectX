@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import './Register.css'
-class Register extends React.Component {
+import './EditProfile.css'
+class EditProfile extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,7 +10,6 @@ class Register extends React.Component {
             values: {
                 name : "",
                 email : "",
-                password : "",
                 number : 0,
             },
             err: null,
@@ -49,10 +48,7 @@ class Register extends React.Component {
             formIsValid = false;
             errors["email"] = "Cannot be empty";
          }
-         if(!fields["password"]){
-            formIsValid = false;
-            errors["password"] = "Cannot be empty";
-         }
+         
          if(!fields["number"]){
             formIsValid = false;
             errors["number"] = "Cannot be empty";
@@ -115,13 +111,6 @@ class Register extends React.Component {
                         <span style={{color: "red"}}>{this.state.errors["email"]}</span>
                         <br/>
                     </div>
-    
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input type="password" onChange={this.handleInputChange.bind(this,"password")} name="password" className="form-control" placeholder="Enter password" />
-                        <span style={{color: "red"}}>{this.state.errors["password"]}</span>
-                              <br/>
-                    </div>
                     
                     <div className="form-group">
                         <label>Number</label>
@@ -151,4 +140,4 @@ class Register extends React.Component {
 
 }
 
-export default Register
+export default EditProfile

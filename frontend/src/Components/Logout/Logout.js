@@ -19,8 +19,9 @@ class Logout extends Component{
     }
     
     getData=(data)=>{
-        if(this.state.err===null && this.state.msg==="Logged out successfully"){
-            alert(this.state.msg);
+        if(this.state.err===null){
+            alert("yeet");
+            localStorage.setItem("logged", "false");
             localStorage.removeItem("logged");
             localStorage.removeItem("id");
         }
@@ -38,4 +39,4 @@ class Logout extends Component{
         )
     }
 }
-export default DeleteJob
+export default Logout

@@ -443,7 +443,7 @@ app.get("/jobs/:offset", function(req, res) {
   }
   Job.find({}).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
     if (err) {
-     // console.log("A");
+     
       res.json({
         err: err.message,
         msg: null,
@@ -451,9 +451,9 @@ app.get("/jobs/:offset", function(req, res) {
       });
     } else {
       
-     // console.log("B");
+     
       if (jobs.length == 0) {
- //       console.log("D");
+ 
         res.json({
           err: "No jobs exists",
           msg: "",
@@ -462,7 +462,7 @@ app.get("/jobs/:offset", function(req, res) {
       } 
       else {
         
-//        console.log("C");
+
         res.json({
           err: null, 
           msg: "ID Job Procured", 

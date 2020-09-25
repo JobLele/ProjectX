@@ -67,3 +67,15 @@
     border-radius: 18px;
     border: 1px solid #cfcece;
   }
+  .desc-to-applicant{
+    font-size: .9rem;
+    margin-bottom: .5rem;
+  }
+  .link-to-applicant{
+    font-size: 1.3rem;
+    color: gray;
+    font-weight: 600;
+  }
+  .app-box-each{
+    border-bottom:1px solid #dee2e6;;
+  }

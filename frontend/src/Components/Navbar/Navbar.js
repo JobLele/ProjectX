@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -8,7 +8,24 @@ import Nav from 'react-bootstrap/Nav'
 import './Navbar.css';
 import { Link } from 'react-router-dom'
 
-const NavbarFunction = () => {
+class NavbarFunction extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            showLogin:true,
+            showLogout:false
+        };
+    }
+    componentDidMount(){
+        if ( localStorage.getItem('logged') === 'true') {
+           this.setState({
+               showLogin:false,
+               showLogout:true
+           })
+            
+        }
+    }
+    render(){
     return (
         <div className="nav-box">
 
@@ -21,7 +38,6 @@ const NavbarFunction = () => {
                             height="30"
                             className="d-inline-block align-top image-navbar"
                             alt=""
-
                         />
                         Jobware
                     </Navbar.Brand>
@@ -33,10 +49,11 @@ const NavbarFunction = () => {
                         <Button variant="outline-secondary">Search</Button>
                     </Form>
                     <Nav >
-                        <Nav.Link className="login" href="/login">Login / </Nav.Link>
-                        <Nav.Link className="login" href="/register">Register</Nav.Link>
+                        {(this.state.showLogin)&& ( <Nav.Link className="login" href="/login">Login / </Nav.Link>)}
+                        {(this.state.showLogin) && (<Nav.Link className="login" show={this.state.showLogin} href="/register">Register</Nav.Link>)}
+                        {(this.state.showLogout) && (<Nav.Link className="login"  href="/logout">Logout</Nav.Link>)}
                         <Link to='/jobware/postjob'>
-                            <Button variant="outline-secondary" className="postjob">Post Job</Button>
+                            <Button  show={this.state.showLogout} variant="outline-secondary" className="postjob">Post Job</Button>
                         </Link>
 
                     </Nav>
@@ -46,5 +63,6 @@ const NavbarFunction = () => {
 
         </div>
     );
+    }
 }
 export default NavbarFunction;

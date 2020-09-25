@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Cookies from 'universal-cookie';
 import './Login.css';
 class Login extends React.Component{
 
@@ -75,12 +76,11 @@ class Login extends React.Component{
 
             }
             else{
+                const cookies = new Cookies();
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
-                localStorage.setItem("logged", "true");
-                localStorage.setItem("id", data.obj._id.toString());
-                console.log(localStorage.getItem('id'));
-                console.log(localStorage.getItem('logged'));
+                cookies.set('uid', data.obj._id.toString(), { path: '/', secure: "false", strict: "none" });
+                console.log(cookies.get('uid'));
                 alert("Redirecting to Jobs");
                 window.location.href="/jobware"
             }

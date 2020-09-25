@@ -2,6 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import DatePicker from "react-datepicker";
+import Cookies from 'universal-cookie';
 import "react-datepicker/dist/react-datepicker.css";
 import "./postjob.css";
 import { GoogleComponent } from 'react-google-location'
@@ -37,14 +38,16 @@ class PostJob extends React.Component {
     }
 
     componentDidMount () {
-        if (localStorage.getItem('id') == null || localStorage.getItem('logged') != 'true') {
+        const cookies = new Cookies();
+        console.log(cookies.get('uid'));
+        if (!cookies.get('uid')) {
             alert("You are not allowd to post a job. Register with us to avail this feature.");
             window.location.href = "/";
         }
         this.setState({
             values: {
                 ...this.state.values,
-                by : localStorage.getItem('id')
+                by : cookies.get('uid')
             }
         });
     }

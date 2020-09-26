@@ -57,6 +57,8 @@ class Login extends React.Component{
     submit(e){
         e.preventDefault();
         if(this.handleValidation()){
+            if(navigator.cookieEnabled) console.log("yeetttt enable h pr save nhi ho rahi")
+            else console.log("cookie enable hi nhi bc");
             alert("Form submitted");
         console.log(this.state.values);
         fetch("http://localhost:2000/login", {

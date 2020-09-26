@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Cookies from 'universal-cookie';
+import ApplyJob  from '../ApplyJob/ApplyJob'
+import DeleteJob from '../DeleteJob/DeleteJob'
 import './Job.css';
 
 class Job extends Component {
@@ -12,21 +14,17 @@ class Job extends Component {
         super(props);
         this.state = {
             values: {
-                view_job: null
+                job: null
             },
             err: null,
             msg: null,
-            showDelete: false,
-            showApply: false,
-            showApplicants: false
+            showApplicants: false,
+            userLogged: false,
         }
         this.getData = this.getData.bind(this);
-        this.handleCloseDelete = this.handleCloseDelete.bind(this);
-        this.handleShowDelete = this.handleShowDelete.bind(this);
-        this.handleCloseApply = this.handleCloseApply.bind(this);
-        this.handleShowApply = this.handleShowApply.bind(this);
         this.handleShowApplicants = this.handleShowApplicants.bind(this);
-        this.handleCloseAppllicants = this.handleCloseApplicants.bind(this);
+        this.handleCloseApplicants = this.handleCloseApplicants.bind(this);
+      
     }
 
     componentDidMount() {
@@ -37,14 +35,17 @@ class Job extends Component {
             .then(data => { this.getData(data) })
 
 
-        console.log(this.state.values.view_job);
+        console.log(this.state.values.job);
 
     }
     getData = (data) => {
         const cookies = new Cookies();
         console.log(cookies.get('uid'));
-        // Confirm if cookies.get('uid') == data.obj.postedBy. If they are equal set the edit, delete and list of applicants button to visible
-        // Else set apply button as visible
+        if (cookies.get('uid') == data.obj.postedBy) {
+            this.setState({
+                userLogged: true
+            })
+        }
         this.setState({
             values: {
                 job: data.obj
@@ -53,28 +54,9 @@ class Job extends Component {
             msg: data.msg
         })
         console.log(this.state.values.job);
-    }
-    handleCloseDelete = () => {
-        this.setState({
-            showDelete: false
-        })
-    }
-    handleShowDelete = () => {
-        this.setState({
-            showDelete: true
-        })
-    }
-    handleShowApply = () => {
-        this.setState({
-            showApply: true
-        })
-    }
-    handleCloseApply = () => {
-        this.setState({
-            showApply: false
-        })
-    }
 
+    }
+   
     handleCloseApplicants = () => {
         this.setState({
             showApplicants: false
@@ -108,67 +90,15 @@ class Job extends Component {
                                         <div>7A 1gokuldam society ,mumbai</div>
                                         <div className="edit-delte-box">
                                             <div className="edit-btn">
-                                                <Link to={`/jobware/${view_job._id}/edit`}><Button variant="info" >EDIT</Button></Link>
-                                            </div>
-                                            <div className="edit-btn">
-                                                <Button variant="danger" onClick={this.handleShowDelete}>DELETE</Button>
-
-                                                <Modal show={this.state.showDelete} onHide={this.handleCloseDelete} size="lg"
-                                                    aria-labelledby="contained-modal-title-vcenter"
-                                                    centered>
-                                                    <Modal.Header closeButton>
-                                                        <Modal.Title>{`Delete job : ${view_job.title}`}</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>Are you sure you want to delete this job?</Modal.Body>
-                                                    <Modal.Footer>
-                                                        <Button variant="light" onClick={this.handleCloseDelete}>
-                                                            No
-                                                        </Button>
-                                                        <Link to={`/jobware/${view_job._id}/delete`}>
-                                                            <Button variant="danger" onClick={this.handleCloseDelete}>
-                                                                Yes
-                                                        </Button>
-                                                        </Link>
-                                                    </Modal.Footer>
-                                                </Modal>
+                                                {(this.state.userLogged) && (<Link to={`/jobware/${view_job._id}/edit`}><Button variant="info" >EDIT</Button></Link>)}
                                             </div>
 
-                                            <div className="edit-btn">
-                                                <Link ><Button variant="info" onClick={this.handleShowApply} >Apply</Button></Link>
-                                                <Modal show={this.state.showApply} onHide={this.handleCloseApply} size="lg"
-                                                    aria-labelledby="contained-modal-title-vcenter"
-                                                    centered>
-                                                    <Modal.Header closeButton>
-                                                        <Modal.Title>{`Applying for job : ${view_job.title}`}</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>
-                                                        <div className="form-group" >
-                                                            <label className="font-increase-label"></label>
-                                                            <textarea name="description" className="form-control" rows={5} placeholder="Explain why are you worthy for this job , you can mention your working experinece." />
-                                                            {/* <span style={{ color: "red" }}>{this.state.errors["description"]}</span> */}
-                                                            <br />
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label>Contact Number</label>
-                                                            <input type="number" name="number" className="form-control" placeholder="Enter Phone number so that job poster can conatact you." />
-                                                            {/* <span style={{ color: "red" }}>{this.state.errors["number"]}</span> */}
-                                                            <br />
-                                                        </div>
-                                                    </Modal.Body>
-                                                    <Modal.Footer>
-                                                        <Button variant="danger" onClick={this.handleCloseApply}>
-                                                            Cancel
-                                                        </Button>
-                                                        <Button variant="info" onClick={this.handleCloseApply}>
-                                                            Apply
-                                                        </Button>
+                                            {(this.state.userLogged) && (<DeleteJob view_job={view_job}/>)}
 
-                                                    </Modal.Footer>
-                                                </Modal>
-                                            </div>
+                                            {(!this.state.userLogged)&& <ApplyJob view_job={view_job}/>}
 
                                             <div className="edit-btn">
-                                                <Link ><Button variant="info"   onClick={this.handleShowApplicants}>List of Applicants</Button></Link>
+                                                {(this.state.userLogged) && (<Link ><Button variant="info" onClick={this.handleShowApplicants}>List of Applicants</Button></Link>)}
 
                                                 <Modal show={this.state.showApplicants} onHide={this.handleCloseApplicants} size="lg"
                                                     aria-labelledby="contained-modal-title-vcenter"
@@ -185,7 +115,7 @@ class Job extends Component {
                                                             <a className="link-to-applicant">link to applicant1</a>
                                                             <div className="desc-to-applicant">have experience of 4 years in this job in bikaner at endurance gum worked as personal trainer too.Flexible with timing .Have experience of 4 uears working in cult fit at Bangaluru.</div>
                                                         </div>
-                                                        
+
                                                     </Modal.Body>
                                                     <Modal.Footer>
                                                         <Button variant="light" onClick={this.handleCloseApplicants}>

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Cookies from 'universal-cookie';
+
 import './Joblist.css';
 
 class JobList extends Component {
@@ -31,8 +33,11 @@ class JobList extends Component {
             msg: data.msg
         })
         console.log(this.state.values);
+        const cookies = new Cookies();
+
         setTimeout(function() {
             console.log(localStorage.getItem('id'));
+            console.log(cookies.get('uid'));
         }, 50);
     }
 

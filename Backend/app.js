@@ -563,6 +563,9 @@ app.put("/job/:id", function(req, res) {
 //applicants
 app.patch("/job/:id", function(req, res) {
   var id = req.params.id;
+  if (req.body.applicantID == 0) {
+    req.body.explanation += " Phone Number : " + req.body.number;
+  }
   Job.findByIdAndUpdate(id, {
     $push: {applicants : {
       explanation : req.body.explanation,
@@ -579,7 +582,7 @@ app.patch("/job/:id", function(req, res) {
       );
     }
     else {
-      Employ.findByIdAndUpdate(req.body.by, {
+      Employ.findByIdAndUpdate(req.body.applicantID, {
         $push : {appliedFor : updJob._id}
       }, function(err, updEmp) {
         if (err) {
@@ -605,25 +608,58 @@ app.patch("/job/:id", function(req, res) {
 
 app.delete("/job/:id", function(req, res) {
   var id = req.params.id;
-  Job.deleteOne({_id: new mongoose.Types.ObjectId(id)}, function(err, delObj) {
-    if (err) {
-      res.json(
-        {
-          err: err.message,
-          msg: null,
-          obj: null
-        }
-      );
-    }
-    else {
-      res.json(
-        {
-          err: null,
-          msg: "Deleted Successfully",
-          obj: delObj
-        }
-      );
-    }
+  var job = null;
+  Job.findById(req.params.id, function (err, doc) {
+    job = doc;
+    Job.deleteOne({_id: new mongoose.Types.ObjectId(id)}, function(err, delObj) {
+      if (err) {
+        res.json(
+          {
+            err: err.message,
+            msg: null,
+            obj: null
+          }
+        );
+      }
+      else {
+        Employ.findByIdAndUpdate(job.postedBy, {
+          $pull : { "jobsPosted" : job._id }
+        }, function(err, postedBy) {
+          if (err) {
+            res.json({
+              err : "Couldn't delete the id from author's job posted.",
+              msg : null,
+              obj : null
+            });
+          }
+          else {
+            job.applicants.forEach((applicant, index) => {
+              Employ.findByIdAndUpdate(applicant.applicant, {
+                $pull : { "appliedFor" : job._id }
+              }, function(err, applicant) {
+                if (err) {
+                  res.json({
+                    err : "Couldn't delete the id from applicant's job applied for.",
+                    msg : null,
+                    obj : null
+                  });
+                }
+                else {
+                  console.log(applicant._id, job.applicants[job.applicants.length - 1]);
+                  if (index == [job.applicants.length - 1].toString()) {
+                    res.json({
+                      err : null,
+                      msg : "Everything is a fucking sucess",
+                      obj : delObj
+                    })
+                  }
+                }
+              })
+            });
+          }
+        })
+      }
+    });
   });
 });
 

@@ -23,9 +23,7 @@ class Logout extends Component{
         if(this.state.err===null){
             alert("yeet");
             const cookies = new Cookies();
-            localStorage.setItem("logged", "false");
-            localStorage.removeItem("logged");
-            localStorage.removeItem("id");
+            cookies.remove('uid',{ path: '/', secure: "false", strict: "none" });
         }
         else{
             alert(this.state.err);

@@ -7,6 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Cookies from 'universal-cookie';
 import ApplyJob  from '../ApplyJob/ApplyJob'
 import DeleteJob from '../DeleteJob/DeleteJob'
+import Applicants from '../Applicants/Applicants'
 import './Job.css';
 
 class Job extends Component {
@@ -18,12 +19,10 @@ class Job extends Component {
             },
             err: null,
             msg: null,
-            showApplicants: false,
             userLogged: false,
         }
         this.getData = this.getData.bind(this);
-        this.handleShowApplicants = this.handleShowApplicants.bind(this);
-        this.handleCloseApplicants = this.handleCloseApplicants.bind(this);
+      
       
     }
 
@@ -45,6 +44,11 @@ class Job extends Component {
             this.setState({
                 userLogged: true
             })
+            console.log("cookies set");
+        }
+        else{
+            console.log("cookies  not set");
+            console.log("user loogedd",this.state.userLogged)
         }
         this.setState({
             values: {
@@ -57,18 +61,6 @@ class Job extends Component {
 
     }
    
-    handleCloseApplicants = () => {
-        this.setState({
-            showApplicants: false
-        })
-    }
-
-    handleShowApplicants = () => {
-        this.setState({
-            showApplicants: true
-        })
-    }
-
     render() {
         if (this.state.msg === "ID Job Procured" && this.state.err === null) {
             var view_job = this.state.values.job;
@@ -97,38 +89,9 @@ class Job extends Component {
 
                                             {(!this.state.userLogged)&& <ApplyJob view_job={view_job}/>}
 
-                                            <div className="edit-btn">
-                                                {(this.state.userLogged) && (<Link ><Button variant="info" onClick={this.handleShowApplicants}>List of Applicants</Button></Link>)}
+                                            {(this.state.userLogged) && <Applicants view_job={view_job}/>}
 
-                                                <Modal show={this.state.showApplicants} onHide={this.handleCloseApplicants} size="lg"
-                                                    aria-labelledby="contained-modal-title-vcenter"
-                                                    centered>
-                                                    <Modal.Header closeButton>
-                                                        <Modal.Title>{`Applicants`}</Modal.Title>
-                                                    </Modal.Header>
-                                                    <Modal.Body>
-                                                        <div className="app-box-each">
-                                                            <a className="link-to-applicant">link to applicant1</a>
-                                                            <div className="desc-to-applicant">have experience of 4 years in this job in bikaner at endurance gum worked as personal trainer too.Flexible with timing .Have experience of 4 uears working in cult fit at Bangaluru.</div>
-                                                        </div>
-                                                        <div className="app-box-each">
-                                                            <a className="link-to-applicant">link to applicant1</a>
-                                                            <div className="desc-to-applicant">have experience of 4 years in this job in bikaner at endurance gum worked as personal trainer too.Flexible with timing .Have experience of 4 uears working in cult fit at Bangaluru.</div>
-                                                        </div>
 
-                                                    </Modal.Body>
-                                                    <Modal.Footer>
-                                                        <Button variant="light" onClick={this.handleCloseApplicants}>
-                                                            Ok
-                                                        </Button>
-                                                        {/* <Link to={`/jobware/${view_job._id}/delete`}>
-                                                            <Button variant="danger" onClick={this.handleCloseApplicants}>
-                                                                Yes
-                                                        </Button>
-                                                        </Link> */}
-                                                    </Modal.Footer>
-                                                </Modal>
-                                            </div>
                                         </div>
                                     </div>
 

@@ -57,6 +57,8 @@ class Login extends React.Component{
     submit(e){
         e.preventDefault();
         if(this.handleValidation()){
+            if (navigator.cookieEnabled) console.log("yeet Cookies enabled hai pr save ni ho paa rhi");
+            else console.log("cookies enabled hi ni hein bc");
             alert("Form submitted");
         console.log(this.state.values);
         fetch("http://localhost:2000/login", {
@@ -79,7 +81,7 @@ class Login extends React.Component{
                 const cookies = new Cookies();
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
-                cookies.set('uid', data.obj._id.toString(), { path: '/', secure: "false", strict: "none" });
+                cookies.set('uid', data.obj._id.toString(), { path: '/', secure: "false", session: "true", strict: "none" });
                 console.log(cookies.get('uid'));
                 alert("Redirecting to Jobs");
                 window.location.href="/jobware"

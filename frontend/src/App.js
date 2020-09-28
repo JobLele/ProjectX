@@ -11,7 +11,7 @@ import Job from './Components/Jobs/Job/Job';
 import EditJob from './Components/Jobs/EditJob/EditJob';
 import DeleteJob from './Components/Jobs/DeleteJob/DeleteJob';
 import Footer from './Components/Footer/Footer';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
 
 const App = () => {

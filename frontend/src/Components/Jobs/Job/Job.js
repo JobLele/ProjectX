@@ -178,11 +178,11 @@ class Job extends Component {
                                                     </Modal.Header>
                                                     <Modal.Body>
                                                         <div className="app-box-each">
-                                                            <a className="link-to-applicant">link to applicant1</a>
+                                                            <h5 className="link-to-applicant">link to applicant1</h5>
                                                             <div className="desc-to-applicant">have experience of 4 years in this job in bikaner at endurance gum worked as personal trainer too.Flexible with timing .Have experience of 4 uears working in cult fit at Bangaluru.</div>
                                                         </div>
                                                         <div className="app-box-each">
-                                                            <a className="link-to-applicant">link to applicant1</a>
+                                                            <h5 className="link-to-applicant">link to applicant1</h5>
                                                             <div className="desc-to-applicant">have experience of 4 years in this job in bikaner at endurance gum worked as personal trainer too.Flexible with timing .Have experience of 4 uears working in cult fit at Bangaluru.</div>
                                                         </div>
                                                         

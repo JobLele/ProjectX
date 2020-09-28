@@ -9,6 +9,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const MongoURI = process.env.MongoURI || "mongodb://localhost:27017/userDB";
+const Cookies = require('universal-cookie');
 //const MongoURI = "mongodb://localhost:27017/userDB";
 const PORT = process.env.PORT || 2000;
 const app = express();
@@ -386,6 +387,10 @@ app.post("/job", function(req, res) {
     postedBy: req.body.by,
     applicants: []
   })
+  const cookies = new Cookies(req.headers.cookie);
+  console.log(req.header.cookie);
+  console.log(cookies);
+  console.log(cookies.get('uid'));
   job.save((err, doc) => {
     console.log(doc);
     if (err) {

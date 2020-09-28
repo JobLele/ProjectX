@@ -28,7 +28,6 @@ const App = () => {
         <Route path="/jobware/postjob" component={PostJob}></Route>
         <Route path="/jobware/:id" exact component={Job}></Route>
         <Route path="/jobware/:id/edit" component={EditJob}></Route>
-        <Route path="/jobware/:id/delete" component={DeleteJob}></Route>
       </Switch>
     </Router> 
     </div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Cookies from 'universal-cookie';
 import './Logout.css'
 
 class Logout extends Component{
@@ -21,6 +22,7 @@ class Logout extends Component{
     getData=(data)=>{
         if(this.state.err===null){
             alert("yeet");
+            const cookies = new Cookies();
             localStorage.setItem("logged", "false");
             localStorage.removeItem("logged");
             localStorage.removeItem("id");

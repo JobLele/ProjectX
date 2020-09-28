@@ -559,6 +559,8 @@ app.put("/job/:id", function(req, res) {
   });
 });
 
+
+//applicants
 app.patch("/job/:id", function(req, res) {
   var id = req.params.id;
   if (req.body.applicantID == 0) {

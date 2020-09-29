@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Cookies from 'universal-cookie';
+import Container from 'react-bootstrap/Container';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import './Logout.css'
 
 class Logout extends Component{

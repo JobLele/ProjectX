@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import Cookies from 'universal-cookie';
 import ApplyJob  from '../ApplyJob/ApplyJob'
 import DeleteJob from '../DeleteJob/DeleteJob'

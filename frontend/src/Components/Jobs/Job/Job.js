@@ -103,9 +103,11 @@ class Job extends Component {
             )
         }
         else {
-            return (<Container>
-                {this.state.err}
-            </Container>)
+            return ( <Jumbotron fluid>
+                <Container>
+                <h1><center>{this.state.msg}</center></h1>
+                </Container>
+            </Jumbotron>)
         }
     }
 }

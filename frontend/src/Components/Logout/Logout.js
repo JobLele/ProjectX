@@ -34,9 +34,11 @@ class Logout extends Component{
     }
     render(){
         return(
-            <h1>
-            {this.state.msg}
-            </h1>
+            <Jumbotron fluid>
+                <Container>
+                <h1><center>{this.state.msg}</center></h1>
+                </Container>
+            </Jumbotron>
         )
     }
 }

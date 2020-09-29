@@ -127,7 +127,11 @@ class JobList extends Component {
         else  {
             return (
                 <Container>
-                    <h1>{this.state.err}</h1>
+                     <Jumbotron fluid>
+                <Container>
+                <h1><center>{this.state.err}</center></h1>
+                </Container>
+            </Jumbotron>
                     <div className="next-previous-box">
                         <Button onClick={this.previousGetData} variant="outline-dark" >{`<`}</Button>
                         <Button onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>

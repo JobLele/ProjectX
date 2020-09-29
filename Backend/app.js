@@ -36,7 +36,7 @@ mongoose.connect(MongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
-  })
+  }) 
   .then(() => console.log("Connected to mDB"))
   .catch((e) => console.log("Error :", e));
 mongoose.set("useCreateIndex", true);
@@ -195,7 +195,7 @@ app.post("/login", function(req, res) {
     username: req.body.email,
     password: req.body.password
   });
-  console.log("in here");
+  //console.log("in here");
   req.login(user, function(err) {
     console.log(user);
     if (err) {

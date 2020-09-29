@@ -29,11 +29,6 @@ const App = () => {
         <Route path="/jobware/postjob" component={PostJob}></Route>
         <Route path="/jobware/:id" exact component={Job}></Route>
         <Route path="/jobware/:id/edit" component={EditJob}></Route>
-<<<<<<< HEAD
-        <Route path="/jobware/:id/delete" component={DeleteJob}></Route>
-        <Route path="/pp" component={PP}></Route>
-=======
->>>>>>> ac1571c7361a1b98b04ef323158354d1a0fb09a7
       </Switch>
     </Router> 
     </div>

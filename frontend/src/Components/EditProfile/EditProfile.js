@@ -91,8 +91,8 @@ class EditProfile extends React.Component {
      }
     }
 
-    render () {
-        return(<div><center>
+    render () {if(this.state.err !== true){
+        return( <div><center>
             <form>
             <Card className="text-center register-box-card">
             <Card.Header>
@@ -135,7 +135,14 @@ class EditProfile extends React.Component {
                 </form>
                 </center>
         </div>
-        );
+        )}else{
+            return(
+            <Jumbotron fluid>
+            <Container>
+            <h1><center>{this.state.msg}</center></h1>
+            </Container>
+        </Jumbotron> 
+            )}
     }
 
 }

@@ -64,14 +64,6 @@ class PostJob extends React.Component {
         });
     }
 
-    handleInputChange = (e) => {
-        this.setState({
-            values: {
-                ...this.state.values,
-                [e.target.name]: e.target.value
-            }
-        });
-    }
     handleInputChangeDateFrom = (e) => {
         this.setState({
             values: {

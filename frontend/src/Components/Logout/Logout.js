@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Cookies from 'universal-cookie';
 import './Logout.css'
 
 class Logout extends Component{
@@ -21,9 +22,8 @@ class Logout extends Component{
     getData=(data)=>{
         if(this.state.err===null){
             alert("yeet");
-            localStorage.setItem("logged", "false");
-            localStorage.removeItem("logged");
-            localStorage.removeItem("id");
+            const cookies = new Cookies();
+            cookies.remove('uid',{ path: '/', secure: "false", strict: "none" });
         }
         else{
             alert(this.state.err);
@@ -33,9 +33,11 @@ class Logout extends Component{
     }
     render(){
         return(
-            <h1>
-            {this.state.msg}
-            </h1>
+            <Jumbotron fluid>
+                <Container>
+                <h1><center>{this.state.msg}</center></h1>
+                </Container>
+            </Jumbotron>
         )
     }
 }

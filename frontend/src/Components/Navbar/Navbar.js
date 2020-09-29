@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
+import Cookies from 'universal-cookie';
 import FormControl from 'react-bootstrap/FormControl';
 import Nav from 'react-bootstrap/Nav'
 import './Navbar.css';
@@ -17,7 +17,8 @@ class NavbarFunction extends Component {
         };
     }
     componentDidMount(){
-        if ( localStorage.getItem('logged') === 'true') {
+        const cookies=new Cookies();
+        if ( cookies.get('uid')) {
            this.setState({
                showLogin:false,
                showLogout:true

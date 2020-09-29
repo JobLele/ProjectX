@@ -12,7 +12,7 @@ import EditJob from './Components/Jobs/EditJob/EditJob';
 import DeleteJob from './Components/Jobs/DeleteJob/DeleteJob';
 import PP from './Components/Profile/PP.js';
 import Footer from './Components/Footer/Footer';
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 
 
 const App = () => {
@@ -29,8 +29,11 @@ const App = () => {
         <Route path="/jobware/postjob" component={PostJob}></Route>
         <Route path="/jobware/:id" exact component={Job}></Route>
         <Route path="/jobware/:id/edit" component={EditJob}></Route>
+<<<<<<< HEAD
         <Route path="/jobware/:id/delete" component={DeleteJob}></Route>
         <Route path="/pp" component={PP}></Route>
+=======
+>>>>>>> ac1571c7361a1b98b04ef323158354d1a0fb09a7
       </Switch>
     </Router> 
     </div>

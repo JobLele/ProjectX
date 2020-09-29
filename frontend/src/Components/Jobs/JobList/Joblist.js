@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Cookies from 'universal-cookie';
+
 import './Joblist.css';
 
 class JobList extends Component {
@@ -31,8 +33,11 @@ class JobList extends Component {
             msg: data.msg
         })
         console.log(this.state.values);
+        const cookies = new Cookies();
+
         setTimeout(function() {
             console.log(localStorage.getItem('id'));
+            console.log(cookies.get('uid'));
         }, 50);
     }
 
@@ -122,7 +127,11 @@ class JobList extends Component {
         else  {
             return (
                 <Container>
-                    <h1>{this.state.err}</h1>
+                     <Jumbotron fluid>
+                <Container>
+                <h1><center>{this.state.err}</center></h1>
+                </Container>
+            </Jumbotron>
                     <div className="next-previous-box">
                         <Button onClick={this.previousGetData} variant="outline-dark" >{`<`}</Button>
                         <Button onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>

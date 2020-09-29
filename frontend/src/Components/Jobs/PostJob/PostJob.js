@@ -160,8 +160,8 @@ class PostJob extends React.Component {
          }
     }
 
-    render() {
-        return (
+    render() {if(this.state.err !== true){
+        return(
             <div>
                 <center>
                     <form>
@@ -240,7 +240,14 @@ class PostJob extends React.Component {
                     </form>
                 </center>
             </div>
-        );
+        )}else{
+            return(
+            <Jumbotron fluid>
+            <Container>
+            <h1><center>{this.state.msg}</center></h1>
+            </Container>
+        </Jumbotron> 
+            )}
     }
 }
 

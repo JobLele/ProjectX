@@ -71,8 +71,8 @@ class ApplyJob extends Component {
         
         
     
-    render() {
-        return (
+    render() {if(this.state.err !== true){
+        return(
             <div className="edit-btn">
                 <Button variant="info" onClick={this.handleShowApply}>Apply</Button>
                 <form>
@@ -108,7 +108,14 @@ class ApplyJob extends Component {
                     </Modal>
                 </form>
             </div>
-        )
+        )}else{
+            return(
+            <Jumbotron fluid>
+            <Container>
+            <h1><center>{this.state.msg}</center></h1>
+            </Container>
+        </Jumbotron> 
+            )}
     }
 }
 export default ApplyJob;

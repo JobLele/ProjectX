@@ -69,13 +69,15 @@ class Login extends React.Component{
             }
         })
         .then(res => {
+            
             this.setState({ err: false, msg: res.msg });
             return res.json();
         })
         .then(data => {
             if (data.err) {
+                console.log("H")
                 this.setState({err: true, msg: data.err});
-
+                
             }
             else{
                 const cookies = new Cookies();

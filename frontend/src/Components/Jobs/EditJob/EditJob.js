@@ -229,7 +229,11 @@ class EditJob extends React.Component {
         );
         }
         else{
-            return(<div>{this.state.err}</div>)
+            return( <Jumbotron fluid>
+                <Container>
+                <h1><center>{this.state.msg}</center></h1>
+                </Container>
+            </Jumbotron>)
         }
         
     }

@@ -61,7 +61,7 @@ class EditProfile extends React.Component {
         e.preventDefault();
         if(this.handleValidation()){
         alert("Form submitted");
-        fetch("http://localhost:2000/register", {
+        fetch("http://localhost:2000/editprofile", {
             method: 'POST',
             body: JSON.stringify(this.state.values),
             headers: {

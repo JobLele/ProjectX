@@ -192,7 +192,7 @@ app.post("/login", function(req, res) {
     username: req.body.email,
     password: req.body.password
   });
-  console.log("in here");
+  //console.log("in here");
   req.login(user, function(err) {
     console.log(user);
     if (err) {

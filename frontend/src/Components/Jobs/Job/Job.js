@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
+import Cookies from 'universal-cookie';
 import './Job.css';
 
 class Job extends Component {
@@ -40,6 +41,10 @@ class Job extends Component {
 
     }
     getData = (data) => {
+        const cookies = new Cookies();
+        console.log(cookies.get('uid'));
+        // Confirm if cookies.get('uid') == data.obj.postedBy. If they are equal set the edit, delete and list of applicants button to visible
+        // Else set apply button as visible
         this.setState({
             values: {
                 job: data.obj
@@ -202,11 +207,6 @@ class Job extends Component {
                         </Card>
                     </div>
                 </Container>
-
-
-
-
-
             )
         }
         else {
@@ -214,9 +214,6 @@ class Job extends Component {
                 {this.state.err}
             </Container>)
         }
-
-
-
     }
 }
 export default Job;

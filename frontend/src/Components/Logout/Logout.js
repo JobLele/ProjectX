@@ -20,13 +20,11 @@ class Logout extends Component{
     }
     
     getData=(data)=>{
+        console.log(data);
         if(this.state.err===null){
             alert("yeet");
             const cookies = new Cookies();
-            cookies.remove('uid');
-            localStorage.setItem("logged", "false");
-            localStorage.removeItem("logged");
-            localStorage.removeItem("id");
+            cookies.remove('uid',{ path: '/', secure: "false", strict: "none" });
         }
         else{
             alert(this.state.err);

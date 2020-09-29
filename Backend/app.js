@@ -10,16 +10,18 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const MongoURI = process.env.MongoURI || "mongodb://localhost:27017/userDB";
 const Cookies = require('universal-cookie');
+const cookieParser = require('cookie-parser');
+const cookiesMiddleware = require('universal-cookie-express');
 //const MongoURI = "mongodb://localhost:27017/userDB";
 const PORT = process.env.PORT || 2000;
 const app = express();
 // const router = express.Router();
+app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-// app.use("/", router);
 
 app.use(session({
   secret: "projectXJobLele.",
@@ -388,7 +390,7 @@ app.post("/job", function(req, res) {
     applicants: []
   })
   const cookies = new Cookies(req.headers.cookie);
-  console.log(req.header.cookie);
+  console.log(req.headers.cookie);
   console.log(cookies);
   console.log(cookies.get('uid'));
   job.save((err, doc) => {
@@ -425,6 +427,9 @@ app.post("/job", function(req, res) {
 });
 
 app.get("/job/:id", function(req, res) {
+  console.log('Cookies: ', req.cookies);
+  console.log('Signed Cookies: ', req.signedCookies);
+  // console.log(req);
   var id = req.params.id;
   Job.findById(id, function(err, job) {
     if (err) {

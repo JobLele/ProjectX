@@ -566,7 +566,7 @@ app.patch("/job/:id", function(req, res) {
   if (req.body.applicantID == 0) {
     req.body.explanation += " Phone Number : " + req.body.number;
   }
-  Job.findByIdAndUpdate(id, {
+  Job.findByIdAndUpdate(id,{
     $push: {applicants : {
       explanation : req.body.explanation,
       applicant : req.body.applicantID

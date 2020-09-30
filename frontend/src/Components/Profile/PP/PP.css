@@ -23,7 +23,8 @@ body {
 
   .flex-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   /* Profile sidebar */
@@ -43,7 +44,6 @@ body {
   }
   
   .profile-usertitle {
-    text-align: center;
     margin-top: 20px;
   }
   
@@ -66,6 +66,7 @@ body {
     /* text-align: center; */
     margin-top: 10px;
   }
+
   
   .profile-userbuttons .btn {
     text-transform: uppercase;
@@ -123,4 +124,24 @@ body {
     padding: 20px;
     background: #fff;
     min-height: 460px;
+  }
+  .pp-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+   
+  }
+  .pp-box-profile{
+    width: 20%;
+    flex-wrap: wrap;
+  }
+  .pp-box-jobs{
+    width: 80%;
+    flex-wrap: wrap;
+  }
+  .main-box-pp{
+    margin-left: 5rem;
+    margin-right: 5rem;
   }

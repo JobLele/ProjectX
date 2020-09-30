@@ -1,6 +1,9 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import Container from 'react-bootstrap/Container';
+import Cookies from 'universal-cookie';
 import './EditProfile.css'
 class EditProfile extends React.Component {
 
@@ -22,6 +25,30 @@ class EditProfile extends React.Component {
         //this.handleInputChange = this.handleInputChange.bind(this);
         this.handleValidation = this.handleValidation.bind(this);
     }
+    componentDidMount() {
+        const cookies = new Cookies();
+        if (cookies.get('uid')) {
+            console.log("bsdk");
+          const id = cookies.get('uid');
+          fetch(`http://localhost:2000/user/${id}`)
+            .then(res => res.json())
+            .then(data =>  this.getData(data) )
+    
+        }
+      
+    
+      }
+      getData=(data)=>{
+        this.setState({
+            values:{
+                name:data.obj.name,
+                email:data.obj.email,
+                number:data.obj.number
+            },
+            err:data.err,
+            msg:data.msg
+        })
+      }
 
     handleInputChange(field,e) {
         let fields = this.state.fields;
@@ -92,29 +119,31 @@ class EditProfile extends React.Component {
     }
 
     render () {if(this.state.err !== true){
+        const user=this.state.values;
+        console.log("sainyaaaaaaaa",user);
         return( <div><center>
             <form>
             <Card className="text-center register-box-card">
             <Card.Header>
-                    <h3>Register</h3>
+                    <h3>Edit Profile</h3>
             </Card.Header>
             <Card.Body>
                     <div className="form-group">
                         <label>Name</label>
-                        <input type="text" onChange={this.handleInputChange.bind(this,"name")} name="name" className="form-control" placeholder="Enter name" />
+                        <input type="text" onChange={this.handleInputChange.bind(this,"name")} value={user.name} name="name" className="form-control" placeholder="Enter name" />
                         <span style={{color: "red"}}>{this.state.errors["name"]}</span>
                     <br/>
                     </div>
                     <div className="form-group">
                         <label>Email address</label>
-                        <input type="email" onChange={this.handleInputChange.bind(this,"email")} name="email" className="form-control" placeholder="Enter email" />
+                        <input type="email" onChange={this.handleInputChange.bind(this,"email")} value={user.email} name="email" className="form-control" placeholder="Enter email" />
                         <span style={{color: "red"}}>{this.state.errors["email"]}</span>
                         <br/>
                     </div>
                     
                     <div className="form-group">
                         <label>Number</label>
-                        <input type="number" onChange={this.handleInputChange.bind(this,"number")} name="number" className="form-control" placeholder="Enter number" />
+                        <input type="number" onChange={this.handleInputChange.bind(this,"number")} value={user.number}name="number" className="form-control" placeholder="Enter number" />
                         <span style={{color: "red"}}>{this.state.errors["number"]}</span>
                               <br/>
                     </div>
@@ -129,7 +158,7 @@ class EditProfile extends React.Component {
                         </div>
                     </div> */}
     
-                    <Button onClick={this.submit} type="submit" variant="dark" className="btn btn-block">Register</Button>
+                    <Button onClick={this.submit} type="submit" variant="dark" className="btn btn-block">Done</Button>
                     </Card.Body>
                     </Card>
                 </form>

@@ -13,8 +13,6 @@ class PP extends Component {
     this.state = {
       values: {
         user: {},
-        jobsPostedArray:[],
-        jobsAppliedArray:[]
       },
       err: "",
       msg: ""
@@ -29,16 +27,11 @@ class PP extends Component {
         .then(res => res.json())
         .then(data => { this.getData(data) })
 
-      // if(this.state.values.user.jobsPosted.length>0){
-      //   for(let i=0;i<this.state.values.user.jobsPosted.length;i++){
-      //     fetch(`http://localhost:2000/job/${id}`)
-      //   }
-      // }
     }
 
   }
   getData = (data) => {
-    console.log("sainya", data);
+    console.log(data);
     this.setState({
       values: {
         user: data.obj
@@ -58,8 +51,8 @@ class PP extends Component {
       if (this.state.values.user.jobsPosted.length > 0)
         jobsPostedLength = true;
       return (
-    
-         <div className="main-box-pp">
+
+        <div className="main-box-pp">
           {/* <div className="row profile"> */}
           <div className="pp-box">
             {/* <div classNameName="col-md-3"> */}
@@ -85,7 +78,9 @@ class PP extends Component {
                   </div>
                 </div>
                 <div className="profile-userbuttons">
-                  <button type="button" className="btn btn-dark btn-sm">Edit Profile</button>
+                  <Link to={`/jobware/profile/${this.state.values.user._id}/edit`}>
+                    <button type="button" className="btn btn-dark btn-sm">Edit Profile</button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -93,161 +88,109 @@ class PP extends Component {
             <div className="pp-box-jobs">
               <div className="profile-content">
                 <div className="abc">JOBS POSTED</div>
-                 {jobsPostedLength &&
+                {jobsPostedLength &&
                   (
-                        <div className="flex-container">
-                          
-                           <div>
-                            <Card style={{ width: '18rem' }}>
-                              <Card.Img variant="top" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
-                              <Card.Body>
-                                <Card.Title><h3><string>JOB Title</string></h3></Card.Title>
-                                <Card.Text>
+                    <div className="flex-container">
+                      {this.state.values.user.jobsPosted.map(job => (
+                        <div key={job.id} className="individual-card">
+                          <Card style={{ width: '20rem' }}>
+                            <div className="date-box">{new Date(job.postedOn).toLocaleDateString()}</div>
+                            <Card.Img variant="top" className="img-box" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
+                            <Card.Body>
+                              <Card.Title>{job.title}</Card.Title>
+                              <Card.Subtitle className="mb-2 text-muted">{new Date(job.duration[0]).toLocaleDateString()} - {new Date(job.duration[1]).toLocaleDateString()}</Card.Subtitle>
+                              <Card.Subtitle className="lg-2 salary">₹{job.salary}/day</Card.Subtitle>
+                              {job.description > MAX_LENGTH ?
+                                (
+                                  <Card.Text>
+                                    { job.description.substring(0, MAX_LENGTH)}
+                                  </Card.Text>
+                                ) : (
+                                  <Card.Text>
+                                    {job.description}
+                                  </Card.Text>
+                                )
+                              }
+
+                              <Card.Text>
+                                <div className="bottom-box">
+                                  <div>7A 1gokuldam society ,mumbai</div>
                                   <div>
-                                    <span style={{ 'textAlign': 'left' }}>Start Date</span>
-                                    <span style={{ 'textAlign': 'right' }}>End Date</span>
-                                  </div>
-                                  <div>Salary</div>
-                                  <div>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
+                                    <Link to={`/jobware/${job._id}`}>
+                                      <Button variant="dark" >view</Button>
+                                    </Link>
                                   </div>
 
-                                </Card.Text>
-                                <Button type="button" variant="btn btn-dark btn-sm">Edit Job</Button>
-                              </Card.Body>
-                            </Card>
-                          </div> 
-                          <div>
-                            <Card style={{ width: '18rem' }}>
-                              <Card.Img variant="top" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
-                              <Card.Body>
-                                <Card.Title><h3><string>JOB Title</string></h3></Card.Title>
-                                <Card.Text>
-                                  <div>
-                                    <span style={{ 'textAlign': 'left' }}>Start Date</span>
-                                    <span style={{ 'textAlign': 'right' }}>End Date</span>
-                                  </div>
-                                  <div>Salary</div>
-                                  <div>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
-                                  </div>
+                                </div>
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </div>
 
-                                </Card.Text>
-                                <Button type="button" variant="btn btn-dark btn-sm">Edit Job</Button>
-                              </Card.Body>
-                            </Card>
-                          </div> 
-                          <div>
-                            <Card style={{ width: '18rem' }}>
-                              <Card.Img variant="top" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
-                              <Card.Body>
-                                <Card.Title><h3><string>JOB Title</string></h3></Card.Title>
-                                <Card.Text>
-                                  <div>
-                                    <span style={{ 'textAlign': 'left' }}>Start Date</span>
-                                    <span style={{ 'textAlign': 'right' }}>End Date</span>
-                                  </div>
-                                  <div>Salary</div>
-                                  <div>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
-                                  </div>
+                      ))}
+                    </div>
 
-                                </Card.Text>
-                                <Button type="button" variant="btn btn-dark btn-sm">Edit Job</Button>
-                              </Card.Body>
-                            </Card>
-                          </div> 
-                           <div>
-                            <Card style={{ width: '18rem' }}>
-                              <Card.Img variant="top" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
-                              <Card.Body>
-                                <Card.Title><h3><string>JOB Title</string></h3></Card.Title>
-                                <Card.Text>
-                                  <div>
-                                    <span style={{ 'textAlign': 'left' }}>Start Date</span>
-                                    <span style={{ 'textAlign': 'right' }}>End Date</span>
-                                  </div>
-                                  <div>Salary</div>
-                                  <div>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
-                              </div>
 
-                                </Card.Text>
-                                <Button type="button" variant="btn btn-dark btn-sm">Edit Job</Button>
-                              </Card.Body>
-                            </Card>
-                          </div>
-
-                         </div>  
-                     
-                    
-                    )}
+                  )}
 
                 {!jobsPostedLength && (<div>No jobs posted</div>)}
-                <div>
-                  <div className="abc">JOBS Applied</div>
-                  {appliedForLength &&
-                    (
 
-                      <div className="flex-container">
-                        <div>
-                          <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
+                <div className="abc">JOBS Applied</div>
+                {appliedForLength &&
+                  (
+
+                    <div className="flex-container">
+                      {this.state.values.user.appliedFor.map(job => (
+                        <div key={job.id} className="individual-card">
+                          <Card style={{ width: '20rem' }}>
+                            <div className="date-box">{new Date(job.postedOn).toLocaleDateString()}</div>
+                            <Card.Img variant="top" className="img-box" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
                             <Card.Body>
-                              <Card.Title><h3><string>JOB Title</string></h3></Card.Title>
-                              <Card.Text>
-                                <div>
-                                  <span style={{ 'textAlign': 'left' }}>Start Date</span>
-                                  <span style={{ 'textAlign': 'right' }}>End Date</span>
-                                </div>
-                                <div>Salary</div>
-                                <div>
-                                  Some quick example text to build on the card title and make up the bulk of
-                                  the card's content.
-                                </div>
+                              <Card.Title>{job.title}</Card.Title>
+                              <Card.Subtitle className="mb-2 text-muted">{new Date(job.duration[0]).toLocaleDateString()} - {new Date(job.duration[1]).toLocaleDateString()}</Card.Subtitle>
+                              <Card.Subtitle className="lg-2 salary">₹{job.salary}/day</Card.Subtitle>
+                              {job.description > MAX_LENGTH ?
+                                (
+                                  <Card.Text>
+                                    { job.description.substring(0, MAX_LENGTH)}
+                                  </Card.Text>
+                                ) : (
+                                  <Card.Text>
+                                    {job.description}
+                                  </Card.Text>
+                                )
+                              }
 
+                              <Card.Text>
+                                <div className="bottom-box">
+                                  <div>7A 1gokuldam society ,mumbai</div>
+                                  <div>
+                                    <Link to={`/jobware/${job._id}`}>
+                                      <Button variant="dark" >view</Button>
+                                    </Link>
+                                  </div>
+
+                                </div>
                               </Card.Text>
-                              <Button type="button" variant="btn btn-dark btn-sm">Edit Job</Button>
                             </Card.Body>
                           </Card>
                         </div>
-                        <div>
-                          <Card style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="https://png.pngtree.com/png-clipart/20190515/original/pngtree-chef-cooking-fried-chicken-and-delicious-sign-png-image_3635466.jpg" />
-                            <Card.Body>
-                              <Card.Title><h3><string>JOB Title</string></h3></Card.Title>
-                              <Card.Text>
-                                <div>
-                                  <span style={{ 'textAlign': 'left' }}>Start Date</span>
-                                  <span style={{ 'textAlign': 'right' }}>End Date</span>
-                                </div>
-                                <div>Salary</div>
-                                <div>
-                                  Some quick example text to build on the card title and make up the bulk of
-                                  the card's content.
-                                </div>
 
-                              </Card.Text>
-                              <Button type="button" variant="btn btn-dark btn-sm">Edit Job</Button>
-                            </Card.Body>
-                          </Card>
-                        </div>
-                      </div>
-                    )}
-                  {!appliedForLength && (<div>Yet Not applied to any job </div>)}
+                      ))}
+                    </div>
 
-                </div>
+                  )
+                }
+                {!appliedForLength && (<div>Yet Not applied to any job </div>)}
 
               </div>
+
             </div>
           </div>
-          </div>
-        
-      
+        </div>
+
+
+
       );
     }
     else {

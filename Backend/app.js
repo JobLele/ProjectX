@@ -9,16 +9,19 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const MongoURI = process.env.MongoURI || "mongodb://localhost:27017/userDB";
+// const Cookies = require('universal-cookie');
+// const cookieParser = require('cookie-parser');
+// const cookiesMiddleware = require('universal-cookie-express');
 //const MongoURI = "mongodb://localhost:27017/userDB";
 const PORT = process.env.PORT || 2000;
 const app = express();
 // const router = express.Router();
+// app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-// app.use("/", router);
 
 app.use(session({
   secret: "projectXJobLele.",
@@ -59,7 +62,8 @@ const jobSchema = new mongoose.Schema({
   salary: Number,
   description: String,
   postedOn: Date,
-  location: [Number],
+  state : String,
+  region : String,
   duration: [Date],
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -381,11 +385,16 @@ app.post("/job", function(req, res) {
     salary: req.body.salary,
     description: req.body.description,
     postedOn: new Date,
-    location: [req.body.x, req.body.y],
+    state : req.body.state,
+    region : req.body.region,
     duration: [req.body.from, req.body.to],
     postedBy: req.body.by,
     applicants: []
   })
+  // const cookies = new Cookies(req.headers.cookie);
+  // console.log(req.headers.cookie);
+  // console.log(cookies);
+  // console.log(cookies.get('uid'));
   job.save((err, doc) => {
     console.log(doc);
     if (err) {
@@ -420,6 +429,9 @@ app.post("/job", function(req, res) {
 });
 
 app.get("/job/:id", function(req, res) {
+  // console.log('Cookies: ', req.cookies);
+  // console.log('Signed Cookies: ', req.signedCookies);
+  // console.log(req);
   var id = req.params.id;
   Job.findById(id, function(err, job) {
     if (err) {
@@ -486,14 +498,14 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
     search = {
       [filter]: value
     }
-    if (filter == "search") {
+    if (filter == "salary") {
       search = {
-        "search" : {
+        "salary" : {
           $gte : value
         }
       }
     }
-    else if (filter == "from") {
+    if (filter == "from") {
       search = {
         "from" : {
           $gte : value
@@ -507,7 +519,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
         }
       }
     }
-    Job.find(search).sort('-postedOn').skip(offeset*10).limit(10).exec(function(err, jobs) {
+    Job.find(search).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
       if (err) {
         res.json({
           err: err.message,

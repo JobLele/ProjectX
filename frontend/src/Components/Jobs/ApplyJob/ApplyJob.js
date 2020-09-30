@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Cookies from 'universal-cookie';
-
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import Container from 'react-bootstrap/Container';
 
 class ApplyJob extends Component {
     constructor(props) {
@@ -71,8 +72,8 @@ class ApplyJob extends Component {
         
         
     
-    render() {
-        return (
+    render() {if(this.state.err !== true){
+        return(
             <div className="edit-btn">
                 <Button variant="info" onClick={this.handleShowApply}>Apply</Button>
                 <form>
@@ -108,7 +109,14 @@ class ApplyJob extends Component {
                     </Modal>
                 </form>
             </div>
-        )
+        )}else{
+            return(
+            <Jumbotron fluid>
+            <Container>
+            <h1><center>{this.state.msg}</center></h1>
+            </Container>
+        </Jumbotron> 
+            )}
     }
 }
 export default ApplyJob;

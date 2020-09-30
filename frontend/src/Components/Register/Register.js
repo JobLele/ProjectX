@@ -1,7 +1,10 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import './Register.css'
+
 class Register extends React.Component {
 
     constructor(props) {
@@ -96,7 +99,9 @@ class Register extends React.Component {
     }
 
     render () {
-        return(<div><center>
+        if(this.state.err !== true){
+        return( 
+        <div><center>
             <form>
             <Card className="text-center register-box-card">
             <Card.Header>
@@ -145,8 +150,15 @@ class Register extends React.Component {
                     </Card>
                 </form>
                 </center>
-        </div>
-        );
+        </div>)}else{
+            return(
+            <Jumbotron fluid>
+            <Container>
+            <h1><center>{this.state.msg}</center></h1>
+            </Container>
+        </Jumbotron> 
+            )}
+        
     }
 
 }

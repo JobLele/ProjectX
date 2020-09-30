@@ -37,7 +37,6 @@ class JobList extends Component {
         const cookies = new Cookies();
 
         setTimeout(function() {
-            console.log(localStorage.getItem('id'));
             console.log(cookies.get('uid'));
         }, 50);
     }

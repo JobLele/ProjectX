@@ -22,6 +22,7 @@ class Logout extends Component{
     }
     
     getData=(data)=>{
+        console.log(data);
         if(this.state.err===null){
             alert("yeet");
             const cookies = new Cookies();

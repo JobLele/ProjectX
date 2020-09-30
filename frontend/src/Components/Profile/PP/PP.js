@@ -73,8 +73,13 @@ class PP extends Component {
                   <div>
                     {this.state.values.user.number}
                   </div>
+
                   <div style={{ "color": "gray" }}>
                     {this.state.values.user.email}
+                  </div>
+
+                  <div>
+                    {this.state.values.user.qualification}
                   </div>
                 </div>
                 <div className="profile-userbuttons">

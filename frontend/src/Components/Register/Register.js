@@ -145,7 +145,7 @@ class Register extends React.Component {
                     </div>
                    <div className="form-group">
                         <label>Qualification</label>
-                        <input type="text" className="form-control"onChange={this.handleInputChangeQualification} placeholder="Enter qualification" />
+                        <input type="text" className="form-control" name ="qualification" onChange={this.handleInputChangeQualification} placeholder="Enter qualification" />
                     </div> 
                     {/* <div className="form-group text-left">
                         <div className="custom-control custom-checkbox">

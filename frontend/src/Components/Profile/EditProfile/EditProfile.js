@@ -168,7 +168,7 @@ class EditProfile extends React.Component {
                             </div>
                             <div className="form-group">
                                 <label>Qualification</label>
-                                <input type="text" className="form-control" value={user.qualification} onChange={this.handleInputChangeQualification} placeholder="Enter qualification" />
+                                <input type="text" className="form-control" name="qualification" value={user.qualification} onChange={this.handleInputChangeQualification} placeholder="Enter qualification" />
                             </div>
                             {/* <div className="form-group text-left">
                         <div className="custom-control custom-checkbox">

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Cookies from 'universal-cookie';
+import Container from 'react-bootstrap/Container';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import './Logout.css'
 
 class Logout extends Component{
@@ -20,6 +22,7 @@ class Logout extends Component{
     }
     
     getData=(data)=>{
+        console.log(data);
         if(this.state.err===null){
             alert("yeet");
             const cookies = new Cookies();

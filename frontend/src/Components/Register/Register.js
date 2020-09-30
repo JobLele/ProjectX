@@ -1,7 +1,10 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import './Register.css'
+
 class Register extends React.Component {
 
     constructor(props) {

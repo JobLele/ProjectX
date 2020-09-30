@@ -3,7 +3,10 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import DatePicker from "react-datepicker";
 import Cookies from 'universal-cookie';
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import Container from 'react-bootstrap/Container';
 import "react-datepicker/dist/react-datepicker.css";
+import { StateDropdown, RegionDropdown } from 'react-india-state-region-selector';
 import "./postjob.css";
 import { GoogleComponent } from 'react-google-location'
 const API_KEY = "AIzaSyBG0T-DKPFzsOMPmPVa0zzOZ1bYof9858A";
@@ -19,8 +22,8 @@ class PostJob extends React.Component {
                 description: "",
                 from: new Date(),
                 to: new Date(),
-                x: 0,
-                y: 0,
+                state : '',
+                region : '',
                 by : "",
                 place:null
             },
@@ -87,6 +90,25 @@ class PostJob extends React.Component {
         }
 
     }
+
+    selectState (val) {
+        this.setState({
+            values : {
+                ...this.state.values,
+                state : val,
+            }
+        });
+    }
+    
+    selectRegion (val) {
+        this.setState({
+            values : {
+                ...this.state.values,
+                region : val,
+            }
+        });
+    }
+
     handleValidation(){
         let fields = this.state.fields;
         let errors = {};
@@ -164,13 +186,28 @@ class PostJob extends React.Component {
                                     <br/>          
                                 </div>
 
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <label className="font-increase-label">Location</label>
                                     <br />
                                     <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} className="form-control" />
-                                    
+                                </div> */}
 
+                                <div className="form-group">
+                                    <label className="font-increase-label">State</label>
+                                    <br />
+                                    <StateDropdown id="state" name="state" className="form-control"  value={this.state.values.state} onChange={(val) => this.selectState(val)} />
+                                    <span style={{color: "red"}}>{this.state.errors["state"]}</span>
+                                    <br/>        
                                 </div>
+
+                                <div className="form-group">
+                                    <label className="font-increase-label">Region</label>
+                                    <br />
+                                    <RegionDropdown id="region" name="region" className="form-control"  State={this.state.values.state} value={this.state.values.region} onChange={(val) => this.selectRegion(val)} />
+                                    <span style={{color: "red"}}>{this.state.errors["region"]}</span>
+                                    <br/>        
+                                </div>
+
                                 <div className="date-box-postjob form-group">
                                     <div className="p-2 col-example text-left">
                                         <label>Start Date</label><br />

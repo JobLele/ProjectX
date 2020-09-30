@@ -9,10 +9,10 @@ import PostJob from './Components/Jobs/PostJob/PostJob';
 import Register from './Components/Register/Register';
 import Job from './Components/Jobs/Job/Job';
 import EditJob from './Components/Jobs/EditJob/EditJob';
-import DeleteJob from './Components/Jobs/DeleteJob/DeleteJob';
-import PP from './Components/Profile/PP.js';
+import PP from './Components/Profile/PP/PP';
+import EditProfile from './Components/Profile/EditProfile/EditProfile';
 import Footer from './Components/Footer/Footer';
-// import Cookies from 'universal-cookie';
+
 
 
 const App = () => {
@@ -26,9 +26,11 @@ const App = () => {
         <Route path="/login" component={Login}></Route>
         <Route path="/logout" component={Logout}></Route>
         <Route path="/register" component={Register}></Route>
-        <Route path="/jobware/postjob" component={PostJob}></Route>
+        <Route path="/jobware/profile"exact  component={PP}></Route>
+        <Route path="/jobware/postjob"exact component={PostJob}></Route>
         <Route path="/jobware/:id" exact component={Job}></Route>
         <Route path="/jobware/:id/edit" component={EditJob}></Route>
+        <Route path="/jobware/profile/:id/edit" component={EditProfile}></Route>
       </Switch>
     </Router> 
     </div>

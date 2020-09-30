@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Cookies from 'universal-cookie';
+import Jumbotron from 'react-bootstrap/Jumbotron'
 
 import './Joblist.css';
 
@@ -36,7 +37,6 @@ class JobList extends Component {
         const cookies = new Cookies();
 
         setTimeout(function() {
-            console.log(localStorage.getItem('id'));
             console.log(cookies.get('uid'));
         }, 50);
     }

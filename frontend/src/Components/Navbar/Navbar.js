@@ -44,9 +44,11 @@ class NavbarFunction extends Component {
                     </Navbar.Brand>
                 </Link>
                 <Link to='/jobware/profile'>
-                    <Navbar.Brand href="#home">
+                    
+                {(this.state.showLogout)&& ( <Navbar.Brand href="#profile">
                         Profile
-                    </Navbar.Brand>
+                    </Navbar.Brand>)}
+                    
                 </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className="login-box">

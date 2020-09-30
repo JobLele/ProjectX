@@ -270,7 +270,7 @@ app.get("/auth/google/secrets",
 
 app.get('/user/:id', function(req, res) {
   var id = req.params.id;
-  Employ.findById(id, function(err, employ) {
+  Employ.findById(id).populate('jobsPosted').populate('appliedFor').exec(function(err, employ) {
     if (err) {
       res.json({
         err : err.message,

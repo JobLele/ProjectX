@@ -14,7 +14,7 @@ class EditProfile extends React.Component {
                 name: "",
                 email: "",
                 number: 0,
-                qualification:""
+                qualification: ""
             },
             err: null,
             msg: null,
@@ -29,7 +29,7 @@ class EditProfile extends React.Component {
     componentDidMount() {
         const cookies = new Cookies();
         if (cookies.get('uid')) {
-            console.log("bsdk");
+
             const id = cookies.get('uid');
             fetch(`http://localhost:2000/user/${id}`)
                 .then(res => res.json())
@@ -40,15 +40,23 @@ class EditProfile extends React.Component {
 
     }
     getData = (data) => {
+        let fields = this.state.fields;
+        fields["name"] = data.obj.name
+        fields["email"] = data.obj.email
+        fields["number"] = data.obj.number
+        console.log("DATA")
+        console.log(data)
         this.setState({
             values: {
                 name: data.obj.name,
                 email: data.obj.email,
                 number: data.obj.number,
-                qualification:data.obj.qualification
+                qualification: data.obj.qualification
             },
             err: data.err,
-            msg: data.msg
+            msg: data.msg,
+            fields,
+            errors: {}
         })
     }
 
@@ -68,7 +76,7 @@ class EditProfile extends React.Component {
         let fields = this.state.fields;
         let errors = {};
         let formIsValid = true;
-
+        console.log(fields)
         //Name
         if (!fields["name"]) {
             formIsValid = false;
@@ -82,10 +90,9 @@ class EditProfile extends React.Component {
             formIsValid = false;
             errors["number"] = "Cannot be empty";
         }
-        this.setState({ errors: errors });
-        //console.log(this.state.errors);
-        return formIsValid;
+        return  formIsValid
     }
+
     handleInputChangeQualification = (e) => {
         this.setState({
             values: {
@@ -95,10 +102,11 @@ class EditProfile extends React.Component {
         })
     }
     submit(e) {
+        const cookies = new Cookies()
         e.preventDefault();
         if (this.handleValidation()) {
             alert("Form submitted");
-            fetch("http://localhost:2000/editprofile", {
+            fetch("http://localhost:2000/user/" + cookies.get('uid'), {
                 method: 'PUT',
                 body: JSON.stringify(this.state.values),
                 headers: {
@@ -116,10 +124,10 @@ class EditProfile extends React.Component {
 
                     }
                     else {
-                        console.loh("H")
+                        console.log("H")
                         this.setState({ obj: data.obj });
                         console.log(this.state.obj);
-                        window.location.href = "/jobware"
+                        window.location.href = "/jobware/profile"
                     }
 
                 })
@@ -141,26 +149,26 @@ class EditProfile extends React.Component {
                         <Card.Body>
                             <div className="form-group">
                                 <label>Name</label>
-                                <input type="text" onChange={this.handleInputChange.bind(this, "name")} value={user.name} name="name" className="form-control" placeholder="Enter name" />
+                                <input type="text" value={user.name} name="name" onChange={this.handleInputChange.bind(this, "name")} className="form-control" placeholder="Enter name" />
                                 <span style={{ color: "red" }}>{this.state.errors["name"]}</span>
                                 <br />
                             </div>
                             <div className="form-group">
                                 <label>Email address</label>
-                                <input type="email" onChange={this.handleInputChange.bind(this, "email")} value={user.email} name="email" className="form-control" placeholder="Enter email" />
+                                <input type="email" value={user.email} name="email" onChange={this.handleInputChange.bind(this, "email")} className="form-control" placeholder="Enter email" />
                                 <span style={{ color: "red" }}>{this.state.errors["email"]}</span>
                                 <br />
                             </div>
 
                             <div className="form-group">
                                 <label>Number</label>
-                                <input type="number" onChange={this.handleInputChange.bind(this, "number")} value={user.number} name="number" className="form-control" placeholder="Enter number" />
+                                <input type="number" value={user.number} name="number" onChange={this.handleInputChange.bind(this, "number")} className="form-control" placeholder="Enter number" />
                                 <span style={{ color: "red" }}>{this.state.errors["number"]}</span>
                                 <br />
                             </div>
                             <div className="form-group">
                                 <label>Qualification</label>
-                                <input type="text"value={user.qualification} onChange={this.handleInputChangeQualification} className="form-control" placeholder="Enter qualification" />
+                                <input type="text" className="form-control" value={user.qualification} onChange={this.handleInputChangeQualification} placeholder="Enter qualification" />
                             </div>
                             {/* <div className="form-group text-left">
                         <div className="custom-control custom-checkbox">

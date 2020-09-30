@@ -89,7 +89,7 @@ const userSchema = new mongoose.Schema({
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
-const User = new mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
 
@@ -302,6 +302,7 @@ app.put('/user/:id', function(req, res) {
   Employ.findByIdAndUpdate(id, {
     name: req.body.name,
     number: req.body.number,
+    email: req.body.email,
     qualification: req.body.qualification,
   }, function (err, employ) {
     if (err) {
@@ -312,20 +313,22 @@ app.put('/user/:id', function(req, res) {
       });
     }
     else {
-      if (employ) {
-        res.json({
-          err : null,
-          msg : "edited user",
-          obj : employ
-        });
-      }
-      else {
-        res.json({
-          err : err.message,
-          msg : null,
-          obj : null
-        });
-      }
+        User.findOneAndUpdate({email : employ.email}, {email : req.body.email}, function (err, user) {
+          if (err) {
+            res.json({
+              err : err.message,
+              msg : null,
+              obj : employ
+            });
+          }
+          else {
+            res.json({
+              err : null,
+              msg : "edited user",
+              obj : employ
+            });
+          }
+        })
     }
   });
 });
@@ -551,10 +554,10 @@ app.put("/job/:id", function(req, res) {
     title: req.body.title,
     salary: req.body.salary,
     description: req.body.description,
-    location: req.body.location,
-    duration: req.body.duration,
+    state : req.body.state,
+    region : req.body.region,
+    duration: [req.body.from, req.body.to],
   }, function(err, job) {
-
     if (err) {
       res.json({
         err: err.message,

@@ -85,11 +85,12 @@ class EditProfile extends React.Component {
            return formIsValid;
         }
     submit(e) {
+        const cookies = new Cookies()
         e.preventDefault();
         if(this.handleValidation()){
         alert("Form submitted");
-        fetch("http://localhost:2000/editprofile", {
-            method: 'POST',
+        fetch("http://localhost:2000/user/"+cookies.get('uid'), {
+            method: 'PUT',
             body: JSON.stringify(this.state.values),
             headers: {
                 "Content-Type": "application/json"
@@ -106,7 +107,7 @@ class EditProfile extends React.Component {
 
             }
             else{
-                console.loh("H")
+                console.log("H")
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
                 window.location.href="/jobware"

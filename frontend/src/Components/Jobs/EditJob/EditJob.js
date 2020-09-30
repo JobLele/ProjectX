@@ -45,6 +45,7 @@ class EditJob extends React.Component {
     }
 
     getData = (data) => {
+        console.log(data)
         this.setState({
             values:{
                 salary: data.obj.salary,
@@ -60,7 +61,7 @@ class EditJob extends React.Component {
         })
         console.log(this.state.values);
     }
-    handleInputChange = (field, e) => {
+    handleInputChange = ( e, field) => {
         let fields = this.state.fields;
             fields[field] = e.target.value;        
             this.setState({fields});

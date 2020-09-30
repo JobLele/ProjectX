@@ -15,6 +15,7 @@ class Register extends React.Component {
                 email : "",
                 password : "",
                 number : 0,
+                qualification:""
             },
             err: null,
             msg: null,
@@ -27,7 +28,7 @@ class Register extends React.Component {
         this.handleValidation = this.handleValidation.bind(this);
     }
 
-    handleInputChange(field,e) {
+    handleInputChange=(field,e)=> {
         let fields = this.state.fields;
             fields[field] = e.target.value;        
             this.setState({fields});
@@ -38,6 +39,14 @@ class Register extends React.Component {
                 [e.target.name] : e.target.value
             }
         });
+    }
+    handleInputChangeQualification=(e)=>{
+        this.setState({
+            values:{
+                ...this.state.values,
+                [e.target.name] : e.target.value
+            }
+        })
     }
     handleValidation(){
         let fields = this.state.fields;
@@ -86,10 +95,10 @@ class Register extends React.Component {
 
             }
             else{
-                console.loh("H")
+               
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
-                window.location.href="/jobware"
+                window.location.href="/login"
             }
             
         })
@@ -134,11 +143,11 @@ class Register extends React.Component {
                         <span style={{color: "red"}}>{this.state.errors["number"]}</span>
                               <br/>
                     </div>
-                    {/* <div className="form-group">
+                   <div className="form-group">
                         <label>Qualification</label>
-                        <input type="text" className="form-control" placeholder="Enter qualification" />
-                    </div>
-                    <div className="form-group text-left">
+                        <input type="text" className="form-control"onChange={this.handleInputChangeQualification} placeholder="Enter qualification" />
+                    </div> 
+                    {/* <div className="form-group text-left">
                         <div className="custom-control custom-checkbox">
                             <input type="checkbox" className="custom-control-input" id="customCheck1" />
                             <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>

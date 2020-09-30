@@ -39,6 +39,12 @@ class EditProfile extends React.Component {
     
       }
       getData=(data)=>{
+        let fields = this.state.fields;
+        fields["name"] = data.obj.name
+        fields["email"] = data.obj.email
+        fields["number"] = data.obj.number
+          console.log("DATA")
+          console.log(data)
         this.setState({
             values:{
                 name:data.obj.name,
@@ -46,7 +52,9 @@ class EditProfile extends React.Component {
                 number:data.obj.number
             },
             err:data.err,
-            msg:data.msg
+            msg:data.msg,
+            fields,
+            errors: {}
         })
       }
 
@@ -66,7 +74,7 @@ class EditProfile extends React.Component {
         let fields = this.state.fields;
         let errors = {};
         let formIsValid = true;
-
+        console.log(fields)
         //Name
         if(!fields["name"]){
            formIsValid = false;
@@ -131,20 +139,20 @@ class EditProfile extends React.Component {
             <Card.Body>
                     <div className="form-group">
                         <label>Name</label>
-                        <input type="text" onChange={this.handleInputChange.bind(this,"name")} value={user.name} name="name" className="form-control" placeholder="Enter name" />
+                        <input type="text" value={user.name} name="name" onChange={this.handleInputChange.bind(this,"name")} className="form-control" placeholder="Enter name" />
                         <span style={{color: "red"}}>{this.state.errors["name"]}</span>
                     <br/>
                     </div>
                     <div className="form-group">
                         <label>Email address</label>
-                        <input type="email" onChange={this.handleInputChange.bind(this,"email")} value={user.email} name="email" className="form-control" placeholder="Enter email" />
+                        <input type="email" value={user.email} name="email" onChange={this.handleInputChange.bind(this,"email")} className="form-control" placeholder="Enter email" />
                         <span style={{color: "red"}}>{this.state.errors["email"]}</span>
                         <br/>
                     </div>
                     
                     <div className="form-group">
                         <label>Number</label>
-                        <input type="number" onChange={this.handleInputChange.bind(this,"number")} value={user.number}name="number" className="form-control" placeholder="Enter number" />
+                        <input type="number" value={user.number}name="number" onChange={this.handleInputChange.bind(this,"number")} className="form-control" placeholder="Enter number" />
                         <span style={{color: "red"}}>{this.state.errors["number"]}</span>
                               <br/>
                     </div>

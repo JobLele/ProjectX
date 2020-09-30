@@ -86,7 +86,7 @@ class Register extends React.Component {
 
             }
             else{
-                console.loh("H")
+                console.log("H")
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
                 window.location.href="/jobware"

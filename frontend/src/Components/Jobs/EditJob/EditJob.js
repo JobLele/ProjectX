@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
+import { StateDropdown, RegionDropdown } from 'react-india-state-region-selector';
 import { GoogleComponent } from 'react-google-location'
 const API_KEY = "AIzaSyBG0T-DKPFzsOMPmPVa0zzOZ1bYof9858A";
 
@@ -19,8 +20,8 @@ class EditJob extends React.Component {
                 description: "",
                 from:new Date(),
                 to:new Date(),
-                x:0,
-                y:0
+                state : '',
+                region : ''
             },
             err: null,
             msg: null,
@@ -46,6 +47,12 @@ class EditJob extends React.Component {
 
     getData = (data) => {
         console.log(data)
+        let fields = this.state.fields;
+        fields["salary"] = data.obj.salary
+        fields["title"] = data.obj.title
+        fields["description"] = data.obj.description
+        fields["state"] = data.obj.state
+        fields["region"] = data.obj.region
         this.setState({
             values:{
                 salary: data.obj.salary,
@@ -53,15 +60,17 @@ class EditJob extends React.Component {
                 description: data.obj.description,
                 from:new Date(data.obj.duration[0]),
                 to:new Date (data.obj.duration[1]),
-                x:data.obj.location[0],
-                y:data.obj.location[1]
+                state:data.obj.state,
+                region:data.obj.region
             },
             err: data.err,
-            msg: data.msg
+            msg: data.msg,
+            fields,
+            errors: {}
         })
-        console.log(this.state.values);
+        console.log(this.state.fields);
     }
-    handleInputChange = ( e, field) => {
+    handleInputChange = ( field, e) => {
         let fields = this.state.fields;
             fields[field] = e.target.value;        
             this.setState({fields});
@@ -79,6 +88,23 @@ class EditJob extends React.Component {
                 from: e
             }
         })
+    }
+    selectState (val) {
+        this.setState({
+            values : {
+                ...this.state.values,
+                state : val,
+            }
+        });
+    }
+    
+    selectRegion (val) {
+        this.setState({
+            values : {
+                ...this.state.values,
+                region : val,
+            }
+        });
     }
     handleValidation(){
         let fields = this.state.fields;
@@ -123,7 +149,7 @@ class EditJob extends React.Component {
             title:this.state.values.title,
             salary:this.state.values.salary,
             description:this.state.values.description,
-            location:[this.state.values.x,this.state.values.y],
+            //location:[this.state.values.x,this.state.values.y],
             duration:[this.state.values.from,this.state.values.to]
         }
 
@@ -182,10 +208,25 @@ class EditJob extends React.Component {
                                     <br/>
                                 </div>
 
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <label className="font-increase-label">Location</label>
                                     <br />
                                     <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} className="form-control" />
+                                </div> */}
+                                <div className="form-group">
+                                    <label className="font-increase-label">State</label>
+                                    <br />
+                                    <StateDropdown id="state" name="state" className="form-control"  value={edit_job.state} onChange={(val) => this.selectState(val)} />
+                                    <span style={{color: "red"}}>{this.state.errors["state"]}</span>
+                                    <br/>        
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="font-increase-label">Region</label>
+                                    <br />
+                                    <RegionDropdown id="region" name="region" className="form-control"  State={this.state.values.state} value={edit_job.region} onChange={(val) => this.selectRegion(val)} />
+                                    <span style={{color: "red"}}>{this.state.errors["region"]}</span>
+                                    <br/>        
                                 </div>
                                 <div className="date-box-postjob form-group">
                                     <div className="p-2 col-example text-left">
@@ -231,9 +272,11 @@ class EditJob extends React.Component {
         );
         }
         else{
+            console.log("NO");
             return( <Jumbotron fluid>
                 <Container>
                 <h1><center>{this.state.msg}</center></h1>
+                <p>no</p>
                 </Container>
             </Jumbotron>)
         }

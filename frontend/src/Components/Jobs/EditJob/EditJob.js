@@ -185,6 +185,7 @@ class EditJob extends React.Component {
     render() {
         if (this.state.msg === "ID Job Procured" && this.state.err === null) {
             var edit_job=this.state.values; 
+            console.log("sainya state",edit_job);
         return (
             <div>
                 <center>

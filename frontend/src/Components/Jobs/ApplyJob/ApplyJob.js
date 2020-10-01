@@ -6,6 +6,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 
 class ApplyJob extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -34,6 +35,15 @@ class ApplyJob extends Component {
     componentDidMount() {
         const cookies = new Cookies();
         var uid = 0;
+        this.props.view_job.applicants.forEach(element => {
+            console.log("heyyylo111111111111");
+            if(element.applicant === cookies.get(uid) && element.applicant != 0){
+                this.setState({applied:true});
+                console.log("heyyylo");
+                // break;
+            }
+            
+        });
         if (cookies.get('uid')) {
             uid = cookies.get('uid');
         }
@@ -43,6 +53,8 @@ class ApplyJob extends Component {
                 applicantID: uid
             }
         })
+        
+        console.log("cgutiys",this.props.view_job)
     }
     handleInputChange = (e) => {
         console.log(this.state.values);
@@ -87,7 +99,7 @@ class ApplyJob extends Component {
     render() {if(this.state.err !== true){
         return(
             <div className="edit-btn">
-                {this.state.applied &&  <Button variant="info">Applied</Button>}
+               {this.state.applied && <Button variant="info" onClick={this.handleShowApply}>Applied</Button>}
                 {!this.state.applied && <Button variant="info" onClick={this.handleShowApply}>Apply</Button>}
                 <form>
                     <Modal show={this.state.showApply} onHide={this.handleCloseApply} size="lg"

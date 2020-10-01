@@ -37,7 +37,14 @@ mongoose.connect(MongoURI, {
     useUnifiedTopology: true,
     useFindAndModify: false
   }) 
-  .then(() => console.log("Connected to mDB"))
+  .then(() => {
+    console.log("Connected to mDB");
+    var nulla = new Employ({
+      _id : new mongoose.Types.ObjectId(0)
+    });
+    nulla.save((err, doc) => {
+    })
+  })
   .catch((e) => console.log("Error :", e));
 mongoose.set("useCreateIndex", true);
 
@@ -315,7 +322,7 @@ app.put('/user/:id', function(req, res) {
       });
     }
     else {
-        User.findOneAndUpdate({email : employ.email}, {email : req.body.email}, function (err, user) {
+        User.findOneAndUpdate({username : employ.email}, {username : req.body.email}, function (err, user) {
           if (err) {
             res.json({
               err : err.message,
@@ -574,9 +581,9 @@ app.put("/job/:id", function(req, res) {
 //applicants
 app.patch("/job/:id", function(req, res) {
   var id = req.params.id;
-  if (req.body.applicantID == 0) {
-    req.body.explanation += " Phone Number : " + req.body.number;
-  }
+  // if (req.body.applicantID == 0) {
+  //   req.body.explanation += " Phone Number : " + req.body.number;
+  // }
   Job.findByIdAndUpdate(id,{
     $push: {applicants : {
       explanation : req.body.explanation,
@@ -593,6 +600,16 @@ app.patch("/job/:id", function(req, res) {
       );
     }
     else {
+      if (req.body.applicantID == 0) {
+        res.json(
+          {
+            err: null,
+            msg: null,
+            obj: updJob
+          }
+        );
+        return;
+      }
       Employ.findByIdAndUpdate(req.body.applicantID, {
         $push : {appliedFor : updJob._id}
       }, function(err, updEmp) {

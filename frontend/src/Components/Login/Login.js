@@ -82,9 +82,7 @@ class Login extends React.Component{
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
                 cookies.set('uid', data.obj._id.toString(), { path: '/', secure: false, session: "true", strict: "none" });
-                cookies.set("me", "ooba dooba dooo", {httpOnly: "true", secure: false});
-                cookies.set("you", "zoba zooba zooo", {httpOnly: "false"});
-                document.cookie = "yeet=me;path=/";
+
                 console.log(cookies.get('uid'));
                 alert("Redirecting to Jobs");
                 window.location.href="/jobware"

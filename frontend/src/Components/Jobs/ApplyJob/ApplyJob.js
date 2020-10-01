@@ -32,7 +32,7 @@ class ApplyJob extends Component {
 
     componentDidMount() {
         const cookies = new Cookies();
-        var uid = 0;
+        var uid = "0";
         if (cookies.get('uid')) {
             uid = cookies.get('uid');
         }

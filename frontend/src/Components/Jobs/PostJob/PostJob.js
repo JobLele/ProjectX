@@ -42,12 +42,10 @@ class PostJob extends React.Component {
 
     componentDidMount () {
         const cookies = new Cookies();
-        var uid;
+        var uid = cookies.get('uid');
         if (!cookies.get('uid')) {
-            uid = 0;
-        }
-        else {
-            uis = cookies.get('uid')
+            alert("You can't post, please register to avail this feature");
+            window.location.href = "/";
         }
         this.setState({
             values: {

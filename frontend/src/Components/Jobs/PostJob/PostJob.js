@@ -47,7 +47,7 @@ class PostJob extends React.Component {
             uid = 0;
         }
         else {
-            uis = cookies.get('uid')
+            uid = cookies.get('uid')
         }
         this.setState({
             values: {

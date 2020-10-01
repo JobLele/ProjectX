@@ -173,7 +173,7 @@ class EditJob extends React.Component {
                 console.log(this.msg);
             }
             else{
-                window.location.href="/"
+                window.location.href=`/jobware/${id}`;
             }
             this.setState({obj : data.obj});
             console.log(this.state.obj);

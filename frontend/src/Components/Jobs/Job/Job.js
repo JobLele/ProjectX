@@ -25,18 +25,6 @@ class Job extends Component {
       
       
     }
-
-    componentDidMount() {
-        const array = window.location.pathname.split('/');
-        const id = array[2];
-        fetch(`http://localhost:2000/job/${id}`)
-            .then(res => res.json())
-            .then(data => { this.getData(data) })
-
-
-        console.log(this.state.values.job);
-
-    }
     getData = (data) => {
         const cookies = new Cookies();
         console.log(cookies.get('uid'));
@@ -60,6 +48,19 @@ class Job extends Component {
         console.log(this.state.values.job);
 
     }
+
+    componentDidMount() {
+        const array = window.location.pathname.split('/');
+        const id = array[2];
+        fetch(`http://localhost:2000/job/${id}`)
+            .then(res => res.json())
+            .then(data => { this.getData(data) })
+
+
+        console.log(this.state.values.job);
+
+    }
+    
    
     render() {
         if (this.state.msg === "ID Job Procured" && this.state.err === null) {

@@ -13,6 +13,7 @@ class ApplyJob extends Component {
                 explanation: "",
                 applicantID: ""
             },
+            applied:false,
             err:null,
             msg:null,
             obj:{},
@@ -74,7 +75,9 @@ class ApplyJob extends Component {
             else {
                 this.handleCloseApply();
             }
-            this.setState({ obj: data.obj });
+            this.setState({
+                applied:true, 
+                obj: data.obj });
             console.log("applied successfully",this.state.obj);
         })
     }
@@ -84,7 +87,8 @@ class ApplyJob extends Component {
     render() {if(this.state.err !== true){
         return(
             <div className="edit-btn">
-                <Button variant="info" onClick={this.handleShowApply}>Apply</Button>
+                {this.state.applied &&  <Button variant="info">Applied</Button>}
+                {!this.state.applied && <Button variant="info" onClick={this.handleShowApply}>Apply</Button>}
                 <form>
                     <Modal show={this.state.showApply} onHide={this.handleCloseApply} size="lg"
                         aria-labelledby="contained-modal-title-vcenter"

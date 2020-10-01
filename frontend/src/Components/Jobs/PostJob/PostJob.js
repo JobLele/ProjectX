@@ -60,6 +60,7 @@ class PostJob extends React.Component {
             fields[field] = e.target.value;        
             this.setState({fields});
         this.setState({
+            fields,
             values: {
                 ...this.state.values,
                 [e.target.name]: e.target.value
@@ -92,7 +93,11 @@ class PostJob extends React.Component {
     }
 
     selectState (val) {
+        let fields = this.state.fields;
+        fields["state"] = val;
+        this.setState({fields});
         this.setState({
+            fields,
             values : {
                 ...this.state.values,
                 state : val,
@@ -101,7 +106,11 @@ class PostJob extends React.Component {
     }
     
     selectRegion (val) {
+        let fields = this.state.fields;
+        fields["region"] = val;
+        this.setState({fields});
         this.setState({
+            fields,
             values : {
                 ...this.state.values,
                 region : val,
@@ -125,6 +134,13 @@ class PostJob extends React.Component {
          if(!fields["description"]){
             formIsValid = false;
             errors["description"] = "Cannot be empty";
+         }if(!fields["state"]){
+            formIsValid = false;
+            errors["state"] = "Cannot be empty";
+         }
+         if(!fields["region"]){
+            formIsValid = false;
+            errors["region"] = "Cannot be empty";
          }
          this.setState({errors: errors});
          console.log(this.state.errors);
@@ -196,6 +212,7 @@ class PostJob extends React.Component {
                                     <label className="font-increase-label">State</label>
                                     <br />
                                     <StateDropdown id="state" name="state" className="form-control"  value={this.state.values.state} onChange={(val) => this.selectState(val)} />
+                                    <br />
                                     <span style={{color: "red"}}>{this.state.errors["state"]}</span>
                                     <br/>        
                                 </div>
@@ -204,6 +221,7 @@ class PostJob extends React.Component {
                                     <label className="font-increase-label">Region</label>
                                     <br />
                                     <RegionDropdown id="region" name="region" className="form-control"  State={this.state.values.state} value={this.state.values.region} onChange={(val) => this.selectRegion(val)} />
+                                    <br />
                                     <span style={{color: "red"}}>{this.state.errors["region"]}</span>
                                     <br/>        
                                 </div>

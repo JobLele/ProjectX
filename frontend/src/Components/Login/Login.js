@@ -75,6 +75,7 @@ class Login extends React.Component{
             if (data.err) {
                 console.log("H")
                 this.setState({err: true, msg: data.err});
+                console.log(data.err);
                 
             }
             else{

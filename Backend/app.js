@@ -40,7 +40,7 @@ mongoose.connect(MongoURI, {
   .then(() => {
     console.log("Connected to mDB");
     var nulla = new Employ({
-      _id : new mongoose.Types.ObjectId(0)
+      _id : new mongoose.mongo.ObjectID("000000000000000000000000")
     });
     nulla.save((err, doc) => {
     })
@@ -580,10 +580,29 @@ app.put("/job/:id", function(req, res) {
 
 //applicants
 app.patch("/job/:id", function(req, res) {
+  console.log(req.body);
   var id = req.params.id;
   // if (req.body.applicantID == 0) {
   //   req.body.explanation += " Phone Number : " + req.body.number;
   // }
+  if (req.body._id) {
+    Job.findByIdAndUpdate(id, {
+      $pull: {applicants : {
+        applicant : new mongoose.mongo.ObjectID(req.body.applicantID)
+      }}
+    }, function(err, job) {
+      if (err) {
+        res.json({
+          err : err.message,
+          msg : null,
+          obj : null
+        });
+      }
+      else {
+        console.log(job);
+      }
+    })
+  }
   Job.findByIdAndUpdate(id,{
     $push: {applicants : {
       explanation : req.body.explanation,

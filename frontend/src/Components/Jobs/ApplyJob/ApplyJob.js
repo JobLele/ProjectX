@@ -6,6 +6,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 
 class ApplyJob extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -13,9 +14,12 @@ class ApplyJob extends Component {
                 explanation: "",
                 applicantID: ""
             },
+            applied:false,
             err:null,
             msg:null,
             obj:{},
+            fields: {},
+            errors: {},
             showApply: false,
         }
     }
@@ -29,31 +33,61 @@ class ApplyJob extends Component {
             showApply: false
         })
     }
-
-    componentDidMount() {
-        const cookies = new Cookies();
-        var uid = "0";
-        if (cookies.get('uid')) {
-            uid = cookies.get('uid');
-        }
-        this.setState({
-            values: {
-                ...this.state.values,
-                applicantID: uid
-            }
-        })
-    }
-    handleInputChange = (e) => {
+    handleInputChange = (field,e) => {
         console.log(this.state.values);
+        let fields = this.state.fields;
+            fields[field] = e.target.value;        
+            this.setState({fields});
             this.setState({
                 values: {
                     ...this.state.values,
-                    [e.target.name]: e.target.value,
+                    [field] : e.target.value
                 }
             })
+        }
+    componentDidMount() {
+        const cookies = new Cookies();
+        var uid = "000000000000000000000000";
+        console.log(this.props.view_job);
+        this.props.view_job.applicants.forEach(element => {
+            if(element.applicant == cookies.get('uid') && element.applicant != "0"){
+                
+                console.log(element);
+                console.log(this.state.values);
+                console.log("work");
+                this.setState({
+                    applied : true,
+                    values : element
+                }, () => {
+                    console.log(this.state.values);
+                })
+            }
+            
+        });
+        if (cookies.get('uid')) {
+            uid = cookies.get('uid');
+        }
     }
+
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
+
+        //Name
+        if(!fields["explanation"]){
+           formIsValid = false;
+           errors["explanation"] = "Cannot be empty";
+        }
+         this.setState({errors: errors});
+         //console.log(this.state.errors);
+           return formIsValid;
+        }
+
     submit = (e) => {
         e.preventDefault();
+        if(this.handleValidation()){
+            alert("Form submitted");
         fetch(`http://localhost:2000/job/${this.props.view_job._id}`, {
             method: 'PATCH',
             body: JSON.stringify(this.state.values),
@@ -74,9 +108,14 @@ class ApplyJob extends Component {
             else {
                 this.handleCloseApply();
             }
-            this.setState({ obj: data.obj });
+            this.setState({
+                applied:true, 
+                obj: data.obj });
             console.log("applied successfully",this.state.obj);
         })
+    }else{
+        alert("Form has errors.")
+     }
     }
         
         
@@ -84,7 +123,8 @@ class ApplyJob extends Component {
     render() {if(this.state.err !== true){
         return(
             <div className="edit-btn">
-                <Button variant="info" onClick={this.handleShowApply}>Apply</Button>
+               {this.state.applied && <Button variant="info" onClick={this.handleShowApply}>Applied</Button>}
+                {!this.state.applied && <Button variant="info" onClick={this.handleShowApply}>Apply</Button>}
                 <form>
                     <Modal show={this.state.showApply} onHide={this.handleCloseApply} size="lg"
                         aria-labelledby="contained-modal-title-vcenter"
@@ -95,7 +135,8 @@ class ApplyJob extends Component {
                         <Modal.Body>
                             <div className="form-group" >
                                 <label className="font-increase-label"></label>
-                                <textarea name="explanation" className="form-control" onChange={this.handleInputChange} rows={5} placeholder="Explain why are you worthy for this job , you can mention your working experinece." />
+                                <textarea name="explanation" className="form-control" onChange={this.handleInputChange.bind(this,"explanation")} rows={5} placeholder="Explain why are you worthy for this job , you can mention your working experinece." value={this.state.values.explanation} />
+                                <span style={{color: "red"}}>{this.state.errors["explanation"]}</span>
                                 {/* <span style={{ color: "red" }}>{this.state.errors["description"]}</span> */}
                                 <br />
                             </div>

@@ -70,6 +70,7 @@ class ApplyJob extends Component {
                 }, () => {
                     console.log(this.state.values);
                 })
+                
             }
             
         });
@@ -146,7 +147,7 @@ class ApplyJob extends Component {
                                 <label className="font-increase-label"></label>
                                 <textarea name="explanation" className="form-control" onChange={this.handleInputChange.bind(this,"explanation")} rows={5} placeholder="Explain why are you worthy for this job , you can mention your working experinece." value={this.state.values.explanation} />
                                 <span style={{color: "red"}}>{this.state.errors["explanation"]}</span>
-                                {/* <span style={{ color: "red" }}>{this.state.errors["description"]}</span> */}
+                                
                                 <br />
                             </div>
                             {/* <div className="form-group">

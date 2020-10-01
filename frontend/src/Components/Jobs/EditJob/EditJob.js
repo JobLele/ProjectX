@@ -214,27 +214,23 @@ class EditJob extends React.Component {
                             <Card.Body>
 
                                 <div className="form-group">
-                                    <label className="font-increase-label">Job Title</label>
+                                    <label className="font-increase-label">Job Title*</label>
                                     <input type="text" name="title" className="form-control" value={edit_job.title} onChange={this.handleInputChange.bind(this,"title")}  placeholder="Job Title"  />
                                     <br />
                                     <span style={{color: "red"}}>{this.state.errors["title"]}</span>
                                     <br/>
                                 </div>
                                 <div className="form-group">
-                                    <label className="font-increase-label">Salary</label>
+                                    <label className="font-increase-label">Salary*</label>
                                     <input type="number" id="salary" name="salary"value={edit_job.salary} onChange={this.handleInputChange.bind(this,"salary")}  className="form-control"></input>
                                     <br />
                                     <span style={{color: "red"}}>{this.state.errors["salary"]}</span>
                                     <br/>
                                 </div>
 
-                                {/* <div className="form-group">
-                                    <label className="font-increase-label">Location</label>
-                                    <br />
-                                    <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} className="form-control" />
-                                </div> */}
+                                
                                 <div className="form-group">
-                                    <label className="font-increase-label">State</label>
+                                    <label className="font-increase-label">State*</label>
                                     <br />
                                     <StateDropdown id="state" name="state" className="form-control"  value={edit_job.state} onChange={(val) => this.selectState(val)} />
                                     <span style={{color: "red"}}>{this.state.errors["state"]}</span>
@@ -242,7 +238,7 @@ class EditJob extends React.Component {
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="font-increase-label">Region</label>
+                                    <label className="font-increase-label">Region*</label>
                                     <br />
                                     <RegionDropdown id="region" name="region" className="form-control"  State={this.state.values.state} value={edit_job.region} onChange={(val) => this.selectRegion(val)} />
                                     <span style={{color: "red"}}>{this.state.errors["region"]}</span>
@@ -250,7 +246,7 @@ class EditJob extends React.Component {
                                 </div>
                                 <div className="date-box-postjob form-group">
                                     <div className="p-2 col-example text-left">
-                                        <label>Start Date</label><br />
+                                        <label>Start Date*</label><br />
                                         <DatePicker
                                             
                                             selected={this.state.values.from}
@@ -263,7 +259,7 @@ class EditJob extends React.Component {
 
                                     </div>
                                     <div className="p-2 col-example text-left">
-                                        <label>End Date</label><br />
+                                        <label>End Date*</label><br />
                                         <DatePicker
                                             value={new Date(edit_job.to)}
                                             selected={this.state.values.to}
@@ -276,9 +272,10 @@ class EditJob extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group" >
-                                    <label className="font-increase-label">Description</label>
+                                    <label className="font-increase-label">Description*</label>
                                     <textarea  name="description" value={edit_job.description} onChange={this.handleInputChange.bind(this,"description")} className="form-control" rows={5} placeholder="Description" />
-                                    <span style={{color: "red"}}>{this.state.errors["description"]}</span>
+                                    <div style={{color: "red"}}>{this.state.errors["description"]}</div>
+                                    <div className="desc-feat">Include conditions,features and whatever necessary for this job.</div>
                                     <br/>
                                 </div>
                                 <Button  variant="dark"onClick={this.submit} className="btn btn-block">Edit Job</Button>

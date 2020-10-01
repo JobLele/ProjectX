@@ -83,7 +83,6 @@ class Login extends React.Component{
                 this.setState({obj : data.obj});
                 console.log(this.state.obj);
                 cookies.set('uid', data.obj._id.toString(), { path: '/', secure: false, session: "true", strict: "none" });
-
                 console.log(cookies.get('uid'));
                 alert("Redirecting to Jobs");
                 window.location.href="/jobware"
@@ -110,14 +109,14 @@ class Login extends React.Component{
         </Card.Header>
         <Card.Body>
                 <div className="form-group">
-                    <label>Email address</label>
+                    <label>Email address*</label>
                     <input type="email" onChange={this.handleInputChange.bind(this,"email")} name="email" className="form-control" placeholder="Enter email" />
                     <span style={{color: "red"}}>{this.state.errors["email"]}</span><br />
 
                 </div>
 
                 <div className="form-group">
-                    <label>Password</label>
+                    <label>Password*</label>
                     <input type="password" onChange={this.handleInputChange.bind(this,"password")} name = "password" className="form-control" placeholder="Enter password" />
                     <span style={{color: "red"}}>{this.state.errors["password"]}</span><br />
                    

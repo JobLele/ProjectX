@@ -6,6 +6,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 
 class ApplyJob extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -13,6 +14,7 @@ class ApplyJob extends Component {
                 explanation: "",
                 applicantID: ""
             },
+            applied:false,
             err:null,
             msg:null,
             obj:{},
@@ -36,19 +38,38 @@ class ApplyJob extends Component {
         let fields = this.state.fields;
             fields[field] = e.target.value;        
             this.setState({fields});
-        const cookies = new Cookies();
-        if (cookies.get('uid')) {
             this.setState({
                 fields,
                 values: {
                     ...this.state.values,
-                    [e.target.name]: e.target.value,
-                    applicantID: cookies.get('uid')
+                    //applicantID: uid
                 }
             })
         }
-
-    }
+    // componentDidMount() {
+    //     const cookies = new Cookies();
+    //     var uid = 0;
+    //     this.props.view_job.applicants.forEach(element => {
+    //         console.log("heyyylo111111111111");
+    //         if(element.applicant === cookies.get(uid) && element.applicant != 0){
+    //             this.setState({applied:true});
+    //             console.log("heyyylo");
+    //             // break;
+    //         }
+            
+    //     });
+    //     if (cookies.get('uid')) {
+    //         uid = cookies.get('uid');
+    //     }
+    //     this.setState({
+    //         values: {
+    //             ...this.state.values,
+    //             applicantID: uid
+    //         }
+    //     })
+        
+    //     console.log("cgutiys",this.props.view_job)
+    // }
 
     handleValidation(){
         let fields = this.state.fields;
@@ -89,7 +110,9 @@ class ApplyJob extends Component {
             else {
                 this.handleCloseApply();
             }
-            this.setState({ obj: data.obj });
+            this.setState({
+                applied:true, 
+                obj: data.obj });
             console.log("applied successfully",this.state.obj);
         })
     }else{
@@ -102,7 +125,8 @@ class ApplyJob extends Component {
     render() {if(this.state.err !== true){
         return(
             <div className="edit-btn">
-                <Button variant="info" onClick={this.handleShowApply}>Apply</Button>
+               {this.state.applied && <Button variant="info" onClick={this.handleShowApply}>Applied</Button>}
+                {!this.state.applied && <Button variant="info" onClick={this.handleShowApply}>Apply</Button>}
                 <form>
                     <Modal show={this.state.showApply} onHide={this.handleCloseApply} size="lg"
                         aria-labelledby="contained-modal-title-vcenter"

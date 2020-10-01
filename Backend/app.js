@@ -270,6 +270,7 @@ app.get("/auth/google/secrets",
 
 app.get('/user/:id', function(req, res) {
   var id = req.params.id;
+  if (id == 0) return;
   Employ.findById(id).populate('jobsPosted').populate('appliedFor').exec(function(err, employ) {
     if (err) {
       res.json({
@@ -299,6 +300,7 @@ app.get('/user/:id', function(req, res) {
 
 app.put('/user/:id', function(req, res) {
   var id = req.params.id;
+  if (id == 0) return;
   Employ.findByIdAndUpdate(id, {
     name: req.body.name,
     number: req.body.number,
@@ -335,6 +337,7 @@ app.put('/user/:id', function(req, res) {
 
 app.delete('/user/:id', function(req, res) {
   var id = req.params.id;
+  if (id == 0) return;
   Employ.findByIdAndDelete(id, function(err, employ) {
     if (err) {
       res.json({
@@ -393,11 +396,7 @@ app.post("/job", function(req, res) {
     duration: [req.body.from, req.body.to],
     postedBy: req.body.by,
     applicants: []
-  })
-  // const cookies = new Cookies(req.headers.cookie);
-  // console.log(req.headers.cookie);
-  // console.log(cookies);
-  // console.log(cookies.get('uid'));
+  });
   job.save((err, doc) => {
     console.log(doc);
     if (err) {
@@ -420,11 +419,11 @@ app.post("/job", function(req, res) {
           );
         }
         else {
-              res.json({
-                err: null,
-                msg: "Created Job Sucessfully",
-                obj: doc
-              });
+          res.json({
+            err: null,
+            msg: "Created Job Sucessfully",
+            obj: doc
+          });
         }
       })
     }
@@ -432,9 +431,6 @@ app.post("/job", function(req, res) {
 });
 
 app.get("/job/:id", function(req, res) {
-  // console.log('Cookies: ', req.cookies);
-  // console.log('Signed Cookies: ', req.signedCookies);
-  // console.log(req);
   var id = req.params.id;
   Job.findById(id, function(err, job) {
     if (err) {

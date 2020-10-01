@@ -25,6 +25,22 @@ class DeleteJob extends Component {
             showDelete: true
         })
     }
+    getData = (data) => {
+        this.setState({
+            delete_job: data.obj,
+            err: data.err,
+            msg: data.msg
+        })
+        console.log("deleted",this.state.delete_job);
+        if (this.state.err === null && this.state.msg === "Deleted Successfully") {
+            alert(this.state.msg);
+            window.location.href = "/"
+        }
+        else {
+            alert(this.state.msg);
+            // window.location.href = `/jobware/${this.props.view_job._id}`
+        }
+    }
     submit=()=>{
         fetch(`http://localhost:2000/job/${this.props.view_job._id}`, {
             method: 'DELETE'
@@ -33,22 +49,7 @@ class DeleteJob extends Component {
             .then(data => { this.getData(data) })
     }
 
-    getData = (data) => {
-        this.setState({
-            delete_job: data.obj,
-            err: data.err,
-            msg: data.msg
-        })
-        console.log(this.state.delete_job);
-        if (this.state.err === null && this.state.msg === "Deleted Successfully") {
-            alert(this.state.msg);
-            window.location.href = "/"
-        }
-        else {
-            alert(this.state.msg);
-            window.location.href = `/jobware/${this.props.view_job._id}`
-        }
-    }
+   
     render() {
         return (
             <div className="edit-btn">

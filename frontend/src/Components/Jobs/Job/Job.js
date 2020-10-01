@@ -28,6 +28,7 @@ class Job extends Component {
     getData = (data) => {
         const cookies = new Cookies();
         console.log(cookies.get('uid'));
+        console.log(data);
         if (cookies.get('uid') == data.obj.postedBy) {
             this.setState({
                 userLogged: true

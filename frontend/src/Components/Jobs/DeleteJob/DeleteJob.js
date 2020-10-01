@@ -32,13 +32,13 @@ class DeleteJob extends Component {
             msg: data.msg
         })
         console.log("deleted",this.state.delete_job);
-        if (this.state.err === null && this.state.msg === "Deleted Successfully") {
+        if (this.state.err == null) {
             alert(this.state.msg);
             window.location.href = "/"
         }
         else {
-            alert(this.state.msg);
-            // window.location.href = `/jobware/${this.props.view_job._id}`
+            alert(this.state.err);
+            window.location.href = `/jobware/${this.props.view_job._id}`
         }
     }
     submit=()=>{
@@ -47,6 +47,7 @@ class DeleteJob extends Component {
         })
             .then(res => res.json())
             .then(data => { this.getData(data) })
+            .catch(err => console.log(err));
     }
 
    

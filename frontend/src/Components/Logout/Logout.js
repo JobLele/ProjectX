@@ -20,9 +20,13 @@ class Logout extends Component{
         if(this.state.err===null){
             alert("yeet");
             const cookies = new Cookies();
+<<<<<<< HEAD
             cookies.remove('uid',{ path: '/', secure: "false", strict: "none" });
             console.log("after removing cookies",cookies.get('uid'));
             alert("wait maadi");
+=======
+            cookies.remove('uid');
+>>>>>>> 5abcc31219bc3106825bc2e7a63b497092482f73
         }
         else{
             alert(this.state.err);

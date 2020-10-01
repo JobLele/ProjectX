@@ -90,7 +90,11 @@ class EditJob extends React.Component {
         })
     }
     selectState (val) {
+        let fields = this.state.fields;
+        fields["state"] = val;
+        this.setState({fields});
         this.setState({
+            fields,
             values : {
                 ...this.state.values,
                 state : val,
@@ -99,7 +103,11 @@ class EditJob extends React.Component {
     }
     
     selectRegion (val) {
+        let fields = this.state.fields;
+        fields["region"] = val;
+        this.setState({fields});
         this.setState({
+            fields,
             values : {
                 ...this.state.values,
                 region : val,
@@ -122,6 +130,13 @@ class EditJob extends React.Component {
          if(!fields["description"]){
             formIsValid = false;
             errors["description"] = "Cannot be empty";
+         }if(!fields["state"]){
+            formIsValid = false;
+            errors["state"] = "Cannot be empty";
+         }
+         if(!fields["region"]){
+            formIsValid = false;
+            errors["region"] = "Cannot be empty";
          }
          this.setState({errors: errors});
          console.log(this.state.errors);
@@ -150,7 +165,9 @@ class EditJob extends React.Component {
             salary:this.state.values.salary,
             description:this.state.values.description,
             //location:[this.state.values.x,this.state.values.y],
-            duration:[this.state.values.from,this.state.values.to]
+            duration:[this.state.values.from,this.state.values.to],
+            state:this.state.values.state,
+            region:this.state.values.region
         }
 
         console.log("updated_job",updated_job);
@@ -198,12 +215,14 @@ class EditJob extends React.Component {
                                 <div className="form-group">
                                     <label className="font-increase-label">Job Title</label>
                                     <input type="text" name="title" className="form-control" value={edit_job.title} onChange={this.handleInputChange.bind(this,"title")}  placeholder="Job Title"  />
+                                    <br />
                                     <span style={{color: "red"}}>{this.state.errors["title"]}</span>
                                     <br/>
                                 </div>
                                 <div className="form-group">
                                     <label className="font-increase-label">Salary</label>
                                     <input type="number" id="salary" name="salary"value={edit_job.salary} onChange={this.handleInputChange.bind(this,"salary")}  className="form-control"></input>
+                                    <br />
                                     <span style={{color: "red"}}>{this.state.errors["salary"]}</span>
                                     <br/>
                                 </div>

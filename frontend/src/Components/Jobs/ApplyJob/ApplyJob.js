@@ -16,7 +16,9 @@ class ApplyJob extends Component {
             err:null,
             msg:null,
             obj:{},
-            showApply: false,
+            fields: {},
+            errors: {},
+            showApply: false
         }
     }
     handleShowApply = () => {
@@ -29,11 +31,15 @@ class ApplyJob extends Component {
             showApply: false
         })
     }
-    handleInputChange = (e) => {
+    handleInputChange = (field,e) => {
         console.log(this.state.values);
+        let fields = this.state.fields;
+            fields[field] = e.target.value;        
+            this.setState({fields});
         const cookies = new Cookies();
         if (cookies.get('uid')) {
             this.setState({
+                fields,
                 values: {
                     ...this.state.values,
                     [e.target.name]: e.target.value,
@@ -43,8 +49,26 @@ class ApplyJob extends Component {
         }
 
     }
+
+    handleValidation(){
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
+
+        //Name
+        if(!fields["explanation"]){
+           formIsValid = false;
+           errors["explanation"] = "Cannot be empty";
+        }
+         this.setState({errors: errors});
+         //console.log(this.state.errors);
+           return formIsValid;
+        }
+
     submit = (e) => {
         e.preventDefault();
+        if(this.handleValidation()){
+            alert("Form submitted");
         fetch(`http://localhost:2000/job/${this.props.view_job._id}`, {
             method: 'PATCH',
             body: JSON.stringify(this.state.values),
@@ -68,6 +92,9 @@ class ApplyJob extends Component {
             this.setState({ obj: data.obj });
             console.log("applied successfully",this.state.obj);
         })
+    }else{
+        alert("Form has errors.")
+     }
     }
         
         
@@ -86,7 +113,8 @@ class ApplyJob extends Component {
                         <Modal.Body>
                             <div className="form-group" >
                                 <label className="font-increase-label"></label>
-                                <textarea name="explanation" className="form-control" onChange={this.handleInputChange} rows={5} placeholder="Explain why are you worthy for this job , you can mention your working experinece." />
+                                <textarea name="explanation" className="form-control" onChange={this.handleInputChange.bind(this,"explanation")} rows={5} placeholder="Explain why are you worthy for this job , you can mention your working experinece." />
+                                <span style={{color: "red"}}>{this.state.errors["explanation"]}</span>
                                 {/* <span style={{ color: "red" }}>{this.state.errors["description"]}</span> */}
                                 <br />
                             </div>

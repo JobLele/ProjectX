@@ -48,7 +48,16 @@ class ApplyJob extends Component {
     componentDidMount() {
         const cookies = new Cookies();
         var uid = "000000000000000000000000";
+        if (cookies.get('uid')) {
+            uid = cookies.get('uid');
+        }
         console.log(this.props.view_job);
+        this.setState({
+            values : {
+                ...this.state.values,
+                applicantID : uid
+            }
+        })
         this.props.view_job.applicants.forEach(element => {
             if(element.applicant == cookies.get('uid') && element.applicant != "0"){
                 

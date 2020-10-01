@@ -588,7 +588,7 @@ app.patch("/job/:id", function(req, res) {
   if (req.body._id) {
     Job.findByIdAndUpdate(id, {
       $pull: {applicants : {
-        applicant : new mongoose.mongo.ObjectID(req.body.applicantID)
+        _id : req.body._id
       }}
     }, function(err, job) {
       if (err) {
@@ -598,15 +598,12 @@ app.patch("/job/:id", function(req, res) {
           obj : null
         });
       }
-      else {
-        console.log(job);
-      }
     })
   }
   Job.findByIdAndUpdate(id,{
     $push: {applicants : {
       explanation : req.body.explanation,
-      applicant : req.body.applicantID
+      applicant : new mongoose.mongo.ObjectID(req.body.applicantID)
     }}
   }, function(err, updJob) {
     if (err) {

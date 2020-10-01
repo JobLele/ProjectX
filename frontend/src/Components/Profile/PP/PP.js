@@ -26,7 +26,10 @@ class PP extends Component {
       fetch(`http://localhost:2000/user/${id}`)
         .then(res => res.json())
         .then(data => { this.getData(data) })
-
+    }
+    else {
+      alert("Login to view your profile");
+      window.location.href = "/";
     }
 
   }

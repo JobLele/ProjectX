@@ -29,19 +29,28 @@ class ApplyJob extends Component {
             showApply: false
         })
     }
+
+    componentDidMount() {
+        const cookies = new Cookies();
+        var uid = 0;
+        if (cookies.get('uid')) {
+            uid = cookies.get('uid');
+        }
+        this.setState({
+            values: {
+                ...this.state.values,
+                applicantID: uid
+            }
+        })
+    }
     handleInputChange = (e) => {
         console.log(this.state.values);
-        const cookies = new Cookies();
-        if (cookies.get('uid')) {
             this.setState({
                 values: {
                     ...this.state.values,
                     [e.target.name]: e.target.value,
-                    applicantID: cookies.get('uid')
                 }
             })
-        }
-
     }
     submit = (e) => {
         e.preventDefault();

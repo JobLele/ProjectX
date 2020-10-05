@@ -15,18 +15,12 @@ class Logout extends Component{
         this.getData=this.getData.bind(this);
     }
 
-    componentDidMount(){
-        fetch(`http://localhost:2000/logout`)
-            .then(res => res.json())
-            .then(data => { this.getData(data)})
-    }
-    
     getData=(data)=>{
         console.log(data);
         if(this.state.err===null){
             alert("yeet");
             const cookies = new Cookies();
-            cookies.remove('uid',{ path: '/', secure: "false", strict: "none" });
+            cookies.remove('uid');
         }
         else{
             alert(this.state.err);
@@ -34,6 +28,14 @@ class Logout extends Component{
         
         window.location.href="/"
     }
+
+    componentDidMount(){
+        fetch(`http://localhost:2000/logout`)
+            .then(res => res.json())
+            .then(data => { this.getData(data)})
+    }
+    
+    
     render(){
         return(
             <Jumbotron fluid>

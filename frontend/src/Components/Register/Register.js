@@ -118,27 +118,27 @@ class Register extends React.Component {
             </Card.Header>
             <Card.Body>
                     <div className="form-group">
-                        <label>Name</label>
+                        <label>Name*</label>
                         <input type="text" onChange={this.handleInputChange.bind(this,"name")} name="name" className="form-control" placeholder="Enter name" />
                         <span style={{color: "red"}}>{this.state.errors["name"]}</span>
                     <br/>
                     </div>
                     <div className="form-group">
-                        <label>Email address</label>
+                        <label>Email address*</label>
                         <input type="email" onChange={this.handleInputChange.bind(this,"email")} name="email" className="form-control" placeholder="Enter email" />
                         <span style={{color: "red"}}>{this.state.errors["email"]}</span>
                         <br/>
                     </div>
     
                     <div className="form-group">
-                        <label>Password</label>
+                        <label>Password*</label>
                         <input type="password" onChange={this.handleInputChange.bind(this,"password")} name="password" className="form-control" placeholder="Enter password" />
                         <span style={{color: "red"}}>{this.state.errors["password"]}</span>
                               <br/>
                     </div>
                     
                     <div className="form-group">
-                        <label>Number</label>
+                        <label>Number*</label>
                         <input type="number" onChange={this.handleInputChange.bind(this,"number")} name="number" className="form-control" placeholder="Enter number" />
                         <span style={{color: "red"}}>{this.state.errors["number"]}</span>
                               <br/>
@@ -146,6 +146,7 @@ class Register extends React.Component {
                    <div className="form-group">
                         <label>Qualification</label>
                         <input type="text" className="form-control" name ="qualification" onChange={this.handleInputChangeQualification} placeholder="Enter qualification" />
+                        <div className="desc-feat">You can mention as 12Completed, 10Completed, BTech, MBA....</div>
                     </div> 
                     {/* <div className="form-group text-left">
                         <div className="custom-control custom-checkbox">

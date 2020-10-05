@@ -148,20 +148,20 @@ class EditProfile extends React.Component {
                         </Card.Header>
                         <Card.Body>
                             <div className="form-group">
-                                <label>Name</label>
+                                <label>Name*</label>
                                 <input type="text" value={user.name} name="name" onChange={this.handleInputChange.bind(this, "name")} className="form-control" placeholder="Enter name" />
                                 <span style={{ color: "red" }}>{this.state.errors["name"]}</span>
                                 <br />
                             </div>
                             <div className="form-group">
-                                <label>Email address</label>
+                                <label>Email address*</label>
                                 <input type="email" value={user.email} name="email" onChange={this.handleInputChange.bind(this, "email")} className="form-control" placeholder="Enter email" />
                                 <span style={{ color: "red" }}>{this.state.errors["email"]}</span>
                                 <br />
                             </div>
 
                             <div className="form-group">
-                                <label>Number</label>
+                                <label>Number*</label>
                                 <input type="number" value={user.number} name="number" onChange={this.handleInputChange.bind(this, "number")} className="form-control" placeholder="Enter number" />
                                 <span style={{ color: "red" }}>{this.state.errors["number"]}</span>
                                 <br />
@@ -169,6 +169,7 @@ class EditProfile extends React.Component {
                             <div className="form-group">
                                 <label>Qualification</label>
                                 <input type="text" className="form-control" name="qualification" value={user.qualification} onChange={this.handleInputChangeQualification} placeholder="Enter qualification" />
+                                <div className="desc-feat">You can mention as 12Completed, 10Completed, BTech, MBA.....</div>
                             </div>
                             {/* <div className="form-group text-left">
                         <div className="custom-control custom-checkbox">

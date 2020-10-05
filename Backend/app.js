@@ -37,7 +37,14 @@ mongoose.connect(MongoURI, {
     useUnifiedTopology: true,
     useFindAndModify: false
   }) 
-  .then(() => console.log("Connected to mDB"))
+  .then(() => {
+    console.log("Connected to mDB");
+    var nulla = new Employ({
+      _id : new mongoose.mongo.ObjectID("000000000000000000000000")
+    });
+    nulla.save((err, doc) => {
+    })
+  })
   .catch((e) => console.log("Error :", e));
 mongoose.set("useCreateIndex", true);
 
@@ -289,7 +296,7 @@ app.get('/user/:id', function(req, res) {
       }
       else {
         res.json({
-          err : err.message,
+          err : "User not found",
           msg : null,
           obj : null
         });
@@ -315,7 +322,7 @@ app.put('/user/:id', function(req, res) {
       });
     }
     else {
-        User.findOneAndUpdate({email : employ.email}, {email : req.body.email}, function (err, user) {
+        User.findOneAndUpdate({username : employ.email}, {username : req.body.email}, function (err, user) {
           if (err) {
             res.json({
               err : err.message,
@@ -506,15 +513,15 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
     }
     if (filter == "from") {
       search = {
-        "from" : {
-          $gte : value
+        "duration.0" : {
+          $gte : new Date(Date.parse(value))
         }
       }
     }
     else if (filter == "to") {
       search = {
-        "to" : {
-          $lte : value
+        "duration.1" : {
+          $lte : new Date(Date.parse(value))
         }
       }
     }
@@ -526,6 +533,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
           obj: null
         });
       } else {
+        console.log(jobs);
         if (jobs.length == 0) {
           res.json({
             err: "No jobs with that filter exists",
@@ -573,14 +581,30 @@ app.put("/job/:id", function(req, res) {
 
 //applicants
 app.patch("/job/:id", function(req, res) {
+  console.log(req.body);
   var id = req.params.id;
-  if (req.body.applicantID == 0) {
-    req.body.explanation += " Phone Number : " + req.body.number;
+  // if (req.body.applicantID == 0) {
+  //   req.body.explanation += " Phone Number : " + req.body.number;
+  // }
+  if (req.body._id) {
+    Job.findByIdAndUpdate(id, {
+      $pull: {applicants : {
+        _id : req.body._id
+      }}
+    }, function(err, job) {
+      if (err) {
+        res.json({
+          err : err.message,
+          msg : null,
+          obj : null
+        });
+      }
+    })
   }
   Job.findByIdAndUpdate(id,{
     $push: {applicants : {
       explanation : req.body.explanation,
-      applicant : req.body.applicantID
+      applicant : new mongoose.mongo.ObjectID(req.body.applicantID)
     }}
   }, function(err, updJob) {
     if (err) {
@@ -593,6 +617,16 @@ app.patch("/job/:id", function(req, res) {
       );
     }
     else {
+      if (req.body.applicantID == 0) {
+        res.json(
+          {
+            err: null,
+            msg: null,
+            obj: updJob
+          }
+        );
+        return;
+      }
       Employ.findByIdAndUpdate(req.body.applicantID, {
         $push : {appliedFor : updJob._id}
       }, function(err, updEmp) {
@@ -633,8 +667,9 @@ app.delete("/job/:id", function(req, res) {
         );
       }
       else {
-        Employ.findByIdAndUpdate(job.postedBy, {
-          $pull : { "jobsPosted" : job._id }
+        console.log(delObj);
+        Employ.findByIdAndUpdate(delObj.postedBy, {
+          $pull : { "jobsPosted" : delObj._id }
         }, function(err, postedBy) {
           if (err) {
             res.json({
@@ -644,29 +679,40 @@ app.delete("/job/:id", function(req, res) {
             });
           }
           else {
-            job.applicants.forEach((applicant, index) => {
-              Employ.findByIdAndUpdate(applicant.applicant, {
-                $pull : { "appliedFor" : job._id }
-              }, function(err, applicant) {
-                if (err) {
-                  res.json({
-                    err : "Couldn't delete the id from applicant's job applied for.",
-                    msg : null,
-                    obj : null
-                  });
-                }
-                else {
-                  console.log(applicant._id, job.applicants[job.applicants.length - 1]);
-                  if (index == [job.applicants.length - 1].toString()) {
-                    res.json({
-                      err : null,
-                      msg : "Everything is a fucking sucess",
-                      obj : delObj
-                    })
-                  }
-                }
+            console.log(job);
+            if (job.applicants == null) {
+              res.json({
+                err : null,
+                msg : "No Applicants to be deleted",
+                obj : delObj
               })
-            });
+            }
+            else {
+              job.applicants.forEach((applicant, index) => {
+                console.log(applicant);
+                Employ.findByIdAndUpdate(applicant.applicant, {
+                  $pull : { "appliedFor" : job._id }
+                }, function(err, applicant) {
+                  if (err) {
+                    res.json({
+                      err : "Couldn't delete the id from applicant's job applied for.",
+                      msg : null,
+                      obj : null
+                    });
+                  }
+                  else {
+                    if (index == job.applicants.length - 1) {
+                      res.json({
+                        err : null,
+                        msg : "Everything is a fucking sucess",
+                        obj : job
+                      })
+                    }
+                  }
+                })
+              });
+
+            }
           }
         })
       }

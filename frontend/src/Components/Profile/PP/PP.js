@@ -122,7 +122,7 @@ class PP extends Component {
 
                               <Card.Text>
                                 <div className="bottom-box">
-                                  <div>7A 1gokuldam society ,mumbai</div>
+                                <div>{job.region}, {job.state}</div>
                                   <div>
                                     <Link to={`/jobware/${job._id}`}>
                                       <Button variant="dark" >view</Button>
@@ -171,7 +171,7 @@ class PP extends Component {
 
                               <Card.Text>
                                 <div className="bottom-box">
-                                  <div>7A 1gokuldam society ,mumbai</div>
+                                  <div>{job.region}, {job.state}</div>
                                   <div>
                                     <Link to={`/jobware/${job._id}`}>
                                       <Button variant="dark" >view</Button>

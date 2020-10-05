@@ -20,7 +20,7 @@ class ApplyJob extends Component {
             obj:{},
             fields: {},
             errors: {},
-            showApply: false
+            showApply: false,
         }
     }
     handleShowApply = () => {
@@ -39,37 +39,45 @@ class ApplyJob extends Component {
             fields[field] = e.target.value;        
             this.setState({fields});
             this.setState({
-                fields,
                 values: {
                     ...this.state.values,
-                    //applicantID: uid
+                    [field] : e.target.value
                 }
             })
         }
-    // componentDidMount() {
-    //     const cookies = new Cookies();
-    //     var uid = 0;
-    //     this.props.view_job.applicants.forEach(element => {
-    //         console.log("heyyylo111111111111");
-    //         if(element.applicant === cookies.get(uid) && element.applicant != 0){
-    //             this.setState({applied:true});
-    //             console.log("heyyylo");
-    //             // break;
-    //         }
+    componentDidMount() {
+        const cookies = new Cookies();
+        var uid = "000000000000000000000000";
+        if (cookies.get('uid')) {
+            uid = cookies.get('uid');
+        }
+        console.log(this.props.view_job);
+        this.setState({
+            values : {
+                ...this.state.values,
+                applicantID : uid
+            }
+        })
+        this.props.view_job.applicants.forEach(element => {
+            if(element.applicant == cookies.get('uid') && element.applicant != "0"){
+                
+                console.log(element);
+                console.log(this.state.values);
+                console.log("work");
+                this.setState({
+                    applied : true,
+                    values : element
+                }, () => {
+                    console.log(this.state.values);
+                })
+                
+            }
             
-    //     });
-    //     if (cookies.get('uid')) {
-    //         uid = cookies.get('uid');
-    //     }
-    //     this.setState({
-    //         values: {
-    //             ...this.state.values,
-    //             applicantID: uid
-    //         }
-    //     })
-        
-    //     console.log("cgutiys",this.props.view_job)
-    // }
+        });
+        if (cookies.get('uid')) {
+            uid = cookies.get('uid');
+        }
+    }
 
     handleValidation(){
         let fields = this.state.fields;
@@ -137,9 +145,9 @@ class ApplyJob extends Component {
                         <Modal.Body>
                             <div className="form-group" >
                                 <label className="font-increase-label"></label>
-                                <textarea name="explanation" className="form-control" onChange={this.handleInputChange.bind(this,"explanation")} rows={5} placeholder="Explain why are you worthy for this job , you can mention your working experinece." />
+                                <textarea name="explanation" className="form-control" onChange={this.handleInputChange.bind(this,"explanation")} rows={5} placeholder="Explain why are you worthy for this job , you can mention your working experinece." value={this.state.values.explanation} />
                                 <span style={{color: "red"}}>{this.state.errors["explanation"]}</span>
-                                {/* <span style={{ color: "red" }}>{this.state.errors["description"]}</span> */}
+                                
                                 <br />
                             </div>
                             {/* <div className="form-group">

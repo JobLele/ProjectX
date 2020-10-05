@@ -1,6 +1,10 @@
 .register-box-card{
     width: 50%;
 }
+.desc-feat{
+    color: rgba(0,47,52,.64);
+  font-size: 12px;
+  }
 @media only screen and (max-width: 600px) {
     .register-box-card{
         width: 80%;

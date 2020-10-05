@@ -296,7 +296,7 @@ app.get('/user/:id', function(req, res) {
       }
       else {
         res.json({
-          err : err.message,
+          err : "User not found",
           msg : null,
           obj : null
         });
@@ -513,15 +513,15 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
     }
     if (filter == "from") {
       search = {
-        "from" : {
-          $gte : value
+        "duration.0" : {
+          $gte : new Date(Date.parse(value))
         }
       }
     }
     else if (filter == "to") {
       search = {
-        "to" : {
-          $lte : value
+        "duration.1" : {
+          $lte : new Date(Date.parse(value))
         }
       }
     }
@@ -533,6 +533,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
           obj: null
         });
       } else {
+        console.log(jobs);
         if (jobs.length == 0) {
           res.json({
             err: "No jobs with that filter exists",

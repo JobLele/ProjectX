@@ -29,7 +29,8 @@ body {
 
   /* Profile sidebar */
   .profile-sidebar {
-    padding: 20px 0 10px 0;
+    padding: 0px 0 0px 0;
+    border-right: 1px solid gray;
     background: #fff;
   }
   
@@ -122,11 +123,13 @@ body {
   /* Profile Content */
   .profile-content {
     padding: 20px;
+    border-right: 1px solid gray;
     background: #fff;
     min-height: 460px;
   }
   .pp-box{
     display: flex;
+    border-right: 1px solid gray;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -134,7 +137,9 @@ body {
    
   }
   .pp-box-profile{
+    border-right: 1px solid gray;
     width: 20%;
+    height: 100%;
     flex-wrap: wrap;
   }
   .pp-box-jobs{

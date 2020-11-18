@@ -84,6 +84,7 @@ const jobSchema = new mongoose.Schema({
     }
   }]
 });
+jobSchema.index({'$**': 'text'});
 const Job = mongoose.model("Job", jobSchema);
 
 const userSchema = new mongoose.Schema({
@@ -203,9 +204,7 @@ app.post("/login", function(req, res) {
     username: req.body.email,
     password: req.body.password
   });
-  //console.log("in here");
-  req.login(user, function(err) {
-    console.log(user);
+  req.login(user, function(err) { 
     if (err) {
       console.log(err);
       res.json({
@@ -405,7 +404,6 @@ app.post("/job", function(req, res) {
     applicants: []
   });
   job.save((err, doc) => {
-    console.log(doc);
     if (err) {
       res.json({
         err: err.message,
@@ -504,6 +502,13 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
     search = {
       [filter]: value
     }
+    if (filter == "title") {
+      search = {
+        $text : {
+          $search : value
+        }
+      }
+    }
     if (filter == "salary") {
       search = {
         "salary" : {
@@ -518,7 +523,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
         }
       }
     }
-    else if (filter == "to") {
+    if (filter == "to") {
       search = {
         "duration.1" : {
           $lte : new Date(Date.parse(value))
@@ -533,7 +538,6 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
           obj: null
         });
       } else {
-        console.log(jobs);
         if (jobs.length == 0) {
           res.json({
             err: "No jobs with that filter exists",
@@ -581,7 +585,6 @@ app.put("/job/:id", function(req, res) {
 
 //applicants
 app.patch("/job/:id", function(req, res) {
-  console.log(req.body);
   var id = req.params.id;
   // if (req.body.applicantID == 0) {
   //   req.body.explanation += " Phone Number : " + req.body.number;
@@ -667,7 +670,6 @@ app.delete("/job/:id", function(req, res) {
         );
       }
       else {
-        console.log(delObj);
         Employ.findByIdAndUpdate(delObj.postedBy, {
           $pull : { "jobsPosted" : delObj._id }
         }, function(err, postedBy) {
@@ -679,7 +681,6 @@ app.delete("/job/:id", function(req, res) {
             });
           }
           else {
-            console.log(job);
             if (job.applicants == null) {
               res.json({
                 err : null,
@@ -689,7 +690,6 @@ app.delete("/job/:id", function(req, res) {
             }
             else {
               job.applicants.forEach((applicant, index) => {
-                console.log(applicant);
                 Employ.findByIdAndUpdate(applicant.applicant, {
                   $pull : { "appliedFor" : job._id }
                 }, function(err, applicant) {

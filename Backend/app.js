@@ -171,6 +171,17 @@ app.post("/register", function(req, res) {
         obj: null
       });
     } else {
+      const {
+        user
+      } = await User.authenticate()(req.body.email, req.body.password.toString());
+      if (user == false) {
+        res.json({
+          err: "Couldn't Authenticate",
+          msg: null,
+          obj: null
+        });
+        return;
+      }
       var employ = new Employ({
         email: req.body.email,
         name: req.body.name,

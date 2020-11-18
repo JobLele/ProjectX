@@ -5,9 +5,10 @@ import Card from 'react-bootstrap/Card';
 import Cookies from 'universal-cookie';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
-import "./PP.css"
+import "./fonts.css"
+import "./default.css"
 
-class PP extends Component {
+class Prof extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,52 +54,39 @@ class PP extends Component {
         appliedForLength = true;
       if (this.state.values.user.jobsPosted.length > 0)
         jobsPostedLength = true;
-      return (
-
-        <div className="main-box-pp" >
-          {/* <div className="row profile"> */}
-          <div className="pp-box" >
-            {/* <div classNameName="col-md-3"> */}
-            <div className="pp-box-profile" >
-              <div className="profile-sidebar" >
-                {/* <div className="profile-userpic">
-                <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" className="img-responsive" alt="" />
-              </div> */}
-                <div className="profile-usertitle">
-                  <div className="profile-usertitle-name">
-                    {this.state.values.user.name}
-                  </div>
-                  {/* <div className="profile-usertitle-job">
-                  Kakke Da Dhabba
-					      </div> */}
-                </div>
-                <div className="profile-usermenu">
-                  <div>
+      return (<div>
+        <div id="header-wrapper">
+        <div id="header" className="container">
+            <div id="logo">
+                <span>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS6zes53m4a_2VLTcmTn_bHk8NO5SkuWfcQbg&usqp=CAU" className="img-responsive" alt="" />
+                </span>
+                <h1>{this.state.values.user.name}</h1>
+                <h4>
+                <div>
                     {this.state.values.user.number}
                   </div>
-
-                  <div style={{ "color": "gray" }}>
+                  <div>
                     {this.state.values.user.email}
                   </div>
-
                   <div>
-                    {this.state.values.user.qualification}
+                      {this.state.values.user.qualification}
                   </div>
-                </div>
-                <div className="profile-userbuttons">
-                  <Link to={`/jobware/profile/${this.state.values.user._id}/edit`}>
-                    <button type="button" className="btn btn-dark btn-sm">Edit Profile</button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            {/* <div className="col-md-9"> */}
-            <div className="pp-box-jobs">
-              <div className="profile-content">
-                <div className="abc">JOBS POSTED</div>
-                {jobsPostedLength &&
+                  </h4>
+                 </div>
+            
+        </div>
+    </div>
+    
+    <div id="wrapper3">
+        <div id="portfolio" className="container">
+            <div className="title">
+                <br/>
+                <h2>JOBS POSTED</h2>
+                 </div>
+                 {jobsPostedLength &&
                   (
-                    <div className="flex-container">
+                 <div className="flex-container">
                       {this.state.values.user.jobsPosted.map(job => (
                         <div key={job.id} className="individual-card">
                           <Card style={{ width: '20rem' }}>
@@ -122,7 +110,7 @@ class PP extends Component {
 
                               <Card.Text>
                                 <div className="bottom-box">
-                                <div>{job.region}, {job.state}</div>
+                                  <div>7A 1gokuldam society ,mumbai</div>
                                   <div>
                                     <Link to={`/jobware/${job._id}`}>
                                       <Button variant="dark" >view</Button>
@@ -137,14 +125,16 @@ class PP extends Component {
 
                       ))}
                     </div>
-
-
                   )}
-
-                {!jobsPostedLength && (<div>No jobs posted</div>)}
-
-                <div className="abc">JOBS Applied</div>
-                {appliedForLength &&
+                  {!jobsPostedLength && (<div>No jobs posted</div>)}
+        </div>
+    </div>
+    <div id="wrapper3">
+        <div id="portfolio" className="container">
+            <div className="title">
+                <h2>JOBS Applied</h2>
+                 </div>
+                 {appliedForLength &&
                   (
 
                     <div className="flex-container">
@@ -171,7 +161,7 @@ class PP extends Component {
 
                               <Card.Text>
                                 <div className="bottom-box">
-                                  <div>{job.region}, {job.state}</div>
+                                  <div>7A 1gokuldam society ,mumbai</div>
                                   <div>
                                     <Link to={`/jobware/${job._id}`}>
                                       <Button variant="dark" >view</Button>
@@ -189,32 +179,27 @@ class PP extends Component {
 
                   )
                 }
-                {!appliedForLength && (<div>Yet Not applied to any job </div>)}
+                                {!appliedForLength && (<div>Yet Not applied to any job </div>)}
 
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-
-
-      );
-    }
-    else {
-      return (
+                </div>
+    </div>
+    </div>
+    );
+}
+else {
+  return (
+    <Container>
+      <Jumbotron fluid>
         <Container>
-          <Jumbotron fluid>
-            <Container>
-              <h1><center>{this.state.err}</center></h1>
-            </Container>
-          </Jumbotron>
-
+          <h1><center>{this.state.err}</center></h1>
         </Container>
-      )
-    }
-  }
+      </Jumbotron>
+
+    </Container>
+  )
+}
+}
 
 
 }
-export default PP;
+export default Prof;

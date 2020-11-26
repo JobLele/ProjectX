@@ -180,86 +180,128 @@ app.post("/register", function(req, res) {
           msg: null,
           obj: null
         });
-        return;
       }
-      var employ = new Employ({
-        email: req.body.email,
-        name: req.body.name,
-        number: req.body.number,
-        qualification: "",
-        jobsPosted: [],
-        appliedFor: []
-      });
-      employ.save((err, doc) => {
-        if (err) {
-          res.json({
-            err: err.message,
-            msg: "null",
-            obj: null
-          });
-        } else {
-          res.json({
-            err: null,
-            msg: "Registration Successfull",
-            obj: doc
-          });
-        }
-      });
+      else {
+        var employ = new Employ({
+          email: req.body.email,
+          name: req.body.name,
+          number: req.body.number,
+          qualification: "",
+          jobsPosted: [],
+          appliedFor: []
+        });
+        employ.save((err, doc) => {
+          if (err) {
+            res.json({
+              err: err.message,
+              msg: "null",
+              obj: null
+            });
+          } else {
+            res.json({
+              err: null,
+              msg: "Registration Successfull",
+              obj: doc
+            });
+          }
+        });
+      }
     }
   });
 
 });
 
-app.post("/login", function(req, res) {
-  const user = new User({
-    username: req.body.email,
-    password: req.body.password
-  });
-  req.login(user, function(err) { 
-    if (err) {
-      console.log(err);
-      res.json({
-        err: err.message,
-        msg: null,
-        obj: null
-      });
-    } else {
-      if (!req.isAuthenticated()) {
-        res.json(
-          {
-            err: "Can't Authenticate",
-            msg: null,
-            obj: null
-          }
-        )
-      }
-      Employ.findOne({
-        email: req.body.email
-      }, function(err, employ) {
-        if (err) {
+app.post("/login", async function(req, res) {
+
+  const {
+    user
+  } = await User.authenticate()(req.body.email, req.body.password.toString());
+
+  if (user == false) {
+    res.json({
+      err: "Can't Authenticate",
+      msg: null,
+      obj: null
+    });
+  }
+  else {
+    Employ.findOne({
+      email: req.body.email
+    }, function(err, employ) {
+      if (err) {
+        res.json({
+          err: err.message,
+          msg: null,
+          obj: null
+        });
+      } else {
+        if (employ) {
           res.json({
-            err: err.message,
+            err: null,
+            msg: "Login Successfull",
+            obj: employ
+          });
+        } else {
+          res.json({
+            err: "No details were saved in DB, contact Administrator",
             msg: null,
             obj: null
           });
-        } else {
-          if (employ) {
-            res.json({
-              err: null,
-              msg: "Login Successfull",
-              obj: employ
-            });
-          } else {
-            res.json({
-              err: "No details were saved in DB, contact Administrator",
-              msg: null,
-              obj: null
-            });
-          }
         }
-      });
-    }
-  });
+      }
+    });
+  }
+
+
+  // const user = new User({
+  //   username: req.body.email,
+  //   password: req.body.password
+  // });
+  // req.login(user, function(err) { 
+  //   if (err) {
+  //     console.log(err);
+  //     res.json({
+  //       err: err.message,
+  //       msg: null,
+  //       obj: null
+  //     });
+  //   } else {
+  //     if (!req.isAuthenticated()) {
+  //       res.json(
+  //         {
+  //           err: "Can't Authenticate",
+  //           msg: null,
+  //           obj: null
+  //         }
+  //       )
+  //     }
+  //     Employ.findOne({
+  //       email: req.body.email
+  //     }, function(err, employ) {
+  //       if (err) {
+  //         res.json({
+  //           err: err.message,
+  //           msg: null,
+  //           obj: null
+  //         });
+  //       } else {
+  //         if (employ) {
+  //           res.json({
+  //             err: null,
+  //             msg: "Login Successfull",
+  //             obj: employ
+  //           });
+  //         } else {
+  //           res.json({
+  //             err: "No details were saved in DB, contact Administrator",
+  //             msg: null,
+  //             obj: null
+  //           });
+  //         }
+  //       }
+  //     });
+  //   }
+  // });
 });
 
 app.get("/auth/google",
@@ -600,10 +642,11 @@ app.patch("/job/:id", function(req, res) {
   // if (req.body.applicantID == 0) {
   //   req.body.explanation += " Phone Number : " + req.body.number;
   // }
-  if (req.body._id) {
+  console.log(req.body);
+  if (req.body.applicantID) {
     Job.findByIdAndUpdate(id, {
       $pull: {applicants : {
-        _id : req.body._id
+        _id : req.body.applicantID
       }}
     }, function(err, job) {
       if (err) {

@@ -159,10 +159,10 @@ app.get('/', function(req, res) {
   res.json("Shouldn't be here mfer");
 });
 
-app.post("/register", function(req, res) {
+app.post("/register", async function(req, res) {
   User.register({
     username: req.body.email
-  }, req.body.password, function(err, user) {
+  }, req.body.password, async function(err, user) {
     if (err) {
       console.log(err);
       res.json({
@@ -642,11 +642,10 @@ app.patch("/job/:id", function(req, res) {
   // if (req.body.applicantID == 0) {
   //   req.body.explanation += " Phone Number : " + req.body.number;
   // }
-  console.log(req.body);
   if (req.body.applicantID) {
     Job.findByIdAndUpdate(id, {
       $pull: {applicants : {
-        _id : req.body.applicantID
+        applicant : req.body.applicantID
       }}
     }, function(err, job) {
       if (err) {

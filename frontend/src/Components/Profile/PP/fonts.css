@@ -1,6 +1,6 @@
 @charset 'UTF-8';
 
-@font-face
+/* @font-face
 {
 	font-family: 'FontAwesome';
 	src: url('fonts/fontawesome-webfont.eot?v=3.0.1');
@@ -10,9 +10,9 @@
 	     url('fonts/fontawesome-webfont.svg#FontAwesome') format('svg');
 	font-weight: normal;
 	font-style: normal;
-}
+} */
 
-@font-face
+/* @font-face
 {
 	font-family: 'Font-Awesome-Social';
 	src: url('fonts/fontawesome-social-webfont.eot');
@@ -22,7 +22,7 @@
 		 url('fonts/fontawesome-social-webfont.svg#Font-Awesome-More') format('svg');
 	font-weight: normal;
 	font-style: normal;
-}
+} */
 
 /*********************************************************************************/
 /* Icons                                                                         */

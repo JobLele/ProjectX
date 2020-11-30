@@ -510,7 +510,7 @@ app.get("/jobs/:offset", function(req, res) {
   if (offset == null) {
     offset = 0;
   }
-  Job.find({}).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
+  Job.find({}).sort('-postedOn').skip(offset*10).limit(10).populate("applicants.applicant").exec(function(err, jobs) {
     if (err) {
      
       res.json({
@@ -541,6 +541,60 @@ app.get("/jobs/:offset", function(req, res) {
     }
   })
 });
+
+
+app.post("/jobs/filter/:offset", function(req, res) {
+  var search = {}
+  var offset = req.params.offset;
+  if (offset == null) {
+    offset = 0;
+  }
+  if (req.body.title != "") {
+    search.$text = {
+      $search : req.body.title
+    }
+  }
+  if (req.body.salary != 0) {
+    search["salary"] = {
+      $gte : req.body.salary
+    }
+  }
+  if (req.body.from != null) {
+    search["duration.0"] = {
+      $gte : new Date(Date.parse(req.body.from))
+    }
+  }
+  if (req.body.to != null) {
+    search["duration.1"] = {
+      $lte : new Date(Date.parse(req.body.to))
+    }
+  }
+  Job.find(search).sort('-postedOn').skip(offset*10).limit(10).populate("applicants.applicant").exec(function(err, jobs) {
+    if (err) {
+      res.json({
+        err: err.message,
+        msg: null,
+        obj: null
+      });
+    } else {
+      if (jobs.length == 0) {
+        res.json({
+          err: "No jobs with that filter exists",
+          msg: "",
+          obj: null
+        })
+      } else {
+        res.json({
+          err: null,
+          msg: "All Jobs with that filter are Procured",
+          obj: jobs
+        });
+      }
+    }
+  });
+
+
+})
 
 app.get("/jobs/:filter/:value/:offset", function(req, res) {
   var filter = req.params.filter;

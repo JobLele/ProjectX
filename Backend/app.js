@@ -84,6 +84,7 @@ const jobSchema = new mongoose.Schema({
     }
   }]
 });
+jobSchema.index({'$**': 'text'});
 const Job = mongoose.model("Job", jobSchema);
 
 const userSchema = new mongoose.Schema({
@@ -158,10 +159,10 @@ app.get('/', function(req, res) {
   res.json("Shouldn't be here mfer");
 });
 
-app.post("/register", function(req, res) {
+app.post("/register", async function(req, res) {
   User.register({
     username: req.body.email
-  }, req.body.password, function(err, user) {
+  }, req.body.password, async function(err, user) {
     if (err) {
       console.log(err);
       res.json({
@@ -170,86 +171,137 @@ app.post("/register", function(req, res) {
         obj: null
       });
     } else {
-      var employ = new Employ({
-        email: req.body.email,
-        name: req.body.name,
-        number: req.body.number,
-        qualification: "",
-        jobsPosted: [],
-        appliedFor: []
-      });
-      employ.save((err, doc) => {
-        if (err) {
-          res.json({
-            err: err.message,
-            msg: "null",
-            obj: null
-          });
-        } else {
-          res.json({
-            err: null,
-            msg: "Registration Successfull",
-            obj: doc
-          });
-        }
-      });
+      const {
+        user
+      } = await User.authenticate()(req.body.email, req.body.password.toString());
+      if (user == false) {
+        res.json({
+          err: "Couldn't Authenticate",
+          msg: null,
+          obj: null
+        });
+      }
+      else {
+        var employ = new Employ({
+          email: req.body.email,
+          name: req.body.name,
+          number: req.body.number,
+          qualification: "",
+          jobsPosted: [],
+          appliedFor: []
+        });
+        employ.save((err, doc) => {
+          if (err) {
+            res.json({
+              err: err.message,
+              msg: "null",
+              obj: null
+            });
+          } else {
+            res.json({
+              err: null,
+              msg: "Registration Successfull",
+              obj: doc
+            });
+          }
+        });
+      }
     }
   });
 
 });
 
-app.post("/login", function(req, res) {
-  const user = new User({
-    username: req.body.email,
-    password: req.body.password
-  });
-  //console.log("in here");
-  req.login(user, function(err) {
-    console.log(user);
-    if (err) {
-      console.log(err);
-      res.json({
-        err: err.message,
-        msg: null,
-        obj: null
-      });
-    } else {
-      if (!req.isAuthenticated()) {
-        res.json(
-          {
-            err: "Can't Authenticate",
-            msg: null,
-            obj: null
-          }
-        )
-      }
-      Employ.findOne({
-        email: req.body.email
-      }, function(err, employ) {
-        if (err) {
+app.post("/login", async function(req, res) {
+
+  const {
+    user
+  } = await User.authenticate()(req.body.email, req.body.password.toString());
+
+  if (user == false) {
+    res.json({
+      err: "Can't Authenticate",
+      msg: null,
+      obj: null
+    });
+  }
+  else {
+    Employ.findOne({
+      email: req.body.email
+    }, function(err, employ) {
+      if (err) {
+        res.json({
+          err: err.message,
+          msg: null,
+          obj: null
+        });
+      } else {
+        if (employ) {
           res.json({
-            err: err.message,
+            err: null,
+            msg: "Login Successfull",
+            obj: employ
+          });
+        } else {
+          res.json({
+            err: "No details were saved in DB, contact Administrator",
             msg: null,
             obj: null
           });
-        } else {
-          if (employ) {
-            res.json({
-              err: null,
-              msg: "Login Successfull",
-              obj: employ
-            });
-          } else {
-            res.json({
-              err: "No details were saved in DB, contact Administrator",
-              msg: null,
-              obj: null
-            });
-          }
         }
-      });
-    }
-  });
+      }
+    });
+  }
+
+
+  // const user = new User({
+  //   username: req.body.email,
+  //   password: req.body.password
+  // });
+  // req.login(user, function(err) { 
+  //   if (err) {
+  //     console.log(err);
+  //     res.json({
+  //       err: err.message,
+  //       msg: null,
+  //       obj: null
+  //     });
+  //   } else {
+  //     if (!req.isAuthenticated()) {
+  //       res.json(
+  //         {
+  //           err: "Can't Authenticate",
+  //           msg: null,
+  //           obj: null
+  //         }
+  //       )
+  //     }
+  //     Employ.findOne({
+  //       email: req.body.email
+  //     }, function(err, employ) {
+  //       if (err) {
+  //         res.json({
+  //           err: err.message,
+  //           msg: null,
+  //           obj: null
+  //         });
+  //       } else {
+  //         if (employ) {
+  //           res.json({
+  //             err: null,
+  //             msg: "Login Successfull",
+  //             obj: employ
+  //           });
+  //         } else {
+  //           res.json({
+  //             err: "No details were saved in DB, contact Administrator",
+  //             msg: null,
+  //             obj: null
+  //           });
+  //         }
+  //       }
+  //     });
+  //   }
+  // });
 });
 
 app.get("/auth/google",
@@ -405,7 +457,6 @@ app.post("/job", function(req, res) {
     applicants: []
   });
   job.save((err, doc) => {
-    console.log(doc);
     if (err) {
       res.json({
         err: err.message,
@@ -504,6 +555,13 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
     search = {
       [filter]: value
     }
+    if (filter == "title") {
+      search = {
+        $text : {
+          $search : value
+        }
+      }
+    }
     if (filter == "salary") {
       search = {
         "salary" : {
@@ -518,7 +576,7 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
         }
       }
     }
-    else if (filter == "to") {
+    if (filter == "to") {
       search = {
         "duration.1" : {
           $lte : new Date(Date.parse(value))
@@ -533,7 +591,6 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
           obj: null
         });
       } else {
-        console.log(jobs);
         if (jobs.length == 0) {
           res.json({
             err: "No jobs with that filter exists",
@@ -581,15 +638,14 @@ app.put("/job/:id", function(req, res) {
 
 //applicants
 app.patch("/job/:id", function(req, res) {
-  console.log(req.body);
   var id = req.params.id;
   // if (req.body.applicantID == 0) {
   //   req.body.explanation += " Phone Number : " + req.body.number;
   // }
-  if (req.body._id) {
+  if (req.body.applicantID) {
     Job.findByIdAndUpdate(id, {
       $pull: {applicants : {
-        _id : req.body._id
+        applicant : req.body.applicantID
       }}
     }, function(err, job) {
       if (err) {
@@ -667,7 +723,6 @@ app.delete("/job/:id", function(req, res) {
         );
       }
       else {
-        console.log(delObj);
         Employ.findByIdAndUpdate(delObj.postedBy, {
           $pull : { "jobsPosted" : delObj._id }
         }, function(err, postedBy) {
@@ -679,7 +734,6 @@ app.delete("/job/:id", function(req, res) {
             });
           }
           else {
-            console.log(job);
             if (job.applicants == null) {
               res.json({
                 err : null,
@@ -689,7 +743,6 @@ app.delete("/job/:id", function(req, res) {
             }
             else {
               job.applicants.forEach((applicant, index) => {
-                console.log(applicant);
                 Employ.findByIdAndUpdate(applicant.applicant, {
                   $pull : { "appliedFor" : job._id }
                 }, function(err, applicant) {

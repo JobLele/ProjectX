@@ -15,7 +15,8 @@ class NavbarFunction extends Component {
         this.state = {
             name:"",
             showLogin: true,
-            showLogout: false
+            showLogout: false,
+            
         };
     }
     componentDidMount() {
@@ -28,6 +29,7 @@ class NavbarFunction extends Component {
             fetch(`http://localhost:2000/user/${cookies.get('uid')}`)
             .then(res => res.json())
             .then(data => { this.setState({name:data.obj.name}) })
+            // .then(data => { console.log("navbar",data) })
 
         }
     }
@@ -66,7 +68,7 @@ class NavbarFunction extends Component {
                             <Nav>
                             {(this.state.showLogout) && 
                             <NavDropdown title={this.state.name} id="collasible-nav-dropdown">
-                                <NavDropdown.Item href="/jobware/profile">View Profile</NavDropdown.Item>
+                                <NavDropdown.Item href={`/jobware/profile/${cookies.get('uid')}`}>View Profile</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href={`/jobware/profile/${cookies.get('uid')}/edit`}>Edit Profile</NavDropdown.Item>
                                 <NavDropdown.Divider />

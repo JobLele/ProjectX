@@ -23,7 +23,8 @@ class Prof extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const { match: { params } } = this.props;
-    if (params.uid != null) {
+    console.log(params);
+    if (params.id != null) {
       fetch(`http://localhost:2000/user/${params.id}`)
         .then(res => res.json())
         .then(data => { this.getData(data) })

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 
 class Applicants extends Component {
@@ -12,7 +13,6 @@ class Applicants extends Component {
             },
             showApplicants: false,
         }
-
 
     }
 
@@ -33,7 +33,7 @@ class Applicants extends Component {
                 applicants: this.props.view_job.applicants
             }
         })
-        console.log("applocants", this.state.values.applicants);
+        console.log("applocants", this.props.view_job.applicants);
         this.handleShowApplicants();
     }
     render() {
@@ -52,7 +52,7 @@ class Applicants extends Component {
                         <Modal.Body>
                             {this.state.values.applicants.map(applicant => (
                                 <div className="app-box-each">
-                                    <a className="link-to-applicant">link to applicant1</a>
+                                    <Link to={`/jobware/profile/${applicant.applicant}`} className="link-to-applicant">applicant name </Link>
                                     <div className="desc-to-applicant">{applicant.explanation}</div>
                                 </div>
                                 // <div className="app-box-each">

@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/logout" component={Logout}></Route>
         <Route path="/register" component={Register}></Route>
         <Route path="/jobware/profile"exact  component={PP}></Route>
-        <Route path="/jobware/prof/:id"exact  component={Prof}></Route>
+        <Route path="/jobware/profile/:id"exact  component={Prof}></Route>
         <Route path="/jobware/postjob"exact component={PostJob}></Route>
         <Route path="/jobware/:id" exact component={Job}></Route>
         <Route path="/jobware/:id/edit" component={EditJob}></Route>

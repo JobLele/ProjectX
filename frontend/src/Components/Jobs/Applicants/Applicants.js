@@ -33,7 +33,7 @@ class Applicants extends Component {
                 applicants: this.props.view_job.applicants
             }
         })
-        console.log("applocants", this.state.values.applicants);
+        console.log("applocants", this.props.view_job.applicants);
         this.handleShowApplicants();
     }
     render() {

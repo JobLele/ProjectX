@@ -22,14 +22,15 @@ class Prof extends Component {
 
   componentDidMount() {
     const cookies = new Cookies();
-    if (cookies.get('uid')) {
-      const id = cookies.get('uid');
-      fetch(`http://localhost:2000/user/${id}`)
+    const { match: { params } } = this.props;
+    console.log(params);
+    if (params.id != null) {
+      fetch(`http://localhost:2000/user/${params.id}`)
         .then(res => res.json())
         .then(data => { this.getData(data) })
     }
     else {
-      alert("Login to view your profile");
+      alert("No such profile exists");
       window.location.href = "/";
     }
 

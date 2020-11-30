@@ -33,7 +33,7 @@ class Applicants extends Component {
                 applicants: this.props.view_job.applicants
             }
         })
-        console.log("applocants", this.state.values.applicants);
+        console.log("applocants", this.props.view_job.applicants);
         this.handleShowApplicants();
     }
     render() {
@@ -52,7 +52,7 @@ class Applicants extends Component {
                         <Modal.Body>
                             {this.state.values.applicants.map(applicant => (
                                 <div className="app-box-each">
-                                    <a className="link-to-applicant">link to applicant1</a>
+                                    <a  className="link-to-applicant">link to applicant1</a>
                                     <div className="desc-to-applicant">{applicant.explanation}</div>
                                 </div>
                                 // <div className="app-box-each">

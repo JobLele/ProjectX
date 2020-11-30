@@ -490,7 +490,7 @@ app.post("/job", function(req, res) {
 
 app.get("/job/:id", function(req, res) {
   var id = req.params.id;
-  Job.findById(id, function(err, job) {
+  Job.findById(id).populate("applicants.applicant").exec(function(err, job) {
     if (err) {
       res.json({err: err.message, msg: null, obj: null});
     }
@@ -510,7 +510,7 @@ app.get("/jobs/:offset", function(req, res) {
   if (offset == null) {
     offset = 0;
   }
-  Job.find({}).sort('-postedOn').skip(offset*10).limit(10).populate("applicants.applicant").exec(function(err, jobs) {
+  Job.find({}).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
     if (err) {
      
       res.json({
@@ -530,8 +530,6 @@ app.get("/jobs/:offset", function(req, res) {
         })
       } 
       else {
-        
-
         res.json({
           err: null, 
           msg: "ID Job Procured", 
@@ -569,7 +567,7 @@ app.post("/jobs/filter/:offset", function(req, res) {
       $lte : new Date(Date.parse(req.body.to))
     }
   }
-  Job.find(search).sort('-postedOn').skip(offset*10).limit(10).populate("applicants.applicant").exec(function(err, jobs) {
+  Job.find(search).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
     if (err) {
       res.json({
         err: err.message,

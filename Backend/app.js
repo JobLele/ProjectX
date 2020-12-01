@@ -36,7 +36,7 @@ mongoose.connect(MongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
-  }) 
+  })
   .then(() => {
     console.log("Connected to mDB");
     var nulla = new Employ({
@@ -78,7 +78,7 @@ const jobSchema = new mongoose.Schema({
   },
   applicants: [{
     explanation: String,
-    applicant: { 
+    applicant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Employ'
     }
@@ -257,7 +257,7 @@ app.post("/login", async function(req, res) {
   //   username: req.body.email,
   //   password: req.body.password
   // });
-  // req.login(user, function(err) { 
+  // req.login(user, function(err) {
   //   if (err) {
   //     console.log(err);
   //     res.json({
@@ -512,27 +512,27 @@ app.get("/jobs/:offset", function(req, res) {
   }
   Job.find({}).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
     if (err) {
-     
+
       res.json({
         err: err.message,
         msg: null,
         obj: null
       });
     } else {
-      
-     
+
+
       if (jobs.length == 0) {
- 
+
         res.json({
           err: "No jobs exists",
           msg: "",
           obj: null
         })
-      } 
+      }
       else {
         res.json({
-          err: null, 
-          msg: "ID Job Procured", 
+          err: null,
+          msg: "ID Job Procured",
           obj: jobs
         });
       }
@@ -556,6 +556,19 @@ app.post("/jobs/filter/:offset", function(req, res) {
     search["salary"] = {
       $gte : req.body.salary
     }
+  }
+  if (req.body.state != "") {
+    search["state"] = {
+      $gte : req.body.state
+    }
+  }
+  if (req.body.state != "") {
+    search["state"] = req.body.state
+
+  }
+  if (req.body.region != "") {
+    search["region"] = req.body.region
+
   }
   if (req.body.from != null) {
     search["duration.0"] = {
@@ -619,6 +632,16 @@ app.get("/jobs/:filter/:value/:offset", function(req, res) {
         "salary" : {
           $gte : value
         }
+      }
+    }
+    if (filter == "state") {
+      search = {
+        "state" : { value  }
+      }
+    }
+    if (filter == "region") {
+      search = {
+        "region" : { value  }
       }
     }
     if (filter == "from") {

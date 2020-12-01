@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -8,9 +8,14 @@ import Jumbotron from 'react-bootstrap/Jumbotron'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { StateDropdown, RegionDropdown } from 'react-india-state-region-selector';
+import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
+import RangeSlider from 'react-bootstrap-range-slider';
+import 'react-pro-sidebar/dist/css/styles.css';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './Joblist.css';
 
 class JobList extends Component {
+    
 
     constructor(props) {
         super(props);
@@ -20,14 +25,14 @@ class JobList extends Component {
             },
             err: null,
             msg: null,
-            host : "http://localhost:2000/jobs/",
-            filter : null,
-            value : null,
-            offset : 0,
-            state : "",
-            region : "",
-            from : "",
-            to : ""
+            host: "http://localhost:2000/jobs/",
+            filter: null,
+            value: null,
+            offset: 0,
+            state: "",
+            region: "",
+            from: "",
+            to: ""
         }
         this.count = 0;
         this.getData = this.getData.bind(this);
@@ -36,45 +41,46 @@ class JobList extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.submitData = this.submitData.bind(this);
         this.getData = this.getData.bind(this);
+        // const [ salfilt, setSalfilt ] = useState(0); 
     }
 
-    
+
     handleInputChange = (e) => {
         this.setState({
-            filter : e.target.name,
-            value : e.target.value
+            filter: e.target.name,
+            value: e.target.value
         })
     }
 
     selectState(val) {
         this.setState({
-            filter : "state",
-            value : val,
-            state : val
+            filter: "state",
+            value: val,
+            state: val
         });
     }
 
     selectRegion(val) {
         this.setState({
-            filter : "region",
-            value : val,
-            region : val
+            filter: "region",
+            value: val,
+            region: val
         });
     }
 
     handleInputChangeDateFrom = (e) => {
         this.setState({
-            filter : "from",
-            value : e.toString(),
-            from : e
+            filter: "from",
+            value: e.toString(),
+            from: e
         })
     }
 
     handleInputChangeDateTo = (e) => {
         this.setState({
-            filter : "to",
-            value : e.toString(),
-            to : e
+            filter: "to",
+            value: e.toString(),
+            to: e
         })
     }
 
@@ -86,9 +92,9 @@ class JobList extends Component {
         }
         url += this.count;
         fetch(url)
-        .then(res => res.json())
-        .then(data => this.getData(data))
-        .catch(err => console.error(err));
+            .then(res => res.json())
+            .then(data => this.getData(data))
+            .catch(err => console.error(err));
     }
 
     getData = (data) => {
@@ -102,7 +108,7 @@ class JobList extends Component {
         console.log(this.state.values);
         const cookies = new Cookies();
 
-        setTimeout(function() {
+        setTimeout(function () {
             console.log(cookies.get('uid'));
         }, 50);
     }
@@ -116,11 +122,11 @@ class JobList extends Component {
     previousGetData(event) {
         event.preventDefault();
         this.count = this.count - 1;
-        if(this.count>=0){
+        if (this.count >= 0) {
             this.submitData()
         }
-        else{
-            this.count=this.count+1;
+        else {
+            this.count = this.count + 1;
         }
     }
     nextGetData(e) {
@@ -134,69 +140,49 @@ class JobList extends Component {
         if (this.state.err === null) {
             return (
                 <div>
-                    <Container>
-                        {/* this shit starts */}
-                        
-            <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <h1>Only 1 filter works at a time</h1>
-                        <br />
-                    </div>
-                    <div className="form-group">
-                                        <label className="font-increase-label">Job Title*</label>
-                                        <input type="text" name="title" className="form-control" placeholder="Job Title" onChange={this.handleInputChange}/>
-                                        <br />
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="font-increase-label">Salary*</label>
-                                        <input type="number" id="salary" name="salary" className="form-control"  onChange={this.handleInputChange}></input>
-                                        <div className="desc-feat">Mention salary as per day.</div>
-                                    </div>
-                                    <div className="date-box-postjob form-group">
-                                        <div className="p-2 col-example text-left">
-                                            <label className="font-increase-label">State*</label>
-                                            <br />
-                                            <StateDropdown id="state" name="state" className="form-control" value={this.state.state} onChange={(val) => this.selectState(val)} />
-                                            <br />
-                                        </div>
+                    {/* <Container> */}
+                    <div className="filterandjobsbox">
+                        <div className="filterbox">
 
-                                        <div className="p-2 col-example text-left">
-                                            <label className="font-increase-label">Region*</label>
-                                            <br />
-                                            <RegionDropdown id="region" name="region" className="form-control" State={this.state.state} value={this.state.region} onChange={(val) => this.selectRegion(val)} />
-                                            <br />
-                                        </div>
-                                    </div>
+                            <ProSidebar>
 
-                                    <div className="date-box-postjob form-group">
-                                        <div className="p-2 col-example text-left">
-                                            <label>Start Date*</label><br />
-                                            <DatePicker
-                                                selected={this.state.from}
-                                                onChange={this.handleInputChangeDateFrom}
-                                                name="from"
-                                                dateFormat="MM/dd/yyyy"
-                                                className="form-control" />
+                                <Menu iconShape="square">
+                                    <MenuItem >All Filters</MenuItem>
+                                    <SubMenu title="Salary" >
+                                        <MenuItem>Component 1</MenuItem>
+                                        <MenuItem>Component 2</MenuItem>
+                                        <RangeSlider tooltip="off" size="sm" variant="light" Label="sainy"
+                                            // salfilt={salfilt}
+                                            // onChange={changeEvent => setSalfilt(changeEvent.target.salfilt)}
+                                        />
+                                        <span>sainya</span>
+                                    </SubMenu>
+                                    <SubMenu title="Location" >
+                                        <MenuItem>Component 1</MenuItem>
+                                        <MenuItem>Component 2</MenuItem>
+                                    </SubMenu>
+                                    <SubMenu title="Date" >
+                                        <MenuItem>Component 1</MenuItem>
+                                        <MenuItem>Component 2</MenuItem>
+                                    </SubMenu>
+                                    <SubMenu title="Job Type" >
+                                        <MenuItem>Temporary(less than 3 months)</MenuItem>
+                                        <MenuItem>Permanent(more than 3 months)</MenuItem>
+                                        <MenuItem>Part Time</MenuItem>
+                                        <MenuItem>Full Time</MenuItem>
+                                        <MenuItem>All Jobs</MenuItem>
+                                    </SubMenu>
+                                    <SubMenu title="Duration" >
+                                        <MenuItem>2 Days</MenuItem>
+                                        <MenuItem>1 Week</MenuItem>
+                                        <MenuItem>1 Month</MenuItem>
+                                        <MenuItem>3 Months</MenuItem>
+                                        <MenuItem>More than 3 Months</MenuItem>
+                                    </SubMenu>
+                                </Menu>
+                            </ProSidebar>
+                        </div>
 
-                                        </div>
-                                        <div className="p-2 col-example text-left">
-                                            <label>End Date*</label><br />
-                                            <DatePicker
-                                                selected={this.state.to}
-                                                onChange={this.handleInputChangeDateTo}
-                                                name="to"
-                                                dateFormat="MM/dd/yyyy"
-                                                className="form-control"
-                                            />
-                                        </div>
-                                    </div>
-                    <div class="row">
-                        <button onClick={this.submitData}>Dabao Mujhe</button>
-                    </div>
-                </div>
-            </div>
-            {/* Shit ends */}
                         <div className="card-main-box text-center">
                             {this.state.values.jobs.map(job => (
                                 <div key={job.id} className="individual-card">
@@ -241,21 +227,22 @@ class JobList extends Component {
                             <Button onClick={this.previousGetData} variant="outline-dark" >{`<`}</Button>
                             <Button onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>
                         </div>
+                    </div>
 
-                    </Container>
+                    {/* </Container> */}
 
                 </div>
 
             )
         }
-        else  {
+        else {
             return (
                 <Container>
-                     <Jumbotron fluid>
-                <Container>
-                <h1><center>{this.state.err}</center></h1>
-                </Container>
-            </Jumbotron>
+                    <Jumbotron fluid>
+                        <Container>
+                            <h1><center>{this.state.err}</center></h1>
+                        </Container>
+                    </Jumbotron>
                     <div className="next-previous-box">
                         <Button onClick={this.previousGetData} variant="outline-dark" >{`<`}</Button>
                         <Button onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>
@@ -263,7 +250,7 @@ class JobList extends Component {
                 </Container>
             )
         }
-        
+
     }
 }
 //abc

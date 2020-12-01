@@ -20,6 +20,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    width: 80%;
+    
 
 }
 .individual-card{
@@ -27,6 +29,9 @@
     
   transition: all 0.5s ease-in-out;
     
+}
+.card{
+  height:30rem
 }
 .individual-card::after{
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -42,4 +47,27 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap-reverse;
+    width:100%;
+    padding-top: 2rem;
+}
+.filterandjobsbox{
+  display:flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.filterbox{
+  width: 20%;
+  
+}
+.pro-sidebar > .pro-sidebar-inner{
+  border-radius: .5rem;
+}
+.pro-sidebar{
+  min-width: 0px!important;
+}
+.pro-sidebar .pro-menu .pro-menu-item{
+  border-bottom: .1rem solid gray ;
 }

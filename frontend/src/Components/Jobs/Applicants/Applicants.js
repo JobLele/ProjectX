@@ -52,7 +52,7 @@ class Applicants extends Component {
                         <Modal.Body>
                             {this.state.values.applicants.map(applicant => (
                                 <div className="app-box-each">
-                                    <Link to={`/jobware/profile/${applicant.applicant}`} className="link-to-applicant">applicant name </Link>
+                                    <Link to={`/jobware/profile/${applicant.applicant}`} className="link-to-applicant">applicant name</Link>
                                     <div className="desc-to-applicant">{applicant.explanation}</div>
                                 </div>
                                 // <div className="app-box-each">

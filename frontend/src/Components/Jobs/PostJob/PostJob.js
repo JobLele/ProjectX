@@ -198,7 +198,7 @@ class PostJob extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <label className="font-increase-label">Salary*</label>
-                                        <input type="number" id="salary" name="salary" className="form-control" onChange={this.handleInputChange.bind(this, "salary")}></input>
+                                        <input type="number" id="salary" name="salary" className="form-control" placeholder="Mention salary as per day" onChange={this.handleInputChange.bind(this, "salary")}></input>
                                         <div style={{ color: "red" }}>{this.state.errors["salary"]}</div>
                                         <div className="desc-feat">Mention salary as per day.</div>
                                         
@@ -213,6 +213,7 @@ class PostJob extends React.Component {
                                         <div className="p-2 col-example text-left">
                                             <label className="font-increase-label">State*</label>
                                             <br />
+                                            
                                             <StateDropdown id="state" name="state" className="form-control" value={this.state.values.state} onChange={(val) => this.selectState(val)} />
                                             <br />
                                             <span style={{ color: "red" }}>{this.state.errors["state"]}</span>

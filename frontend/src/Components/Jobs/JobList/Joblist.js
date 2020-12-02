@@ -1,7 +1,10 @@
 import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
+import { Button, Form, FormGroup, Label, Input, FormText, Col, Row } from 'react-bootstrap';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormGroupmaterial from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Card from 'react-bootstrap/Card';
 import Cookies from 'universal-cookie';
 import Jumbotron from 'react-bootstrap/Jumbotron'
@@ -10,13 +13,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { StateDropdown, RegionDropdown } from 'react-india-state-region-selector';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
 import RangeSlider from 'react-bootstrap-range-slider';
-import { Checkbox } from '@material-ui/core';
 import 'react-pro-sidebar/dist/css/styles.css';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './Joblist.css';
 
 class JobList extends Component {
-    
+
 
     constructor(props) {
         super(props);
@@ -28,15 +30,25 @@ class JobList extends Component {
             msg: null,
             host: "http://localhost:2000/jobs/",
             filter: null,
+            typeOfJob: {
+                temporary: false,
+                permanent: false,
+                parttime: false,
+                fulltime: false,
+                alljobs: true
+            },
             value: null,
             offset: 0,
             state: "",
             region: "",
             from: "",
-            to: ""
+            to: "",
+            salary: 500
+
         }
         this.count = 0;
         this.getData = this.getData.bind(this);
+        this.handleChangetypeOfJob = this.handleChangetypeOfJob.bind(this);
         this.previousGetData = this.previousGetData.bind(this);
         this.nextGetData = this.nextGetData.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -135,6 +147,18 @@ class JobList extends Component {
         this.count = this.count + 1;
         this.submitData()
     }
+    handleChangetypeOfJob = (event) => {
+        this.setState({
+            typeOfJob: {
+                ...this.state.typeOfJob,
+                [event.target.name]: event.target.checked
+            }
+
+
+        })
+        
+    }
+
 
     render() {
         const MAX_LENGTH = 250
@@ -143,6 +167,7 @@ class JobList extends Component {
                 <div>
                     {/* <Container> */}
                     <div className="filterandjobsbox">
+
                         <div className="filterbox">
 
                             <ProSidebar>
@@ -150,27 +175,124 @@ class JobList extends Component {
                                 <Menu iconShape="square">
                                     <MenuItem >All Filters</MenuItem>
                                     <SubMenu title="Salary" >
-                                        <MenuItem>Component 1</MenuItem>
-                                        <MenuItem>Component 2</MenuItem>
-                                        <RangeSlider tooltip="off" size="sm" variant="light" Label="sainy"
-                                            // salfilt={salfilt}
-                                            // onChange={changeEvent => setSalfilt(changeEvent.target.salfilt)}
-                                        />
-                                        <span>sainya</span>
+                                        <Form>
+                                            <Form.Group as={Row}>
+                                                <Form.Label>
+                                                    Salary per day
+                                                    {/* <Col xs='4'> */}
+                                                    <Form.Control value={this.state.salary} size='sm' />
+                                                    {/* </Col> */}
+                                                 or more
+                                                 </Form.Label>
+
+
+                                                <Col xs="8">
+                                                    <RangeSlider
+                                                        value={this.state.salary}
+                                                        onChange={(e) => this.setState({ salary: e.target.value })}
+
+
+                                                        size='sm'
+                                                        variant='light'
+                                                        tooltipPlacement='down'
+                                                        tooltipLabel={currentValue => `₹${currentValue}/day`}
+                                                        min={100}
+                                                        max={1000}
+                                                        tooltip="on"
+                                                    />
+                                                </Col>
+                                            </Form.Group>
+                                        </Form>
+
                                     </SubMenu>
                                     <SubMenu title="Location" >
                                         <MenuItem>State</MenuItem>
-                                        {/* {states.map(state => (
-                                            
-                                        ))} */}
-                                        <MenuItem>Component 2</MenuItem>
+                                        <StateDropdown id="state" name="state" className="form-control" value={this.state.state} onChange={(val) => this.selectState(val)} />
+                                        <MenuItem>Region</MenuItem>
+                                        <RegionDropdown id="region" name="region" className="form-control" State={this.state.state} value={this.state.region} onChange={(val) => this.selectRegion(val)} />
                                     </SubMenu>
                                     <SubMenu title="Date" >
-                                        <MenuItem>Component 1</MenuItem>
-                                        <Checkbox>data</Checkbox>
-                                        <MenuItem>Component 2</MenuItem>
+                                        <div className="graycolor">
+                                            <label>Start Date</label><br />
+                                            <DatePicker
+                                                selected={this.state.from}
+                                                onChange={this.handleInputChangeDateFrom}
+                                                name="from"
+                                                dateFormat="MM/dd/yyyy"
+                                                className="form-control" />
+                                            <label>End Date</label><br />
+                                            <DatePicker
+                                                selected={this.state.to}
+                                                onChange={this.handleInputChangeDateTo}
+                                                name="to"
+                                                dateFormat="MM/dd/yyyy"
+                                                className="form-control"
+                                            />
+                                        </div>
+
+
                                     </SubMenu>
                                     <SubMenu title="Job Type" >
+                                        {/* <div className="graycolor"> */}
+                                        <FormGroupmaterial row>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={this.state.typeOfJob.permanent}
+                                                        onChange={this.handleChangetypeOfJob}
+                                                        name="permanent"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="Permanent"
+                                            /><br></br>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={this.state.typeOfJob.temporary}
+                                                        onChange={this.handleChangetypeOfJob}
+                                                        name="temporary"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="Temporary"
+                                            /><br></br>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={this.state.typeOfJob.parttime}
+                                                        onChange={this.handleChangetypeOfJob}
+                                                        name="parttime"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="Part Time"
+                                            /><br></br>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={this.state.typeOfJob.fulltime}
+                                                        onChange={this.handleChangetypeOfJob}
+                                                        name="fulltime"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="Full Time"
+                                            /><br></br>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={this.state.typeOfJob.alljobs}
+                                                        onChange={this.handleChangetypeOfJob}
+                                                        name="alljobs"
+                                                        color="primary"
+                                                    />
+                                                }
+                                                label="All Jobs"
+                                            />
+                                            
+                                        </FormGroupmaterial>
+                                        {/* </div> */}
                                         <MenuItem>Temporary(less than 3 months)</MenuItem>
                                         <MenuItem>Permanent(more than 3 months)</MenuItem>
                                         <MenuItem>Part Time</MenuItem>
@@ -232,6 +354,7 @@ class JobList extends Component {
                             <Button onClick={this.previousGetData} variant="outline-dark" >{`<`}</Button>
                             <Button onClick={this.nextGetData} variant="outline-dark">{`>`}</Button>
                         </div>
+
                     </div>
 
                     {/* </Container> */}

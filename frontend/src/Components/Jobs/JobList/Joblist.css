@@ -71,3 +71,6 @@
 .pro-sidebar .pro-menu .pro-menu-item{
   border-bottom: .1rem solid gray ;
 }
+.graycolor{
+  color: gray;
+}

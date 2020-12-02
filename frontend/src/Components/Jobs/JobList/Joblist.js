@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { StateDropdown, RegionDropdown } from 'react-india-state-region-selector';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader } from 'react-pro-sidebar';
 import RangeSlider from 'react-bootstrap-range-slider';
+import { Checkbox } from '@material-ui/core';
 import 'react-pro-sidebar/dist/css/styles.css';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import './Joblist.css';
@@ -158,11 +159,15 @@ class JobList extends Component {
                                         <span>sainya</span>
                                     </SubMenu>
                                     <SubMenu title="Location" >
-                                        <MenuItem>Component 1</MenuItem>
+                                        <MenuItem>State</MenuItem>
+                                        {/* {states.map(state => (
+                                            
+                                        ))} */}
                                         <MenuItem>Component 2</MenuItem>
                                     </SubMenu>
                                     <SubMenu title="Date" >
                                         <MenuItem>Component 1</MenuItem>
+                                        <Checkbox>data</Checkbox>
                                         <MenuItem>Component 2</MenuItem>
                                     </SubMenu>
                                     <SubMenu title="Job Type" >

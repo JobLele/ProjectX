@@ -558,11 +558,6 @@ app.post("/jobs/filter/:offset", function(req, res) {
     }
   }
   if (req.body.state != "") {
-    search["state"] = {
-      $gte : req.body.state
-    }
-  }
-  if (req.body.state != "") {
     search["state"] = req.body.state
 
   }

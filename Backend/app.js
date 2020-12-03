@@ -542,6 +542,7 @@ app.get("/jobs/:offset", function(req, res) {
 
 
 app.post("/jobs/filter/:offset", function(req, res) {
+  console.log(req.body);
   var search = {}
   var offset = req.params.offset;
   if (offset == null) {
@@ -565,12 +566,12 @@ app.post("/jobs/filter/:offset", function(req, res) {
     search["region"] = req.body.region
 
   }
-  if (req.body.from != null) {
+  if (req.body.from != "") {
     search["duration.0"] = {
       $gte : new Date(Date.parse(req.body.from))
     }
   }
-  if (req.body.to != null) {
+  if (req.body.to != "") {
     search["duration.1"] = {
       $lte : new Date(Date.parse(req.body.to))
     }

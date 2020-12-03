@@ -28,7 +28,7 @@ class JobList extends Component {
             },
             err: null,
             msg: null,
-            host: "http://localhost:2000/jobs/",
+            host: "http://localhost:2000/jobs/filter/",
             filter: null,
             typeOfJob: {
                 temporary: false,
@@ -100,11 +100,21 @@ class JobList extends Component {
     submitData = () => {
         console.log(this.state);
         let url = this.state.host;
-        if (this.state.filter != null && this.state.value != null) {
-            url += `${this.state.filter}/${this.state.value}/`;
-        }
         url += this.count;
-        fetch(url)
+        fetch(url, {
+            method : 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({
+                title : "",
+                salary : this.state.salary,
+                state : this.state.state,
+                region : this.state.region,
+                from : this.state.from,
+                to : this.state.to
+            })
+        })
             .then(res => res.json())
             .then(data => this.getData(data))
             .catch(err => console.error(err));
@@ -306,6 +316,8 @@ class JobList extends Component {
                                         <MenuItem>3 Months</MenuItem>
                                         <MenuItem>More than 3 Months</MenuItem>
                                     </SubMenu>
+                                        {/* <Button click={this.submitData()}>Submit</Button> */}
+                                        <button onClick={this.submitData}>Submit</button>
                                 </Menu>
                             </ProSidebar>
                         </div>

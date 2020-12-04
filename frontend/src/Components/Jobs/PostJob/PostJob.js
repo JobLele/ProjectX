@@ -223,7 +223,7 @@ class PostJob extends React.Component {
                 <div>
                     <center>
                         <form>
-                            <Card className="text-center post-job-form" >
+                            <Card className="text-center post-job-form" style={{height : "100%"}}>
                                 <Card.Header>
                                     <h3>Job Post</h3>
                                 </Card.Header>
@@ -256,7 +256,7 @@ class PostJob extends React.Component {
                                     <br />
                                     <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} className="form-control" />
                                 </div> */}
-                                    < div className="date-box-postjob form-group">
+                                    <div className="date-box-postjob form-group">
                                         <div className="p-2 col-example text-left">
                                             <label className="font-increase-label">State*</label>
                                             <br />

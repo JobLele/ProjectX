@@ -43,7 +43,7 @@ class JobList extends Component {
             region: "",
             from: "",
             to: "",
-            options = [
+            options : [
                 {value : "1 day", label : "1 day"},
                 {value : "2 days", label : "2 days"},
                 {value : "3 days", label : "3 days"},

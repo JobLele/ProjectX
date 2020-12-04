@@ -69,6 +69,7 @@ const jobSchema = new mongoose.Schema({
   salary: Number,
   description: String,
   postedOn: Date,
+  dur : String,
   state : String,
   region : String,
   duration: [Date],
@@ -450,6 +451,7 @@ app.post("/job", function(req, res) {
     salary: req.body.salary,
     description: req.body.description,
     postedOn: new Date,
+    dur : req.body.dur,
     state : req.body.state,
     region : req.body.region,
     duration: [req.body.from, req.body.to],
@@ -504,6 +506,7 @@ app.get("/job/:id", function(req, res) {
     }
   })
 });
+
 
 app.get("/jobs/:offset", function(req, res) {
   var offset = req.params.offset;
@@ -576,6 +579,9 @@ app.post("/jobs/filter/:offset", function(req, res) {
       $lte : new Date(Date.parse(req.body.to))
     }
   }
+  if (req.body.dur != "") {
+    search["dur"] = req.body.dur
+  }
   Job.find(search).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
     if (err) {
       res.json({
@@ -603,82 +609,82 @@ app.post("/jobs/filter/:offset", function(req, res) {
 
 })
 
-app.get("/jobs/:filter/:value/:offset", function(req, res) {
-  var filter = req.params.filter;
-  var value = req.params.value;
-  var offset = req.params.offset;
-  if (offset == null) {
-    offset = 0;
-  }
-  if (filter == "" || filter == null || value == "" || value == null) {
-    res.redirect("/job/" + offset);
-  } else {
-    search = {
-      [filter]: value
-    }
-    if (filter == "title") {
-      search = {
-        $text : {
-          $search : value
-        }
-      }
-    }
-    if (filter == "salary") {
-      search = {
-        "salary" : {
-          $gte : value
-        }
-      }
-    }
-    if (filter == "state") {
-      search = {
-        "state" : { value  }
-      }
-    }
-    if (filter == "region") {
-      search = {
-        "region" : { value  }
-      }
-    }
-    if (filter == "from") {
-      search = {
-        "duration.0" : {
-          $gte : new Date(Date.parse(value))
-        }
-      }
-    }
-    if (filter == "to") {
-      search = {
-        "duration.1" : {
-          $lte : new Date(Date.parse(value))
-        }
-      }
-    }
-    Job.find(search).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
-      if (err) {
-        res.json({
-          err: err.message,
-          msg: null,
-          obj: null
-        });
-      } else {
-        if (jobs.length == 0) {
-          res.json({
-            err: "No jobs with that filter exists",
-            msg: "",
-            obj: null
-          })
-        } else {
-          res.json({
-            err: null,
-            msg: "All Jobs with that filter are Procured",
-            obj: jobs
-          });
-        }
-      }
-    });
-  }
-});
+// app.get("/jobs/:filter/:value/:offset", function(req, res) {
+//   var filter = req.params.filter;
+//   var value = req.params.value;
+//   var offset = req.params.offset;
+//   if (offset == null) {
+//     offset = 0;
+//   }
+//   if (filter == "" || filter == null || value == "" || value == null) {
+//     res.redirect("/job/" + offset);
+//   } else {
+//     search = {
+//       [filter]: value
+//     }
+//     if (filter == "title") {
+//       search = {
+//         $text : {
+//           $search : value
+//         }
+//       }
+//     }
+//     if (filter == "salary") {
+//       search = {
+//         "salary" : {
+//           $gte : value
+//         }
+//       }
+//     }
+//     if (filter == "state") {
+//       search = {
+//         "state" : { value  }
+//       }
+//     }
+//     if (filter == "region") {
+//       search = {
+//         "region" : { value  }
+//       }
+//     }
+//     if (filter == "from") {
+//       search = {
+//         "duration.0" : {
+//           $gte : new Date(Date.parse(value))
+//         }
+//       }
+//     }
+//     if (filter == "to") {
+//       search = {
+//         "duration.1" : {
+//           $lte : new Date(Date.parse(value))
+//         }
+//       }
+//     }
+//     Job.find(search).sort('-postedOn').skip(offset*10).limit(10).exec(function(err, jobs) {
+//       if (err) {
+//         res.json({
+//           err: err.message,
+//           msg: null,
+//           obj: null
+//         });
+//       } else {
+//         if (jobs.length == 0) {
+//           res.json({
+//             err: "No jobs with that filter exists",
+//             msg: "",
+//             obj: null
+//           })
+//         } else {
+//           res.json({
+//             err: null,
+//             msg: "All Jobs with that filter are Procured",
+//             obj: jobs
+//           });
+//         }
+//       }
+//     });
+//   }
+// });
 
 // editing post
 app.put("/job/:id", function(req, res) {
@@ -688,6 +694,7 @@ app.put("/job/:id", function(req, res) {
     description: req.body.description,
     state : req.body.state,
     region : req.body.region,
+    dur : req.body.dur,
     duration: [req.body.from, req.body.to],
   }, function(err, job) {
     if (err) {

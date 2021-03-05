@@ -27,6 +27,14 @@
 }
 .post-job-form{
   width: 50%;
+  height:auto!important;
+  margin-bottom: 2rem;
+}
+.head-color{
+  color:black;
+}
+.state-region-margin{
+  margin-bottom: 0rem!important;
 }
 .react-datepicker__input-container > input{
   display: block;
@@ -68,6 +76,21 @@ label{
 .desc-feat{
   color: rgba(0,47,52,.64);
 font-size: 12px;
+}
+#state{
+  height: 38px;
+padding: 0.5rem;
+color: gray;
+margin-top: .1rem !important;
+margin-bottom: 0rem!important;
+}
+#region{
+    height: 38px;
+  padding: 0.5rem;
+  color: gray;
+  margin-top: .1rem !important;
+  margin-bottom: 0rem!important;
+  
 }
 @media only screen and (max-width: 600px) {
   .post-job-form{

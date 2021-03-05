@@ -5,6 +5,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 import Cookies from 'universal-cookie';
 import './EditProfile.css'
+
 class EditProfile extends React.Component {
 
     constructor(props) {
@@ -144,7 +145,7 @@ class EditProfile extends React.Component {
                 <form>
                     <Card className="text-center register-box-card">
                         <Card.Header>
-                            <h3>Edit Profile</h3>
+                            <h3 className="color-edit">Edit Profile</h3>
                         </Card.Header>
                         <Card.Body>
                             <div className="form-group">

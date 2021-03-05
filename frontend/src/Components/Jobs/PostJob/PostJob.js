@@ -12,7 +12,6 @@ import "./postjob.css";
 import { GoogleComponent } from 'react-google-location'
 const API_KEY = "AIzaSyBG0T-DKPFzsOMPmPVa0zzOZ1bYof9858A";
 
-
 class PostJob extends React.Component {
     constructor(props) {
         super(props);
@@ -26,7 +25,6 @@ class PostJob extends React.Component {
                 state: '',
                 region: '',
                 by: "",
-                dur: "",
                 place: null
             },
             options : [
@@ -178,10 +176,6 @@ class PostJob extends React.Component {
             formIsValid = false;
             errors["region"] = "Cannot be empty";
         }
-        // if (!fields["dur"]) {
-        //     formIsValid = false;
-        //     errors["dur"] = "Cannot be empty";
-        // }
         this.setState({ errors: errors });
         console.log(this.state.errors);
         return formIsValid;
@@ -217,25 +211,26 @@ class PostJob extends React.Component {
             alert("Form has errors.")
         }
     }
+
     render() {
         if (this.state.err !== true) {
             return (
                 <div>
                     <center>
                         <form>
-                            <Card className="text-center post-job-form" style={{height : "100%"}}>
+                            <Card className="text-center post-job-form" >
                                 <Card.Header>
-                                    <h3>Job Post</h3>
+                                    <h3 className="head-color">Job Post</h3>
                                 </Card.Header>
                                 <Card.Body>
                                 <div className="form-group" >
                                         <label className="font-increase-label">Duration*</label>
 
-                                        <Select id = "dur" name = "dur" className="form-control" placeholder= "Duration" onChange={(val) => this.durationChange(val)} value={this.state.values.dur} options={this.state.options}/>
+                                        <Select id = "dur" name = "dur" placeholder= "Duration" onChange={(val) => this.durationChange(val)} value={this.state.values.dur} options={this.state.options}/>
 
                                         <br />
                                             <span style={{ color: "red" }}>{this.state.errors["state"]}</span>
-                                            <br />
+                                            
                                     </div>
                                     <div className="form-group">
                                         <label className="font-increase-label">Job Title*</label>
@@ -256,24 +251,24 @@ class PostJob extends React.Component {
                                     <br />
                                     <GoogleComponent apiKey={API_KEY} language={'en'} country={'country:in|country:us'} coordinates={true} className="form-control" />
                                 </div> */}
-                                    <div className="date-box-postjob form-group">
+                                    < div className="date-box-postjob form-group state-region-margin">
                                         <div className="p-2 col-example text-left">
                                             <label className="font-increase-label">State*</label>
-                                            <br />
                                             
-                                            <StateDropdown id="state" name="state" className="form-control" value={this.state.values.state} onChange={(val) => this.selectState(val)} />
-                                            <br />
+                                            
+                                            <StateDropdown id="state" name="state" className="form-control " value={this.state.values.state} onChange={(val) => this.selectState(val)} />
+                                            
                                             <span style={{ color: "red" }}>{this.state.errors["state"]}</span>
                                             <br />
                                         </div>
 
-                                        <div className="p-2 col-example text-left">
+                                        <div className=" p-2 col-example text-left">
                                             <label className="font-increase-label">Region*</label>
-                                            <br />
+                                            
 
                                             <RegionDropdown id="region" name="region" className="form-control" State={this.state.values.state} value={this.state.values.region} onChange={(val) => this.selectRegion(val)} />
 
-                                            <br />
+                                            
                                             <span style={{ color: "red" }}>{this.state.errors["region"]}</span>
                                             <br />
                                         </div>
@@ -281,7 +276,7 @@ class PostJob extends React.Component {
 
                                     <div className="date-box-postjob form-group">
                                         <div className="p-2 col-example text-left">
-                                            <label>Start Date*</label><br />
+                                            <label className="font-increase-label">Start Date*</label><br />
                                             <DatePicker
                                                 selected={this.state.values.from}
                                                 onChange={this.handleInputChangeDateFrom}
@@ -291,7 +286,7 @@ class PostJob extends React.Component {
 
                                         </div>
                                         <div className="p-2 col-example text-left">
-                                            <label>End Date*</label><br />
+                                            <label className="font-increase-label">End Date*</label><br />
                                             <DatePicker
                                                 selected={this.state.values.to}
                                                 onChange={this.handleInputChangeDateTo}

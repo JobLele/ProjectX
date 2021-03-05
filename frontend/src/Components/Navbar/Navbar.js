@@ -19,6 +19,7 @@ class NavbarFunction extends Component {
             
         };
     }
+    
     componentDidMount() {
         const cookies = new Cookies();
         if (cookies.get('uid')) {

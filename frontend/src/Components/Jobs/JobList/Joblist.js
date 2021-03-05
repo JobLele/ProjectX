@@ -19,7 +19,6 @@ import './Joblist.css';
 
 class JobList extends Component {
 
-
     constructor(props) {
         super(props);
         this.state = {

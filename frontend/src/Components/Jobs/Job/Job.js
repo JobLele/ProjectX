@@ -22,7 +22,7 @@ class Job extends Component {
             userLogged: false,
         }
         this.getData = this.getData.bind(this);
-      
+    
       
     }
     getData = (data) => {

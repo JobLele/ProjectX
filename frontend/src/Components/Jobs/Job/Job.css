@@ -20,11 +20,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-
 }
 .vertical-center{
     margin-top: 4rem;
-    
+
 }
 
 .edit-delte-box{

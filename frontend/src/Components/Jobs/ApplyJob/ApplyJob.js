@@ -12,7 +12,7 @@ class ApplyJob extends Component {
         this.state = {
             values: {
                 explanation: "",
-                applicantID: ""
+                applicantID: 0
             },
             applied:false,
             err:null,

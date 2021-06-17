@@ -34,7 +34,6 @@ class ApplyJob extends Component {
         })
     }
     handleInputChange = (field,e) => {
-        console.log(this.state.values);
         let fields = this.state.fields;
             fields[field] = e.target.value;        
             this.setState({fields});

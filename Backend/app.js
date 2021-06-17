@@ -72,7 +72,8 @@ const jobSchema = new mongoose.Schema({
   dur : String,
   state : String,
   region : String,
-  duration: [Date],
+  duration: [String],
+  start : Date,
   postedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employ'
@@ -451,7 +452,7 @@ app.post("/job", function(req, res) {
     salary: req.body.salary,
     description: req.body.description,
     postedOn: new Date,
-    dur : req.body.dur,
+    dur : req.body.dur.value,
     state : req.body.state,
     region : req.body.region,
     duration: [req.body.from, req.body.to],
@@ -733,6 +734,7 @@ app.patch("/job/:id", function(req, res) {
           obj : null
         });
       }
+      return;
     })
   }
   Job.findByIdAndUpdate(id,{
@@ -788,10 +790,11 @@ app.patch("/job/:id", function(req, res) {
 app.delete("/job/:id", function(req, res) {
   var id = req.params.id;
   var job = null;
-  Job.findById(req.params.id, function (err, doc) {
+  Job.findById(id, function (err, doc) {
     job = doc;
     Job.deleteOne({_id: new mongoose.Types.ObjectId(id)}, function(err, delObj) {
       if (err) {
+        console.log("1");
         res.json(
           {
             err: err.message,
@@ -801,23 +804,30 @@ app.delete("/job/:id", function(req, res) {
         );
       }
       else {
-        Employ.findByIdAndUpdate(delObj.postedBy, {
-          $pull : { "jobsPosted" : delObj._id }
+        console.log("1.5");
+        Employ.findByIdAndUpdate(job.postedBy, {
+          $pull : { "jobsPosted" : job._id }
         }, function(err, postedBy) {
           if (err) {
+            console.log("2");
             res.json({
               err : "Couldn't delete the id from author's job posted.",
               msg : null,
               obj : null
             });
+            return;
           }
           else {
-            if (job.applicants == null) {
+            console.log("2.5");
+            console.log(job.applicants);
+            if (job.applicants.length == 0 || job.applicants == null) {
+              console.log("3");
               res.json({
                 err : null,
                 msg : "No Applicants to be deleted",
                 obj : delObj
               })
+              return;
             }
             else {
               job.applicants.forEach((applicant, index) => {
@@ -825,19 +835,23 @@ app.delete("/job/:id", function(req, res) {
                   $pull : { "appliedFor" : job._id }
                 }, function(err, applicant) {
                   if (err) {
+                    console.log("4");
                     res.json({
                       err : "Couldn't delete the id from applicant's job applied for.",
                       msg : null,
                       obj : null
                     });
+                    return;
                   }
                   else {
                     if (index == job.applicants.length - 1) {
+                      console.log("5");
                       res.json({
                         err : null,
                         msg : "Everything is a fucking sucess",
                         obj : job
                       })
+                      return;
                     }
                   }
                 })

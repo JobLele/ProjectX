@@ -26,6 +26,7 @@ class DeleteJob extends Component {
         })
     }
     getData = (data) => {
+        console.log(data);
         this.setState({
             delete_job: data.obj,
             err: data.err,

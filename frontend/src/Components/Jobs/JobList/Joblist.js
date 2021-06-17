@@ -42,6 +42,7 @@ class JobList extends Component {
             region: "",
             from: "",
             to: "",
+            dur : "",
             options : [
                 {value : "1 day", label : "1 day"},
                 {value : "2 days", label : "2 days"},
@@ -134,7 +135,8 @@ class JobList extends Component {
                 state : this.state.state,
                 region : this.state.region,
                 from : this.state.from,
-                to : this.state.to
+                to : this.state.to,
+                dur : this.state.dur
             })
         })
             .then(res => res.json())
